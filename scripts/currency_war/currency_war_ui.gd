@@ -8,7 +8,7 @@ const RunRules = preload("res://scripts/currency_war/currency_war_run.gd")
 const PlantCard = preload("res://scripts/currency_war/currency_war_plant_card.gd")
 ## 原版种子包样式的备战卡牌与原生植物拖拽。
 const ReserveSlot = preload("res://scripts/currency_war/currency_war_reserve_slot.gd")
-## 左侧可收起装备栏，不在界面中修改规则记录。
+## 右侧可收起装备栏，不在界面中修改规则记录。
 const EquipmentPanel = preload("res://scripts/currency_war/currency_war_equipment_panel.gd")
 ## 底部商店面板高度，收起时整体向下移出裁剪区。
 const SHOP_HEIGHT: float = 124.0
@@ -26,6 +26,16 @@ const ACCENT: Color = Color("b9ed96")
 const GOLD_COLOR: Color = Color("f0cf7b")
 ## 大纲规定白绿蓝紫金分别对应一至五费，未定义的高费植物不填入商店。
 const TIER_COLORS: Array[Color] = [Color("e8efdf"), Color("9fdfaf"), Color("96cafa"), Color("d7adf8"), Color("f0cf7b")]
+## 左侧羁绊展示顺序及已实现的不同植物种类门槛；灰烬尚无生效档位。
+const TRAIT_DISPLAY_TIERS: Dictionary = {"豌豆": [3, 5, 7, 10], "阳光": [2, 3, 4], "灰烬": []}
+## 羁绊门槛未达成时的暗色，与高亮金色形成明确区分。
+const TRAIT_INACTIVE_COLOR: Color = Color("6b7770")
+## 左栏悬浮说明只描述当前已实现效果，灰烬明确标记尚未开放。
+const TRAIT_DISPLAY_TIPS: Dictionary = {
+	"豌豆": "豌豆：3/5/7/10种分别激活攻击、攻速与头盔效果；只计算场上不同种类。",
+	"阳光": "阳光：2/3/4种在节点结算时额外获得1/2/4阳光；只计算场上不同种类。",
+	"灰烬": "灰烬：当前尚无已实现的羁绊档位。",
+}
 
 ## 请求购买从零开始的[param slot]商品。
 signal buy_requested(slot: int)
@@ -90,7 +100,7 @@ var _reserve_slots: Array[ReserveSlot] = []
 var _shop_buttons: Array[PlantCard] = []
 ## 备战席占用数量与拖拽说明。
 var _reserve_title: Label
-## 与等级、开始按钮同进退的底部商店面板，不影响战场暂停状态。
+## 与等级按钮同进退的底部商店面板，不影响战场暂停状态。
 var _shop_drawer: Panel
 ## 承载整组居中商店控件，收放动画移动此节点以保持按钮同步。
 var _market_drawer: Control
@@ -172,8 +182,14 @@ var _node_preview: Label
 var _level_button: Button
 ## 泳池或屋顶关卡才显示的第六张固定地形商品卡。
 var _support_card: PlantCard
-## 左侧常驻装备栏，通过图标拖放到植物佩戴。
+## 右侧常驻装备栏，通过图标拖放到植物佩戴。
 var _equipment_panel: EquipmentPanel
+## 左侧只显示当前场上已有种类的羁绊面板。
+var _trait_panel: Panel
+## 羁绊名称到各行节点与门槛标签的映射，刷新时复用节点。
+var _trait_rows: Dictionary = {}
+## 场上没有可展示羁绊时的提示。
+var _trait_empty: Label
 ## 仅遭遇关准备阶段显示的难度选择。
 var _encounter_choice: OptionButton
 ## 最近渲染的本局规则，只用于拖放校验，不在界面中改变经济记录。
@@ -199,6 +215,7 @@ func _ready() -> void:
 	_build_market()
 	_build_header()
 	_build_result()
+	_build_trait_panel()
 	_equipment_panel = EquipmentPanel.new()
 	_root.add_child(_equipment_panel)
 	_equipment_panel.item_inspected.connect(show_equipment_details)
@@ -290,6 +307,7 @@ func render(run: RunRules, selected_id: int) -> void:
 		_update_shop_button(_shop_buttons[index], run.shop[index], run)
 	_traits.text = "%s %s · %d级 经验%s · 上场%d/%d种 · 难度%d" % [run.campaign.node_label(), run.campaign.node_kind(), run.level, "%d/%d" % [run.experience, RunRules.EXPERIENCE_THRESHOLDS[run.level - 1]] if run.level < 9 else "满级", run.deployed_species_count(), run.species_limit(), run.node_difficulty()]
 	_traits.tooltip_text = "豌豆%d种 · 阳光%d种\n本节点利息基数：进入准备时的%d阳光" % [run.trait_counts().get("豌豆", 0), run.trait_counts().get("阳光", 0), run.node_opening_sun]
+	_render_trait_panel(run)
 	_equipment_panel.render_run(run, selected_id)
 	_encounter_choice.visible = run.phase == RunRules.Phase.PREPARATION and run.campaign.node_kind() == "遭遇关"
 	_encounter_choice.select(run.encounter_level - 1)
@@ -463,6 +481,72 @@ func _layout_market(support_visible: bool) -> void:
 	_lock_button.position.x = panel_width - 48.0
 	_shop_toggle.position.x = panel_width - 49.0
 	_traits.size.x = panel_width - 150.0
+
+
+## 在左侧庭院边缘创建羁绊列表，显示已上场种类与每档门槛的独立颜色。
+func _build_trait_panel() -> void:
+	_trait_panel = _panel(_root, Rect2(8, 132, 112, 338))
+	_label(_trait_panel, Rect2(8, 6, 96, 24), "场上羁绊", 16, ACCENT)
+	_trait_empty = _label(_trait_panel, Rect2(8, 44, 96, 55), "暂无场上羁绊", 12, TRAIT_INACTIVE_COLOR)
+	_trait_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	# 固定顺序创建三种当前牌库会出现的羁绊行，实时刷新只切换内容和颜色。
+	for trait_name: String in TRAIT_DISPLAY_TIERS:
+		# 单行承载图标、名称、种类数量和门槛，不拦截战场拖拽。
+		var row: Control = Control.new()
+		row.size = Vector2(104, 76)
+		row.mouse_filter = Control.MOUSE_FILTER_PASS
+		row.tooltip_text = TRAIT_DISPLAY_TIPS[trait_name]
+		_trait_panel.add_child(row)
+		# 简洁符号对应豌豆、阳光和灰烬，色彩表示是否已激活有效档位。
+		var icon: Label = _label(row, Rect2(2, 6, 25, 27), "☀" if trait_name == "阳光" else ("✦" if trait_name == "灰烬" else "◆"), 20, TRAIT_INACTIVE_COLOR)
+		# 名称与计数只反映场上不同种类，同名多株不重复增加。
+		var name_label: Label = _label(row, Rect2(30, 4, 72, 22), trait_name, 14, TRAIT_INACTIVE_COLOR)
+		var count_label: Label = _label(row, Rect2(30, 27, 72, 18), "", 12, TRAIT_INACTIVE_COLOR)
+		# 每个门槛各有独立标签，达成后逐个从暗色变成金色。
+		var tier_labels: Array[Label] = []
+		var tiers: Array = TRAIT_DISPLAY_TIERS[trait_name]
+		for tier_index: int in range(tiers.size()):
+			# 后续门槛带斜杠，有限宽度内仍能看出完整档位序列。
+			var tier_label: Label = _label(row, Rect2(30 + tier_index * 18, 48, 20, 19), ("/" if tier_index > 0 else "") + str(tiers[tier_index]), 11, TRAIT_INACTIVE_COLOR)
+			tier_labels.append(tier_label)
+		if tiers.is_empty():
+			_label(row, Rect2(30, 48, 72, 19), "未开放", 11, TRAIT_INACTIVE_COLOR)
+		_trait_rows[trait_name] = {"row": row, "icon": icon, "name": name_label, "count": count_label, "tiers": tier_labels}
+
+
+## 按[param run]的场上不同植物种类刷新左栏；达到的羁绊门槛高亮，未达到保持暗色。
+func _render_trait_panel(run: RunRules) -> void:
+	# 每次读取真实部署结果，植物死亡、出售、合成或换位后立即同步。
+	var counts: Dictionary = run.trait_counts()
+	# 仅为当前场上已有的羁绊占用行位置，空场显示简短提示。
+	var visible_count: int = 0
+	for trait_name: String in TRAIT_DISPLAY_TIERS:
+		# 灰烬目前没有生效门槛，仍可显示场上计数但始终保持暗色。
+		var count: int = int(counts.get(trait_name, 0))
+		var row_data: Dictionary = _trait_rows[trait_name]
+		var row: Control = row_data["row"]
+		row.visible = count > 0
+		if count <= 0:
+			continue
+		row.position = Vector2(4, 36 + visible_count * 82)
+		visible_count += 1
+		# 只有达到首档门槛的羁绊才点亮图标、名称和当前数量。
+		var tiers: Array = TRAIT_DISPLAY_TIERS[trait_name]
+		var active: bool = not tiers.is_empty() and count >= int(tiers[0])
+		var main_color: Color = GOLD_COLOR if active else TRAIT_INACTIVE_COLOR
+		var icon: Label = row_data["icon"]
+		var name_label: Label = row_data["name"]
+		var count_label: Label = row_data["count"]
+		icon.add_theme_color_override("font_color", main_color)
+		name_label.add_theme_color_override("font_color", main_color)
+		count_label.text = "%d种" % count
+		count_label.add_theme_color_override("font_color", main_color)
+		# 每一档独立比较，较高档未达成时不会跟随低档一起高亮。
+		var tier_labels: Array = row_data["tiers"]
+		for tier_index: int in range(tier_labels.size()):
+			var tier_label: Label = tier_labels[tier_index]
+			tier_label.add_theme_color_override("font_color", GOLD_COLOR if count >= int(tiers[tier_index]) else TRAIT_INACTIVE_COLOR)
+	_trait_empty.visible = visible_count == 0
 
 
 ## 将从零开始的[param index]转换为文档一至四档遭遇难度。
