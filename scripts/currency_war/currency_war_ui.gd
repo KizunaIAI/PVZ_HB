@@ -188,8 +188,6 @@ var _equipment_panel: EquipmentPanel
 var _trait_panel: Panel
 ## 羁绊名称到各行节点与门槛标签的映射，刷新时复用节点。
 var _trait_rows: Dictionary = {}
-## 场上没有可展示羁绊时的提示。
-var _trait_empty: Label
 ## 仅遭遇关准备阶段显示的难度选择。
 var _encounter_choice: OptionButton
 ## 最近渲染的本局规则，只用于拖放校验，不在界面中改变经济记录。
@@ -488,9 +486,7 @@ func _build_trait_panel() -> void:
 	_trait_panel = _panel(_root, Rect2(8, 132, 112, 338))
 	# 覆盖通用面板样式，保留羁绊内容和悬浮说明但不遮住庭院背景。
 	_trait_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
-	_label(_trait_panel, Rect2(8, 6, 96, 24), "场上羁绊", 16, ACCENT)
-	_trait_empty = _label(_trait_panel, Rect2(8, 44, 96, 55), "暂无场上羁绊", 12, TRAIT_INACTIVE_COLOR)
-	_trait_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_trait_panel.hide()
 	# 固定顺序创建三种当前牌库会出现的羁绊行，实时刷新只切换内容和颜色。
 	for trait_name: String in TRAIT_DISPLAY_TIERS:
 		# 单行承载图标、名称和门槛，不显示当前种类数量。
@@ -503,23 +499,28 @@ func _build_trait_panel() -> void:
 		var icon: Label = _label(row, Rect2(2, 6, 25, 27), "☀" if trait_name == "阳光" else ("✦" if trait_name == "灰烬" else "◆"), 20, TRAIT_INACTIVE_COLOR)
 		# 名称固定显示，场上不同种类只用于门槛颜色判断。
 		var name_label: Label = _label(row, Rect2(30, 4, 72, 22), trait_name, 14, TRAIT_INACTIVE_COLOR)
-		# 每个门槛各有独立标签，达成后逐个从暗色变成金色。
+		# 数字与斜杠分开着色，羁绊激活后只有未达门槛的数字保持暗色。
 		var tier_labels: Array[Label] = []
+		var separators: Array[Label] = []
 		var tiers: Array = TRAIT_DISPLAY_TIERS[trait_name]
 		for tier_index: int in range(tiers.size()):
-			# 后续门槛带斜杠，有限宽度内仍能看出完整档位序列。
-			var tier_label: Label = _label(row, Rect2(30 + tier_index * 18, 29, 20, 19), ("/" if tier_index > 0 else "") + str(tiers[tier_index]), 11, TRAIT_INACTIVE_COLOR)
+			# 斜杠是连接符，达到首档后与名称一同高亮。
+			if tier_index > 0:
+				var separator: Label = _label(row, Rect2(24 + tier_index * 18, 29, 6, 19), "/", 11, TRAIT_INACTIVE_COLOR)
+				separators.append(separator)
+			# 后续档位未达到时仅压暗其数字。
+			var tier_label: Label = _label(row, Rect2(30 + tier_index * 18, 29, 18, 19), str(tiers[tier_index]), 11, TRAIT_INACTIVE_COLOR)
 			tier_labels.append(tier_label)
 		if tiers.is_empty():
 			_label(row, Rect2(30, 29, 72, 19), "未开放", 11, TRAIT_INACTIVE_COLOR)
-		_trait_rows[trait_name] = {"row": row, "icon": icon, "name": name_label, "tiers": tier_labels}
+		_trait_rows[trait_name] = {"row": row, "icon": icon, "name": name_label, "tiers": tier_labels, "separators": separators}
 
 
 ## 按[param run]的场上不同植物种类刷新左栏；达到的羁绊门槛高亮，未达到保持暗色。
 func _render_trait_panel(run: RunRules) -> void:
 	# 每次读取真实部署结果，植物死亡、出售、合成或换位后立即同步。
 	var counts: Dictionary = run.trait_counts()
-	# 仅为当前场上已有的羁绊占用行位置，空场显示简短提示。
+	# 仅为当前场上已有的羁绊占用行位置，空场隐藏整个面板。
 	var visible_count: int = 0
 	for trait_name: String in TRAIT_DISPLAY_TIERS:
 		# 灰烬目前没有生效门槛，出现时仍保持暗色。
@@ -529,7 +530,7 @@ func _render_trait_panel(run: RunRules) -> void:
 		row.visible = count > 0
 		if count <= 0:
 			continue
-		row.position = Vector2(4, 36 + visible_count * 62)
+		row.position = Vector2(4, 8 + visible_count * 62)
 		visible_count += 1
 		# 只有达到首档门槛的羁绊才点亮图标和名称。
 		var tiers: Array = TRAIT_DISPLAY_TIERS[trait_name]
@@ -539,12 +540,16 @@ func _render_trait_panel(run: RunRules) -> void:
 		var name_label: Label = row_data["name"]
 		icon.add_theme_color_override("font_color", main_color)
 		name_label.add_theme_color_override("font_color", main_color)
+		# 斜杠不是档位数字，激活羁绊时与名称使用相同的高亮色。
+		var separators: Array = row_data["separators"]
+		for separator: Label in separators:
+			separator.add_theme_color_override("font_color", main_color)
 		# 每一档独立比较，较高档未达成时不会跟随低档一起高亮。
 		var tier_labels: Array = row_data["tiers"]
 		for tier_index: int in range(tier_labels.size()):
 			var tier_label: Label = tier_labels[tier_index]
 			tier_label.add_theme_color_override("font_color", GOLD_COLOR if count >= int(tiers[tier_index]) else TRAIT_INACTIVE_COLOR)
-	_trait_empty.visible = visible_count == 0
+	_trait_panel.visible = visible_count > 0
 
 
 ## 将从零开始的[param index]转换为文档一至四档遭遇难度。
