@@ -23,6 +23,8 @@ const EquipmentSlots = preload("res://scripts/currency_war/currency_war_equipmen
 const MODE_SIZE: Vector2i = Vector2i(1066, 600)
 ## 奖励关每只僵尸的固定总生命，包含本体和两类护甲，不受节点难度加成。
 const REWARD_ZOMBIE_HP: int = 1
+## 屋顶黑夜的背景色调，主贴图与左上角房屋遮罩使用相同倍率以避免接缝。
+const ROOF_NIGHT_TINT: Color = Color(0.48, 0.54, 0.72)
 ## 货币战争点击开始后到首波僵尸出现的等待秒数。
 const FIRST_WAVE_DELAY: float = 3.0
 ## 十五节点共享的阳光、持有植物与整局进度。
@@ -146,7 +148,9 @@ func _ready() -> void:
 	var support: int = 17 if _run.campaign.theme().scene == "back" else (34 if _run.campaign.theme().scene == "roof" else -1)
 	_run.configure_node(plant_cell_manager.all_plant_cells.size(), game_para.max_wave, support)
 	if _run.campaign.theme().scene == "roof" and bool(_run.campaign.theme().night):
-		background_manager.background.self_modulate = Color(0.48, 0.54, 0.72)
+		# 主背景的self_modulate不会传给子节点，屋顶房屋遮罩需单独使用同一夜色色调。
+		background_manager.background.self_modulate = ROOF_NIGHT_TINT
+		background_manager.home.door_masks[ConstLevelData.GameBg.Roof].self_modulate = ROOF_NIGHT_TINT
 	zombie_manager.zombie_wave_manager.signal_wave_refresh.connect(_on_wave_refreshed)
 	_init_game_BGM()
 	SoundManager.play_bgm(bgm_choose_card)
