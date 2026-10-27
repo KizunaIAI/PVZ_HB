@@ -62,6 +62,8 @@ enum E_Influence_Speed_Factor{
 var is_hypno:bool = false
 ## 冰冻结束后减速时间（每次被冰冻时赋值）
 var time_ice_end_decelerate := 5.0
+## 当前冰减速的剩余速度倍率，原版为0.5；冰冻结束时恢复同一强度，计时结束后不再生效。
+var _ice_decelerate_factor: float = 0.5
 ## 冰冻特效
 var ice_effect:IceEffect
 
@@ -223,9 +225,7 @@ func be_attacked_hammer(attack_value:int):
 	return is_death
 
 
-## 被僵尸啃食
-## attack_value:伤害
-## attack_zombie:攻击的僵尸
+## 被[param _attack_zombie]啃食扣除[param attack_value]生命，奖励关不限制双方伤害。
 func be_zombie_eat(attack_value:int, _attack_zombie:Zombie000Base):
 	hp_component.Hp_loss(attack_value,BulletRegistry.AttackMode.Penetration, true, false)
 
@@ -257,9 +257,10 @@ func be_flattened():
 
 
 #region 速度修改相关
-## 被冰冻减速
-func be_ice_decelerate(time:float):
-	update_speed_factor(0.5, E_Influence_Speed_Factor.IceDecelerateSpeed)
+## 施加持续[param time]秒的冰减速；[param speed_factor]为剩余速度倍率，默认0.5保持原版效果。
+func be_ice_decelerate(time:float, speed_factor: float = 0.5):
+	_ice_decelerate_factor = clampf(speed_factor, 0.0, 1.0)
+	update_speed_factor(_ice_decelerate_factor, E_Influence_Speed_Factor.IceDecelerateSpeed)
 	body.set_other_color(BodyCharacter.E_ChangeColors.IceColor, Color(0.5, 1, 1))
 	if not is_instance_valid(all_timer[E_TimerType.IceDecelerate]):
 		all_timer[E_TimerType.IceDecelerate] = GlobalUtils.create_new_timer_once(self, _on_ice_decelerate_timer_timeout)
@@ -271,10 +272,10 @@ func _on_ice_decelerate_timer_timeout() -> void:
 	update_speed_factor(1.0, E_Influence_Speed_Factor.IceDecelerateSpeed)
 	body.set_other_color(BodyCharacter.E_ChangeColors.IceColor, Color(1, 1, 1))
 
-## 被冰冻控制
-func be_ice_freeze(time:float, new_time_ice_end_decelerate:float):
-	## 被冰冻掉20血
-	hp_component.Hp_loss(20,BulletRegistry.AttackMode.Real, true, false)
+## 冰冻[param time]秒，结束后减速[param new_time_ice_end_decelerate]秒；[param freeze_damage]默认20保留原版，模式冰球传0以免额外造成未定义伤害。
+func be_ice_freeze(time:float, new_time_ice_end_decelerate:float, freeze_damage: int = 20):
+	if freeze_damage > 0:
+		hp_component.Hp_loss(freeze_damage,BulletRegistry.AttackMode.Real, true, false)
 
 	self.time_ice_end_decelerate = new_time_ice_end_decelerate
 	update_speed_factor(0.0, E_Influence_Speed_Factor.IceFreezeSpeed)
@@ -297,7 +298,7 @@ func be_ice_freeze(time:float, new_time_ice_end_decelerate:float):
 ## 冰冻控制计时器结束
 func _on_ice_freeze_timer_timeout() -> void:
 	update_speed_factor(1.0, E_Influence_Speed_Factor.IceFreezeSpeed)
-	be_ice_decelerate(time_ice_end_decelerate)
+	be_ice_decelerate(time_ice_end_decelerate, _ice_decelerate_factor)
 
 ## 取消冰冻减速(火焰豌豆\辣椒)
 func cancel_ice():

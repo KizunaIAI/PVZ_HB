@@ -49,6 +49,6 @@ func be_blow_away():
 	tween.tween_callback(character_death_disappear)
 
 
-## 被冰冻控制
-func be_ice_freeze(time:float, new_time_ice_end_decelerate:float):
+## [param time]与[param new_time_ice_end_decelerate]合并为减速时间；气球沿用原版不被定身或额外扣血，[param _freeze_damage]只兼容父类参数。
+func be_ice_freeze(time:float, new_time_ice_end_decelerate:float, _freeze_damage: int = 20):
 	be_ice_decelerate(time + new_time_ice_end_decelerate)

@@ -61,7 +61,8 @@ func create_flag(flag_num:int):
 
 ## 根据波数生成大波的旗帜
 func init_flag_from_wave(wave_num:int):
-	assert(wave_num % 10 == 0, "当前波数不为10的倍数")
+	assert(wave_num > 0, "关卡至少需要一波僵尸")
+	# 短局不创建不存在的十波旗帜，进度条和僵尸头像仍正常显示。
 	var flag_num : int = int(wave_num / 10.0)
 	create_flag(flag_num)
 

@@ -138,7 +138,20 @@ func _attack_enemy(enemy:Character000Base):
 ## 对僵尸敌人造成伤害,直线类子弹重写
 func _attack_zombie(zombie:Zombie000Base):
 	## 攻击敌人
-	zombie.be_attacked_bullet(attack_value, bullet_mode, true, trigger_be_attack_sfx)
+	zombie.be_attacked_bullet(currency_war_damage(zombie), bullet_mode, true, trigger_be_attack_sfx)
+
+
+## 返回对[param enemy]的实际伤害；仅模式子弹在敌人总生命低于50%时应用破军，其他子弹保持原值。
+func currency_war_damage(enemy: Character000Base) -> int:
+	if not has_meta("currency_war_execute"):
+		return attack_value
+	# 总生命包含原版僵尸护甲生命，与原版波次生命统计一致。
+	var maximum: int = enemy.hp_component.max_hp
+	if enemy.hp_component is HpComponentZombie:
+		maximum += enemy.hp_component.max_hp_armor1 + enemy.hp_component.max_hp_armor2
+	if float(enemy.hp_component.get_all_hp()) < maximum * 0.5:
+		return roundi(attack_value * (1.0 + float(get_meta("currency_war_execute", 0.0))))
+	return attack_value
 
 
 ## 对植物敌人造成伤害

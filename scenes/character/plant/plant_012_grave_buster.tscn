@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://hq6ny8dbufej" path="res://assets/reanim/Gravebuster_leaf2.png" id="12_sd0vj"]
 [ext_resource type="Texture2D" uid="uid://igrk4hwpobli" path="res://assets/image/particles/dirtbig.png" id="13_e5ukr"]
 [ext_resource type="Animation" uid="uid://27xv57h73g43" path="res://animation/character/plant/012_Grave_buster/Gravebuster_idle.tres" id="15_be7da"]
+[ext_resource type="Script" path="res://scripts/fx/plant_effect/p_fx_012_gpu_particles_2d_grave_buster.gd" id="16_particles"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_i8y7p"]
 particles_animation = true
@@ -41,16 +42,6 @@ scale_min = 0.3
 scale_max = 0.3
 scale_curve = SubResource("CurveTexture_ltbb6")
 anim_offset_max = 1.0
-
-[sub_resource type="GDScript" id="GDScript_xhurg"]
-script/source = "extends GPUParticles2D
-class_name GPUParticles2DGraveBuster
-
-## 2秒后删除自身
-func free_self_after_two_sec():
-	await get_tree().create_timer(2.0).timeout
-	queue_free()
-"
 
 [sub_resource type="Animation" id="Animation_fuck"]
 length = 3.16667
@@ -1260,7 +1251,7 @@ position = Vector2(38, 59)
 emitting = false
 texture = ExtResource("13_e5ukr")
 process_material = SubResource("ParticleProcessMaterial_brsh4")
-script = SubResource("GDScript_xhurg")
+script = ExtResource("16_particles")
 
 [node name="BlinkComponent" parent="." index="5"]
 is_enable_default = false

@@ -30,6 +30,12 @@ var is_lane:=true
 
 ## 发射一次子弹信号
 signal signal_shoot_bullet
+## 一次攻击动画开始时发出，货币战争按动作叠装备，不随多发子弹重复计数。
+signal signal_attack_action
+## 货币战争专用子弹工厂；接收原版子弹类型，返回未入树的独立实例，其他模式为空。
+var currency_war_bullet_factory: Callable
+## 当前攻击轮的发射倍数；原版机枪动画四次发射，模式触发八发时每次发射两颗。
+var currency_war_volley_multiplier: int = 1
 
 ## 主游戏场景子弹父节点
 var bullets: Node2D
@@ -82,22 +88,41 @@ func attack_end():
 ## 攻击间隔后触发执行攻击
 func _on_bullet_attack_cd_timer_timeout() -> void:
 	# 在这里调用实际攻击逻辑
+	signal_attack_action.emit()
 	animation_tree.set(attack_para, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 
 func set_cancel_attack():
 	#animation_tree.set(attack_para, AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT)
 	pass
 
-## 发射子弹（动画调用）
+## 动画调用发射子弹；货币战争植物的专用倍率只应用于其新发射子弹，其他模式保持原版伤害。
 func _shoot_bullet():
 	signal_shoot_bullet.emit()
-	for i in range(markers_2d_bullet.size()):
-		var bullet:Bullet000Base = Global.bullet_registry.get_bullet_scenes(attack_bullet_type).instantiate()
-		var bullet_paras = get_bullet_paras(markers_2d_bullet[i].global_position, detect_component.ray_area_direction[i])
-		#print(bullet_paras)
-		bullet.init_bullet(bullet_paras)
-		bullets.add_child(bullet)
-		play_throw_sfx()
+	# 原版默认为一倍，模式八发只扩展本轮，不增加攻击动作或装备叠层次数。
+	for shot: int in range(currency_war_volley_multiplier):
+		# 每个发射点独立创建子弹，保留原版方向与行号。
+		for i: int in range(markers_2d_bullet.size()):
+			# 模式工厂逐颗判定特殊弹，普通模式返回原版实例。
+			var bullet: Bullet000Base = create_attack_bullet()
+			# 原版发射参数仍决定攻击状态与实际起点。
+			var bullet_paras: Dictionary = get_bullet_paras(markers_2d_bullet[i].global_position, detect_component.ray_area_direction[i])
+			bullet.init_bullet(bullet_paras)
+			bullets.add_child(bullet)
+			play_throw_sfx()
+
+
+## 返回未入树的攻击子弹，模式工厂负责特殊弹与实时伤害；原版模式保持原资源和攻击规则。
+func create_attack_bullet() -> Bullet000Base:
+	if currency_war_bullet_factory.is_valid():
+		return currency_war_bullet_factory.call(attack_bullet_type)
+	# 未接入模式工厂的组件仍兼容已有模式攻击元数据，不改变其他玩法。
+	var bullet: Bullet000Base = Global.bullet_registry.get_bullet_scenes(attack_bullet_type).instantiate()
+	if bullet is Bullet000NormBase and owner.has_meta("currency_war_attack_value"):
+		bullet.attack_value = int(owner.get_meta("currency_war_attack_value"))
+		bullet.set_meta("currency_war_execute", owner.get_meta("currency_war_execute", 0.0))
+	elif bullet is Bullet000NormBase and owner.has_meta("currency_war_attack_multiplier"):
+		bullet.attack_value = roundi(bullet.attack_value * float(owner.get_meta("currency_war_attack_multiplier")))
+	return bullet
 
 
 func get_bullet_paras(marker_2d_bullet_glo_pos:Vector2, ray_direction:Vector2) -> Dictionary[Bullet000NormBase.E_InitParasAttr,Variant]:

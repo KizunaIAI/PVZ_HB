@@ -5,15 +5,17 @@ class_name BulletLinear000Base
 ## 线性移动组件
 @onready var movement_component: BulletMovementLinear = $MovementComponent
 
-## 对僵尸敌人造成伤害,直线类子弹重写
+## 对[param zombie]造成伤害，保留原版背击真实伤害；模式子弹先计算破军增伤。
 func _attack_zombie(zombie:Zombie000Base):
+	# 无模式元数据的原版子弹返回自身原始攻击值。
+	var damage: int = currency_war_damage(zombie)
 	## 从后面攻击僵尸的子弹，正常伤害类型子弹攻击类型修改为真实
 	if direction.x < 0 and bullet_mode ==BulletRegistry.AttackMode.Norm:
 		## 攻击敌人
-		zombie.be_attacked_bullet(attack_value,BulletRegistry.AttackMode.Real, true, trigger_be_attack_sfx)
+		zombie.be_attacked_bullet(damage,BulletRegistry.AttackMode.Real, true, trigger_be_attack_sfx)
 	else:
 		## 攻击敌人
-		zombie.be_attacked_bullet(attack_value, bullet_mode, true, trigger_be_attack_sfx)
+		zombie.be_attacked_bullet(damage, bullet_mode, true, trigger_be_attack_sfx)
 
 
 func _physics_process(delta: float) -> void:

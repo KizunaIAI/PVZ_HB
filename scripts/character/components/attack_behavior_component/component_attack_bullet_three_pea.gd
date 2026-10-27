@@ -37,7 +37,8 @@ func _shoot_bullet():
 func _create_bullte(await_time:float, i:int=1, change_y_target:bool=false):
 	if await_time:
 		await get_tree().create_timer(await_time).timeout
-	var bullet: Bullet000Base = Global.bullet_registry.get_bullet_scenes(attack_bullet_type).instantiate()
+	# 三个头分别调用同一模式工厂，各自独立判定大豌豆；原版依然返回普通豌豆。
+	var bullet: Bullet000Base = create_attack_bullet()
 	var bullet_paras: Dictionary = _build_three_pea_bullet_paras(i, change_y_target)
 	bullet.init_bullet(bullet_paras)
 	bullets.add_child(bullet)

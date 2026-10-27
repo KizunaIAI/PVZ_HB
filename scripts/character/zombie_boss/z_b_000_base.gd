@@ -89,19 +89,21 @@ func update_speed_factor(value: float, factor: E_Influence_Speed_Factor) -> void
 
 ## 已死亡角色不再创建减速计时器或重新染上冰冻颜色。
 ## [param time] 本次冰冻减速持续时间，单位为秒。
-func be_ice_decelerate(time: float) -> void:
+## [param speed_factor] 减速后的剩余速度倍率，默认0.5保持原版调用兼容。
+func be_ice_decelerate(time: float, speed_factor: float = 0.5) -> void:
 	if not is_death:
-		super.be_ice_decelerate(time)
+		super.be_ice_decelerate(time, speed_factor)
 
 
 ## 仅在正常出战且受击窗口开启时接受冰冻；全场事件也不能绕过状态控制的受击开关。[br]
 ## 父类先扣血后创建冰冻效果；致死时在父类返回后补做清理，避免死后残留冰块。
 ## [param time] 本次完全冰冻持续时间，单位为秒。
 ## [param new_time_ice_end_decelerate] 冰冻解除后继续减速的时长，单位为秒。
-func be_ice_freeze(time: float, new_time_ice_end_decelerate: float) -> void:
+## [param freeze_damage] 冰冻本身附加的伤害，默认20保持旧调用，0只附加控制。
+func be_ice_freeze(time: float, new_time_ice_end_decelerate: float, freeze_damage: int = 20) -> void:
 	if not _can_receive_damage():
 		return
-	super.be_ice_freeze(time, new_time_ice_end_decelerate)
+	super.be_ice_freeze(time, new_time_ice_end_decelerate, freeze_damage)
 	if is_death:
 		prepare_death_animation()
 

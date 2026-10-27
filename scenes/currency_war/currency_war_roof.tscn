@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/MainGame03Roof.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scripts/currency_war/currency_war_game.gd" id="2_mode"]
+
+[node name="CurrencyWarRoof" instance=ExtResource("1_base")]
+script = ExtResource("2_mode")

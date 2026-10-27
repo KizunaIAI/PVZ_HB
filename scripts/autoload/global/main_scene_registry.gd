@@ -19,6 +19,8 @@ enum MainScenes{
 	Almanac,
 	Store,
 
+	CurrencyWar = 300, ## 植物货币战争，独立的局内商店与轮次防守模式。
+
 	Null = 999,
 }
 @export var MainScenesMap = {
@@ -36,6 +38,7 @@ enum MainScenes{
 	MainScenes.Garden: "res://scenes/main/10Garden.tscn",
 	MainScenes.Almanac: "res://scenes/main/11Almanac.tscn",
 	MainScenes.Store: "res://scenes/main/12Store.tscn",
+	MainScenes.CurrencyWar: "res://scenes/main/13CurrencyWar.tscn",
 }
 
 ## 场景僵尸的行类型

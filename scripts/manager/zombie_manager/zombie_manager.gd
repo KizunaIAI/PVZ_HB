@@ -110,15 +110,15 @@ func init_manager() -> void:
 			## 波次刷新时判断是否为最后一波，删除多余魅惑僵尸
 			hammer_zombie_manager.signal_wave_refresh.connect(wave_refresh)
 
-## 开始第一波
-func start_game():
+## 开始第一波；[param first_wave_delay]只控制普通波首波等待秒数，默认十秒保留原版节奏。
+func start_game(first_wave_delay: float = 10.0):
 	match monster_mode:
 		ConstLevelData.E_MonsterMode.Null:
 			return
 
 		ConstLevelData.E_MonsterMode.Norm:
-			## 10秒后开始刷新僵尸
-			await get_tree().create_timer(10).timeout
+			# 等待指定秒数后开始刷新僵尸，货币战争可单独缩短开战空档。
+			await get_tree().create_timer(first_wave_delay).timeout
 			zombie_wave_manager.start_first_wave()
 
 		ConstLevelData.E_MonsterMode.HammerZombie:

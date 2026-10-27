@@ -64,7 +64,8 @@ func init_zombie_wave_manager(game_para:ResourceLevelData):
 		max_wave = game_para.max_wave
 
 	flag_progress_bar.init_flag_from_wave(max_wave_one_round)
-	progress_bar_segment_every_wave = 100.0 / (max_wave_one_round - 1)
+	# 一波短局也可使用原版进度条，避免分母为零。
+	progress_bar_segment_every_wave = 100.0 / maxi(1, max_wave_one_round - 1)
 
 	zombie_wave_create_manager.init_zombie_wave_create_manager(game_para)
 
@@ -77,7 +78,8 @@ func start_next_game_zombie_wave_mananger_update():
 
 ## 计算当前进度并更新进度条
 func set_progress_bar(curr_flag:int=-1):
-	var curr_progress = curr_wave % max_wave_one_round * progress_bar_segment_every_wave
+	# 一波短局刷出唯一波时已完成刷新进度，清场仍由僵尸管理器判断。
+	var curr_progress: float = 100.0 if max_wave_one_round == 1 else curr_wave % max_wave_one_round * progress_bar_segment_every_wave
 	flag_progress_bar.set_progress(curr_progress, curr_flag)
 
 ## 开始第一波
@@ -88,10 +90,18 @@ func start_first_wave():
 
 ## 开始刷新下一波,发射刷新下一波信号
 func start_next_wave() -> void:
+	if curr_wave >= max_wave - 1:
+		return
 	curr_wave += 1
+	# 本波的真实敌人列表，短局末波与原版旗帜波共用后续血量和清场同步。
 	var curr_wave_all_zombies:Array[Zombie000Base]
+	# 非十波整组的最后一波直接结束刷新，不额外插入旗帜僵尸或特殊大波。
+	if curr_wave == max_wave - 1 and curr_wave % 10 != 9:
+		curr_wave_type = E_WaveType.Final
+		curr_wave_all_zombies = zombie_wave_create_manager.create_curr_wave_all_zombies(curr_wave, false)
+		set_progress_bar()
 	## 旗前波
-	if curr_wave % 10 == 8:
+	elif curr_wave % 10 == 8:
 		curr_wave_type = E_WaveType.FlagFront
 		curr_wave_all_zombies = zombie_wave_create_manager.create_curr_wave_all_zombies(curr_wave, false)
 	## 旗帜波

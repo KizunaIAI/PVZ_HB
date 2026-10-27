@@ -8,8 +8,10 @@ func _ready() -> void:
 	super()
 	anim_lib.play(&"ALL_ANIMS")
 
-## 攻击一次
+## 命中[param enemy]后沿用原版解冻与溅射；撞到屋顶斜面时目标为空，只销毁子弹。
 func attack_once(enemy:Character000Base):
 	super(enemy)
+	if not is_instance_valid(enemy):
+		return
 	enemy.cancel_ice()
 	spatter_component.spatter_all_area_zombie(enemy)

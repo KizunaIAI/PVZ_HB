@@ -23,8 +23,8 @@ func judge_is_can_plant(plant_cell:PlantCell, curr_plant_type:CharacterRegistry.
 	## 特殊植物
 	if is_special_plants:
 		return judge_special_plants_condition(plant_cell)
-	## 普通植物非紫卡
-	elif not is_purple_card:
+	# 货币战争明确允许机枪豌豆直接放置，仍检查草地、花盆、睡莲等原版地形条件。
+	elif not is_purple_card or (curr_plant_type == CharacterRegistry.PlantType.P041GatlingPea and Global.game_para != null and Global.game_para.game_mode == MainSceneRegistry.MainScenes.CurrencyWar):
 		## 当前可以种植普通植物 and 当前格子地形符合 and 当前格子对应的植物位置为空
 		if plant_cell.can_common_plant and plant_condition & plant_cell.curr_condition and not is_instance_valid(plant_cell.plant_in_cell[place_plant_in_cell]):
 			## 如果是壳类植物,若当前植物格子中Norm为玉米加农炮

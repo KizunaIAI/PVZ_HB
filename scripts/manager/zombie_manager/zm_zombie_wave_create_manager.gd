@@ -194,6 +194,10 @@ func calculate_wave_power_limit(wave:int, is_big_wave: bool) -> int:
 	## 计算战力上限 = y=int(x/3)+1
 	@warning_ignore("integer_division")
 	var base_power_limit:int = wave / 3 + 1
+	if zombie_manager.game_para.game_mode == MainSceneRegistry.MainScenes.CurrencyWar:
+		# 一至四波节点仍需让新解锁类型有机会被抽到，预算下限取池中最高原版战力，不固定刷出某一类型。
+		for zombie_type: int in zombie_manager.zombie_refresh_types:
+			base_power_limit = maxi(base_power_limit, int(zombie_power[zombie_type]))
 	## 如果是大波，战力上限是原战力上限的2.5倍
 	if is_big_wave:
 		return int(base_power_limit * 2.5) * zombie_multy

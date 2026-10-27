@@ -3030,6 +3030,32 @@ offset_top = -178.0
 offset_right = -191.0
 offset_bottom = -178.0
 
+[node name="CurrencyWarButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 514.0
+offset_right = 250.0
+offset_bottom = 566.0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.94, 0.89, 0.61, 1)
+theme_override_fonts/font = ExtResource("54_343qg")
+theme_override_font_sizes/font_size = 25
+text = "货币战争 · 新模式"
+
+[node name="CurrencyWarCollectionButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 268.0
+offset_top = 514.0
+offset_right = 452.0
+offset_bottom = 566.0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.94, 0.89, 0.61, 1)
+theme_override_fonts/font = ExtResource("54_343qg")
+theme_override_font_sizes/font_size = 25
+text = "仓库"
+
+[connection signal="pressed" from="CurrencyWarCollectionButton" to="." method="_on_currency_collection_pressed"]
+[connection signal="pressed" from="CurrencyWarButton" to="." method="_on_currency_war_pressed"]
 [connection signal="pressed" from="BG_Right/Menu/Button1" to="." method="_on_button_1_pressed"]
 [connection signal="pressed" from="BG_Right/Menu/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="BG_Right/Menu/Button3" to="." method="_on_button_3_pressed"]
