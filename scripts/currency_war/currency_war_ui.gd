@@ -483,9 +483,11 @@ func _layout_market(support_visible: bool) -> void:
 	_traits.size.x = panel_width - 150.0
 
 
-## 在左侧庭院边缘创建羁绊列表，显示已上场种类与每档门槛的独立颜色。
+## 在左侧庭院边缘创建透明背景的羁绊列表，显示已上场种类与每档门槛的独立颜色。
 func _build_trait_panel() -> void:
 	_trait_panel = _panel(_root, Rect2(8, 132, 112, 338))
+	# 覆盖通用面板样式，保留羁绊内容和悬浮说明但不遮住庭院背景。
+	_trait_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	_label(_trait_panel, Rect2(8, 6, 96, 24), "场上羁绊", 16, ACCENT)
 	_trait_empty = _label(_trait_panel, Rect2(8, 44, 96, 55), "暂无场上羁绊", 12, TRAIT_INACTIVE_COLOR)
 	_trait_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
