@@ -493,27 +493,26 @@ func _build_trait_panel() -> void:
 	_trait_empty.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	# 固定顺序创建三种当前牌库会出现的羁绊行，实时刷新只切换内容和颜色。
 	for trait_name: String in TRAIT_DISPLAY_TIERS:
-		# 单行承载图标、名称、种类数量和门槛，不拦截战场拖拽。
+		# 单行承载图标、名称和门槛，不显示当前种类数量。
 		var row: Control = Control.new()
-		row.size = Vector2(104, 76)
+		row.size = Vector2(104, 55)
 		row.mouse_filter = Control.MOUSE_FILTER_PASS
 		row.tooltip_text = TRAIT_DISPLAY_TIPS[trait_name]
 		_trait_panel.add_child(row)
 		# 简洁符号对应豌豆、阳光和灰烬，色彩表示是否已激活有效档位。
 		var icon: Label = _label(row, Rect2(2, 6, 25, 27), "☀" if trait_name == "阳光" else ("✦" if trait_name == "灰烬" else "◆"), 20, TRAIT_INACTIVE_COLOR)
-		# 名称与计数只反映场上不同种类，同名多株不重复增加。
+		# 名称固定显示，场上不同种类只用于门槛颜色判断。
 		var name_label: Label = _label(row, Rect2(30, 4, 72, 22), trait_name, 14, TRAIT_INACTIVE_COLOR)
-		var count_label: Label = _label(row, Rect2(30, 27, 72, 18), "", 12, TRAIT_INACTIVE_COLOR)
 		# 每个门槛各有独立标签，达成后逐个从暗色变成金色。
 		var tier_labels: Array[Label] = []
 		var tiers: Array = TRAIT_DISPLAY_TIERS[trait_name]
 		for tier_index: int in range(tiers.size()):
 			# 后续门槛带斜杠，有限宽度内仍能看出完整档位序列。
-			var tier_label: Label = _label(row, Rect2(30 + tier_index * 18, 48, 20, 19), ("/" if tier_index > 0 else "") + str(tiers[tier_index]), 11, TRAIT_INACTIVE_COLOR)
+			var tier_label: Label = _label(row, Rect2(30 + tier_index * 18, 29, 20, 19), ("/" if tier_index > 0 else "") + str(tiers[tier_index]), 11, TRAIT_INACTIVE_COLOR)
 			tier_labels.append(tier_label)
 		if tiers.is_empty():
-			_label(row, Rect2(30, 48, 72, 19), "未开放", 11, TRAIT_INACTIVE_COLOR)
-		_trait_rows[trait_name] = {"row": row, "icon": icon, "name": name_label, "count": count_label, "tiers": tier_labels}
+			_label(row, Rect2(30, 29, 72, 19), "未开放", 11, TRAIT_INACTIVE_COLOR)
+		_trait_rows[trait_name] = {"row": row, "icon": icon, "name": name_label, "tiers": tier_labels}
 
 
 ## 按[param run]的场上不同植物种类刷新左栏；达到的羁绊门槛高亮，未达到保持暗色。
@@ -523,26 +522,23 @@ func _render_trait_panel(run: RunRules) -> void:
 	# 仅为当前场上已有的羁绊占用行位置，空场显示简短提示。
 	var visible_count: int = 0
 	for trait_name: String in TRAIT_DISPLAY_TIERS:
-		# 灰烬目前没有生效门槛，仍可显示场上计数但始终保持暗色。
+		# 灰烬目前没有生效门槛，出现时仍保持暗色。
 		var count: int = int(counts.get(trait_name, 0))
 		var row_data: Dictionary = _trait_rows[trait_name]
 		var row: Control = row_data["row"]
 		row.visible = count > 0
 		if count <= 0:
 			continue
-		row.position = Vector2(4, 36 + visible_count * 82)
+		row.position = Vector2(4, 36 + visible_count * 62)
 		visible_count += 1
-		# 只有达到首档门槛的羁绊才点亮图标、名称和当前数量。
+		# 只有达到首档门槛的羁绊才点亮图标和名称。
 		var tiers: Array = TRAIT_DISPLAY_TIERS[trait_name]
 		var active: bool = not tiers.is_empty() and count >= int(tiers[0])
 		var main_color: Color = GOLD_COLOR if active else TRAIT_INACTIVE_COLOR
 		var icon: Label = row_data["icon"]
 		var name_label: Label = row_data["name"]
-		var count_label: Label = row_data["count"]
 		icon.add_theme_color_override("font_color", main_color)
 		name_label.add_theme_color_override("font_color", main_color)
-		count_label.text = "%d种" % count
-		count_label.add_theme_color_override("font_color", main_color)
 		# 每一档独立比较，较高档未达成时不会跟随低档一起高亮。
 		var tier_labels: Array = row_data["tiers"]
 		for tier_index: int in range(tier_labels.size()):
