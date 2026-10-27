@@ -258,7 +258,7 @@ func render(run: RunRules, selected_id: int) -> void:
 	_lock_button.set_pressed_no_signal(run.shop_locked)
 	_lock_button.text = "已锁定" if run.shop_locked else "锁定"
 	_level_button.disabled = not run.can_manage() or run.sun < 4 or run.level >= 9
-	_level_button.text = "等级%d\n满级" % run.level if run.level >= 9 else "等级%d\n☀4 买经验" % run.level
+	_level_button.text = "等级%d\n满级" % run.level if run.level >= 9 else "等级%d\n%d/%d" % [run.level, run.experience, RunRules.EXPERIENCE_THRESHOLDS[run.level - 1]]
 	_battle_button.visible = run.phase == RunRules.Phase.PREPARATION
 	_battle_button.disabled = run.count_units() == 0 or run.lawn_expanding
 	_battle_button.text = "铺草中" if run.lawn_expanding else "开始"
@@ -425,10 +425,10 @@ func _build_market() -> void:
 	_lock_button.add_theme_font_size_override("font_size", 13)
 	_lock_button.toggle_mode = true
 	_lock_button.tooltip_text = "开启后，下一节点保留当前商品及售空位置一次，随后自动解除；关闭时新节点免费刷新。"
-	_level_button = _button(_market_drawer, Rect2(0, 48, 88, 96), "等级1\n☀4 买经验", experience_requested.emit)
-	_level_button.add_theme_font_size_override("font_size", 19)
+	_level_button = _button(_market_drawer, Rect2(0, 51, 76, 76), "等级1\n0/4", experience_requested.emit)
+	_level_button.add_theme_font_size_override("font_size", 17)
 	_level_button.tooltip_text = "点击花费4阳光购买4经验，增加上场植物种类上限；睡莲和花盆不计入。"
-	_battle_button = _button(_market_drawer, Rect2(0, 48, 88, 96), "开始", battle_requested.emit)
+	_battle_button = _button(_root, Rect2(917, 545, 149, 55), "开始", battle_requested.emit)
 	_battle_button.add_theme_font_size_override("font_size", 22)
 	_shop_toggle = _button(_shop_drawer, Rect2(517, -24, 37, 22), "▲" if _shop_collapsed else "▼", _toggle_shop)
 	_shop_toggle.add_theme_font_size_override("font_size", 13)
@@ -448,18 +448,17 @@ func _build_market() -> void:
 	_root.add_child(_encounter_choice)
 
 
-## 根据[param support_visible]是否有第六张地形卡调整面板宽度，让等级、商店和开始始终整体居中。
+## 根据[param support_visible]是否有第六张地形卡调整商店宽度，等级按钮保持在商店左侧。
 func _layout_market(support_visible: bool) -> void:
 	# 五张商品用窄面板，新增地形卡时再向两侧扩展整组宽度。
 	var panel_width: float = 667.0 if support_visible else 566.0
-	# 等级与开始各占88像素，左右间隔各12像素。
+	# 保留原商店组的水平位置；开始按钮固定在画面右下角。
 	var group_width: float = panel_width + 200.0
-	# 裁剪区自身以1066像素视口中心定位，组内再按当前宽度左右留白。
+	# 裁剪区自身以1066像素视口中心定位，组内按当前宽度左右留白。
 	var group_left: float = (914.0 - group_width) * 0.5
-	_level_button.position.x = group_left
+	_level_button.position.x = group_left + 16.0
 	_shop_drawer.position.x = group_left + 100.0
 	_shop_drawer.size.x = panel_width
-	_battle_button.position.x = group_left + 112.0 + panel_width
 	_refresh_button.position.x = panel_width - 48.0
 	_lock_button.position.x = panel_width - 48.0
 	_shop_toggle.position.x = panel_width - 49.0
