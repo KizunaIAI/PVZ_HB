@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_basin_actions.gd" id="controller"]
+[ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_thought_bubble.gd" id="bubble"]
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_steel_basin_visual.tscn" id="standing"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/reach.png" id="reach"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/hold.png" id="hold"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/angry.png" id="angry"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/throw.png" id="throw"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/rice_basin.png" id="rice_basin"]
+
+[node name="DaFeiYuBasinActionsVisual" type="Node2D"]
+script = ExtResource("controller")
+
+[node name="Standing" parent="." instance=ExtResource("standing")]
+
+[node name="Poses" type="Node2D" parent="."]
+visible = false
+
+[node name="reach" type="Sprite2D" parent="Poses"]
+visible = false
+position = Vector2(-146, -500)
+centered = false
+texture = ExtResource("reach")
+
+[node name="hold" type="Sprite2D" parent="Poses"]
+visible = false
+position = Vector2(-168, -500)
+centered = false
+texture = ExtResource("hold")
+
+[node name="angry" type="Sprite2D" parent="Poses"]
+visible = false
+position = Vector2(-150, -500)
+centered = false
+texture = ExtResource("angry")
+
+[node name="throw" type="Sprite2D" parent="Poses"]
+visible = false
+position = Vector2(-220, -500)
+centered = false
+texture = ExtResource("throw")
+
+[node name="Basin" type="Sprite2D" parent="."]
+visible = false
+z_index = 5
+
+[node name="Thought" type="Node2D" parent="."]
+visible = false
+z_index = 20
+position = Vector2(10, -650)
+script = ExtResource("bubble")
+
+[node name="Rice" type="Sprite2D" parent="Thought"]
+position = Vector2(0, -4)
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("rice_basin")

@@ -1,0 +1,47 @@
+{
+  "texture": "assets/image/character/boss/da_fei_yu/idle_left_v2/character.png",
+  "width": 348,
+  "height": 500,
+  "columns": 28,
+  "rows": 40,
+  "vertex_count": 1189,
+  "triangle_count": 2240,
+  "duration_seconds": 4,
+  "bones": [
+    {
+      "name": "Feet",
+      "x": 111.36,
+      "y": 500,
+      "length": 30
+    },
+    {
+      "name": "Body",
+      "x": 104.39999999999999,
+      "y": 335,
+      "length": 60
+    },
+    {
+      "name": "Head",
+      "x": 97.44000000000001,
+      "y": 245,
+      "length": 80
+    },
+    {
+      "name": "Hair",
+      "x": 201.83999999999997,
+      "y": 185,
+      "length": 100
+    },
+    {
+      "name": "Tail",
+      "x": 177.48,
+      "y": 400,
+      "length": 80
+    }
+  ],
+  "animation_tracks": 7,
+  "foot_origin": [
+    111.36,
+    500
+  ]
+}

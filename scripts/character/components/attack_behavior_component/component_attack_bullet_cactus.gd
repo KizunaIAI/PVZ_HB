@@ -9,6 +9,8 @@ func _ready() -> void:
 
 ## 攻击间隔后触发执行攻击
 func _on_bullet_attack_cd_timer_timeout() -> void:
+	# 每轮动画只累计一次攻击动作，不按前后子弹或发射点重复计数。
+	signal_attack_action.emit()
 	if is_rise:
 		animation_tree.set("parameters/StateMachine/BlendTree 2/OneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
 	else:

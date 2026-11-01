@@ -68,6 +68,17 @@ func _on_currency_war_pressed() -> void:
 	get_tree().change_scene_to_file(Global.main_scene_registry.MainScenesMap[MainSceneRegistry.MainScenes.CurrencyWar])
 
 
+## 从开始菜单进入独立开发者测试场景，不覆盖正常整局或仓库中待保存的内容。
+func _on_developer_pressed() -> void:
+	CurrencySession.start_developer()
+	Global.game_para = null
+	# 直接进入测试战场，跳过普通整局入口的重新建局流程，保留开发者会话标记。
+	var error: Error = get_tree().change_scene_to_file(CurrencySession.get_run().campaign.scene_path())
+	if error != OK:
+		CurrencySession.end_developer()
+		push_error("无法打开开发者模式：%s" % error_string(error))
+
+
 ## 打开当前用户的仓库；主菜单切换用户后再次打开会重新读取对应存档。
 func _on_currency_collection_pressed() -> void:
 	if not is_instance_valid(_currency_collection_panel):

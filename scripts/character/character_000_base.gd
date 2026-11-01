@@ -57,6 +57,7 @@ enum E_Influence_Speed_Factor{
 	Butter,			## 黄油
 	EatGarlic,		## 啃食大蒜后短时间停止
 	OutBattlefield,	## 宽屏战场外僵尸移动加速
+	CurrencyWarAttackSpeed, ## 货币战争地刺动画与大嘴花咀嚼的攻速倍率，其他模式不设置
 }
 ## 是否被魅惑
 var is_hypno:bool = false
@@ -312,3 +313,8 @@ func cancel_ice():
 		_on_ice_decelerate_timer_timeout()
 
 #endregion
+
+
+## 返回角色是否接受击退；Boss覆盖为false，普通角色保持可被击退。
+func can_be_knocked_back() -> bool:
+	return true

@@ -1,0 +1,5 @@
+# 用户指定修正
+
+用户标注中央靠近额头的手臂为多余部分，最终保留脸前方远侧手臂和右侧近侧手臂。
+
+Use case: precise-object-edit. Image 1 is the full sprite to edit. Image 2 is the USER'S EXACT MARKUP showing which extra arm to remove with a red rectangle. Remove ONLY the arm and hand indicated by that red rectangle: the UPPER CENTRAL hand above the forehead at about x=113,y=120 of image 1, plus its white cuff and navy sleeve below it. It is the hand LEFT of the other high hand. Replace that deleted central hand/arm with natural underlying blue hair and face/background as appropriate. KEEP the FAR-LEFT arm/cuff beside her nose and bangs, and KEEP the RIGHTMOST raised hand at about x=160,y=140 with its connected navy sleeve at the RIGHT of her face. These are her correct two arms. The red rectangle is instruction only, do not include it, checkerboard, UI or crop in output. Preserve original exact full-body left-facing maid, facial expression, hair, outfit, whale tail and feet. True alpha transparent background, no basin. End result exactly two arms, one mostly hidden near the far left forehead and one right of her face. Do not remove or redesign the correct far-left arm.

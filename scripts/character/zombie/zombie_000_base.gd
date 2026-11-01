@@ -597,3 +597,20 @@ func update_mini_zombie():
 	hurt_box_component.scale *= 2
 
 #endregion
+
+
+## 将存活且非免疫的僵尸向右击退[param distance]世界像素；限制场外边界，并同步走路基准防止下一帧抵消位移。
+func apply_knockback(distance: float) -> void:
+	if is_death or distance <= 0.0 or not can_be_knocked_back() or not is_inside_tree() or is_queued_for_deletion():
+		return
+	# 记录位移前位置，坡道高度仅按实际位移修正，保持原行和水路状态。
+	var previous_x: float = global_position.x
+	# 原版管理器会直接清除视野外的僵尸，不能让击退越界造成误杀。
+	var limit: float = maxf(previous_x, Global.main_game.zombie_manager.zombie_range_pos_x.y - 1.0)
+	global_position.x = minf(previous_x + distance, limit)
+	if is_instance_valid(move_component):
+		if move_component.move_mode == MoveComponent.E_MoveMode.Ground:
+			# ground全局位置包含外部位移，必须重置历史值，否则_walk会将这段位移反向扣回。
+			move_component.update_previous_ground_global_x()
+		if move_component.move_dir_y_correct_slope != Vector2.ZERO:
+			move_component.move_y_correct_slope(previous_x - global_position.x)

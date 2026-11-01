@@ -1,3 +1,4 @@
+## 保留原版害怕与射击；货币战争通过回调在首次进入缩地状态时施放专属范围攻击。
 extends Plant000Base
 class_name Plant014ScaredyShroom
 
@@ -20,6 +21,13 @@ func ready_norm_signal_connect():
 		scaredy_component.signal_scaredy_end.connect(component.enable_component.bind(ComponentNormBase.E_IsEnableFactor.Scaredy))
 	signal_update_speed.connect(attack_component.owner_update_speed)
 
-## 害怕组件信号发射改变植物害怕状态
+## 使用[param curr_is_scared]同步原版状态；仅站立转缩地时通知模式，检测器重复发出害怕信号不会再次施放。
 func change_is_scared(curr_is_scared:bool):
+	# 害怕检测可能因同一僵尸状态变化重复发信号，每段连续缩地只触发一次。
+	var entered_scared: bool = curr_is_scared and not is_scared
 	self.is_scared = curr_is_scared
+	if entered_scared:
+		# 其他模式未注册回调，保留原版胆小菇行为。
+		var callback: Callable = get_meta("currency_war_scared_callback", Callable())
+		if callback.is_valid():
+			callback.call()

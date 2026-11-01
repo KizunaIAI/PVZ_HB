@@ -1,0 +1,26 @@
+file 'frames/idle_01.png'
+option framerate 100
+duration 0.3
+file 'frames/idle_02.png'
+option framerate 100
+duration 0.3
+file 'frames/idle_03.png'
+option framerate 100
+duration 0.3
+file 'frames/idle_04.png'
+option framerate 100
+duration 0.3
+file 'frames/idle_05.png'
+option framerate 100
+duration 0.3
+file 'frames/idle_06.png'
+option framerate 100
+duration 0.1
+file 'frames/idle_07.png'
+option framerate 100
+duration 0.1
+file 'frames/idle_08.png'
+option framerate 100
+duration 0.3
+file 'frames/idle_01.png'
+option framerate 100

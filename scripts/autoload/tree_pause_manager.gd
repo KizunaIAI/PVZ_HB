@@ -5,6 +5,8 @@ enum E_PauseFactor {
 	Menu,			## 菜单
 	GameOver,		## 游戏结束
 	ReChooseCard,	## 重新选卡
+	DeveloperPanel,	## 开发者面板打开时暂停，不解除正常菜单或准备暂停。
+	DeveloperTest,	## 用户手动暂停自由测试，与开发者面板的临时暂停独立。
 }
 
 var curr_pause_factor: Dictionary = {}

@@ -2,22 +2,28 @@
 extends BulletLinear000Base
 
 ## 命中后的冰减速剩余速度倍率；1表示无减速，不影响普通子弹。
-var slow_factor: float = 1.0
+@export var slow_factor: float = 1.0
 ## 冰减速持续游戏秒，沿用原版寒冰豌豆的持续时间。
-var slow_seconds: float = 3.0
-## 冰球定身秒数；0表示不冰冻，已定义冰球使用1秒。
-var freeze_seconds: float = 0.0
+@export var time_be_decelerated: float = 3.0
+## 冰棱定身秒数；0表示不冰冻，冰棱使用1秒，原版冰球不走此脚本。
+@export var freeze_seconds: float = 0.0
 ## 范围命中的世界坐标半径；零向量表示普通单体命中，实际尺寸由规则层按草坪格子传入。
-var splash_radius: Vector2 = Vector2.ZERO
+@export var splash_radius: Vector2 = Vector2.ZERO
 ## 弹丸显示倍率，仅放大本体，不额外扩大首次命中的碰撞盒。
-var visual_scale: float = 1.0
-## 可选弹丸着色，透明表示保留原版外观，紫球与冰球只修改视觉。
-var pea_tint: Color = Color.TRANSPARENT
+@export var visual_scale: float = 1.0
+## 可选弹丸着色，透明表示保留原版外观，紫球与冰棱只修改视觉。
+@export var pea_tint: Color = Color.TRANSPARENT
+## 生成图片在游戏中的完整画布宽度，单位为世界像素；0沿用原版，84对应28像素豌豆贴图的三倍。
+@export var texture_width: float = 0.0
 
 
 ## 子节点就绪后调整本体显示，不改变原版运动速度和攻击距离。
 func _ready() -> void:
 	super()
+	if texture_width > 0.0:
+		# 原图保留透明边缘与全部像素，只在当前Sprite上缩放，不重新生成或染色用户素材。
+		var sprite: Sprite2D = get_node("Body/BulletBody")
+		sprite.scale = Vector2.ONE * texture_width / sprite.texture.get_width()
 	body.scale *= visual_scale
 	if pea_tint.a > 0.0:
 		# 只为当前弹丸创建材质，避免同场其他普通豌豆被共享材质染色。
@@ -30,7 +36,7 @@ func _ready() -> void:
 			item.use_parent_material = true
 
 
-## 对[param zombie]施加直接或范围伤害，范围包含命中对象一次；冰球不附带原版冰冻的额外20点伤害。
+## 对[param zombie]施加直接或范围伤害，范围包含命中对象一次；冰棱不附带原版冰冻的额外20点伤害。
 func _attack_zombie(zombie: Zombie000Base) -> void:
 	if splash_radius.x > 0.0 and splash_radius.y > 0.0:
 		# 在命中时读取实际敌人列表，不让发射后出生的有效敌人漏掉范围伤害。
@@ -50,6 +56,6 @@ func _attack_zombie(zombie: Zombie000Base) -> void:
 	if zombie.is_death or zombie.hp_component.curr_hp_armor2 > 0:
 		return
 	if slow_factor < 1.0:
-		zombie.be_ice_decelerate(slow_seconds, slow_factor)
+		zombie.be_ice_decelerate(time_be_decelerated, slow_factor)
 	if freeze_seconds > 0.0:
-		zombie.be_ice_freeze(freeze_seconds, slow_seconds, 0)
+		zombie.be_ice_freeze(freeze_seconds, time_be_decelerated, 0)

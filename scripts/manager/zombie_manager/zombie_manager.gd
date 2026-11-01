@@ -172,8 +172,8 @@ func _on_zombie_hypno(zombie:Zombie000Base):
 		zombie.signal_zombie_hp_loss.disconnect(conn.callable)
 	all_zombies_be_hypno.append(zombie)
 
-	## 如果到了最后一波刷新,且最后一个僵尸被魅惑
-	if is_end_wave and curr_zombie_num == 0:
+	## 末波已全部出场且最后一个僵尸被魅惑才清场，分散出怪的间隙不提前结算。
+	if is_end_wave and curr_zombie_num == 0 and not zombie_wave_manager.has_pending_spawns() and not bool(zombie.get_meta("currency_war_summon", false)):
 		EventBus.push_event("create_trophy", [zombie.global_position])
 		if is_instance_valid(multi_round_end_wave_timer):
 			multi_round_end_wave_timer.stop()
@@ -187,8 +187,8 @@ func _on_zombie_dead(zombie: Zombie000Base) -> void:
 		curr_zombie_num -= 1
 		all_zombies_2d[zombie.lane].erase(zombie)
 
-		## 如果到了最后一波刷新,且僵尸全部死亡
-		if is_end_wave and curr_zombie_num == 0:
+		## 末波已全部出场且僵尸全部死亡才清场，仍有排队僵尸时继续等待。
+		if is_end_wave and curr_zombie_num == 0 and not zombie_wave_manager.has_pending_spawns() and not bool(zombie.get_meta("currency_war_summon", false)):
 			EventBus.push_event("create_trophy", [zombie.global_position])
 			if is_instance_valid(multi_round_end_wave_timer):
 				multi_round_end_wave_timer.stop()
@@ -313,8 +313,8 @@ func delete_prepare_show_zombies():
 #endregion
 
 #region 植物调用相关，寒冰菇\火爆辣椒\三叶草
-## 冰冻所有僵尸
-func ice_all_zombie(time_ice:float, time_decelerate: float):
+## 以[param time_ice]秒冻结全场并减速[param time_decelerate]秒；[param freeze_damage]默认原版20点，货币战争可传入星级伤害。
+func ice_all_zombie(time_ice:float, time_decelerate: float, freeze_damage: int = 20):
 	## 冰消珊瑚
 	is_ice = true
 	start_ice_timer(time_ice)
@@ -322,7 +322,7 @@ func ice_all_zombie(time_ice:float, time_decelerate: float):
 		if zombie_row.is_empty():
 			continue
 		for zombie:Zombie000Base in zombie_row:
-			zombie.be_ice_freeze(time_ice, time_decelerate)
+			zombie.be_ice_freeze(time_ice, time_decelerate, freeze_damage)
 
 func start_ice_timer(wait_time:float):
 	if not is_instance_valid(ice_timer):
@@ -346,13 +346,13 @@ func jalapeno_bomb_item_lane(lane:int):
 		var ice_road:IceRoad = all_ice_roads[lane][i]
 		ice_road.ice_road_disappear()
 
-## 火爆辣椒爆炸整行僵尸
-func jalapeno_bomb_lane_zombie(lane:int):
+## 炸毁[param lane]行僵尸；[param attack_value]默认1800点，模式可传入本次星级与装备伤害。
+func jalapeno_bomb_lane_zombie(lane:int, attack_value: int = 1800):
 	#print(all_zombies_2d[lane])
 	for i in range(all_zombies_2d[lane].size()-1,-1,-1) :
 		if is_instance_valid(all_zombies_2d[lane][i]):
 			var zombie:Zombie000Base = all_zombies_2d[lane][i]
-			zombie.be_bomb(1800, true)
+			zombie.be_bomb(attack_value, true)
 
 ## 三叶草吹走空中僵尸
 func blover_blow_away_in_sky_zombie():

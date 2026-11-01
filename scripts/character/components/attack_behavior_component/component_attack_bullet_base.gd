@@ -36,6 +36,8 @@ signal signal_attack_action
 var currency_war_bullet_factory: Callable
 ## 当前攻击轮的发射倍数；原版机枪动画四次发射，模式触发八发时每次发射两颗。
 var currency_war_volley_multiplier: int = 1
+## 同一动画回调中额外子弹的游戏秒间隔，机枪取原发射间隔的一半；0表示沿用同帧发射。
+var currency_war_extra_shot_delay: float = 0.0
 
 ## 主游戏场景子弹父节点
 var bullets: Node2D
@@ -100,6 +102,11 @@ func _shoot_bullet():
 	signal_shoot_bullet.emit()
 	# 原版默认为一倍，模式八发只扩展本轮，不增加攻击动作或装备叠层次数。
 	for shot: int in range(currency_war_volley_multiplier):
+		if shot > 0 and currency_war_extra_shot_delay > 0.0:
+			# 使用受暂停和倍速影响的计时器，把补弹插入原版两颗之间，避免八发重叠成四颗的视觉。
+			await get_tree().create_timer(currency_war_extra_shot_delay, false).timeout
+			if not is_instance_valid(owner) or owner.is_death or not is_enabling:
+				return
 		# 每个发射点独立创建子弹，保留原版方向与行号。
 		for i: int in range(markers_2d_bullet.size()):
 			# 模式工厂逐颗判定特殊弹，普通模式返回原版实例。
@@ -112,9 +119,10 @@ func _shoot_bullet():
 
 
 ## 返回未入树的攻击子弹，模式工厂负责特殊弹与实时伤害；原版模式保持原资源和攻击规则。
-func create_attack_bullet() -> Bullet000Base:
+## [param shot_direction]用于裂荚区分前后脑特殊弹，普通植物默认向右。
+func create_attack_bullet(shot_direction: Vector2 = Vector2.RIGHT) -> Bullet000Base:
 	if currency_war_bullet_factory.is_valid():
-		return currency_war_bullet_factory.call(attack_bullet_type)
+		return currency_war_bullet_factory.call(attack_bullet_type, shot_direction)
 	# 未接入模式工厂的组件仍兼容已有模式攻击元数据，不改变其他玩法。
 	var bullet: Bullet000Base = Global.bullet_registry.get_bullet_scenes(attack_bullet_type).instantiate()
 	if bullet is Bullet000NormBase and owner.has_meta("currency_war_attack_value"):
@@ -133,6 +141,7 @@ func get_bullet_paras(marker_2d_bullet_glo_pos:Vector2, ray_direction:Vector2) -
 		Bullet000NormBase.E_InitParasAttr.Direction : ray_direction,
 		Bullet000NormBase.E_InitParasAttr.CanAttackPlantState : can_attack_plant_status,
 		Bullet000NormBase.E_InitParasAttr.CanAttackZombieState : can_attack_zombie_status,
+		Bullet000NormBase.E_InitParasAttr.SourceCharacter : owner,
 	}
 
 

@@ -1,0 +1,2687 @@
+{
+  "tool": "check_godot_project",
+  "schema": 1,
+  "root": "D:/game_make/PVZ/\u8d44\u6e90/PVZ-Godot-Dream-main",
+  "files_checked": 4665,
+  "error_count": 147,
+  "warning_count": 235,
+  "errors": [
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom.tscn",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Fumeshroom_body.png\" differs in letter case from the file on disk (res://assets/reanim/FumeShroom_body.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_body.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom.tscn",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Fumeshroom_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/FumeShroom_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom.tscn",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Fumeshroom_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/FumeShroom_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom.tscn",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Fumeshroom_head.png\" differs in letter case from the file on disk (res://assets/reanim/FumeShroom_head.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_head.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom.tscn",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Fumeshroom_spout.png\" differs in letter case from the file on disk (res://assets/reanim/FumeShroom_spout.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_spout.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom.tscn",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Fumeshroom_tip.png\" differs in letter case from the file on disk (res://assets/reanim/FumeShroom_tip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_tip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/017_lily_pad/LilyPad_blink.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Lilypad_body.png\" differs in letter case from the file on disk (res://assets/reanim/LilyPad_body.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/LilyPad_body.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/017_lily_pad/LilyPad_blink.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Lilypad_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/LilyPad_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/LilyPad_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/017_lily_pad/LilyPad_blink.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Lilypad_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/LilyPad_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/LilyPad_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_blink.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Gatlingpea_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_blink.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Gatlingpea_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf_lefttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf_righttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_stalk_bottom.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_stalk_bottom.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_stalk_bottom.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Peashooter_stalk_top.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_stalk_top.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_stalk_top.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf_righttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf_lefttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Gatlingpea_head.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_head.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_head.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Gatlingpea_mouth.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_mouth.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_mouth.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Gatlingpea_barrel.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_barrel.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_barrel.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 18,
+      "message": "path=\"res://assets/reanim/Gatlingpea_mouth_overlay.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_mouth_overlay.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_mouth_overlay.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 19,
+      "message": "path=\"res://assets/reanim/Gatlingpea_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 20,
+      "message": "path=\"res://assets/reanim/Gatlingpea_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 21,
+      "message": "path=\"res://assets/reanim/Peashooter_eyebrow.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_eyebrow.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_eyebrow.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_face.tres",
+      "line": 22,
+      "message": "path=\"res://assets/reanim/Gatlingpea_helmet.png\" differs in letter case from the file on disk (res://assets/reanim/GatlingPea_helmet.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_helmet.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_blink.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Sunflower_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_blink.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Sunflower_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_blink2.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Sunflower_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_blink2.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Sunflower_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf_lefttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf_righttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Twinsunflower_stem1.png\" differs in letter case from the file on disk (res://assets/reanim/TwinSunflower_stem1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_stem1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Twinsunflower_leaf.png\" differs in letter case from the file on disk (res://assets/reanim/TwinSunflower_leaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_leaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Twinsunflower_stem2.png\" differs in letter case from the file on disk (res://assets/reanim/TwinSunflower_stem2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_stem2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf_righttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf_lefttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Sunflower_double_petals.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_double_petals.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_double_petals.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Sunflower_head.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_head.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_head.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face.tres",
+      "line": 18,
+      "message": "path=\"res://assets/reanim/Sunflower_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf_lefttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_backleaf_righttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Twinsunflower_stem1.png\" differs in letter case from the file on disk (res://assets/reanim/TwinSunflower_stem1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_stem1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Twinsunflower_leaf.png\" differs in letter case from the file on disk (res://assets/reanim/TwinSunflower_leaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_leaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Twinsunflower_stem2.png\" differs in letter case from the file on disk (res://assets/reanim/TwinSunflower_stem2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_stem2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf_righttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf_lefttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Sunflower_double_petals.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_double_petals.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_double_petals.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Sunflower_head.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_head.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_head.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_face2.tres",
+      "line": 18,
+      "message": "path=\"res://assets/reanim/Sunflower_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/SunFlower_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_blink.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Gloomshroom_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_blink.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Gloomshroom_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Gloomshroom_base.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_base.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_base.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Gloomshroom_shooter4.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_shooter4.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_shooter4.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Gloomshroom_shooter5.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_shooter5.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_shooter5.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Gloomshroom_head.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_head.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_head.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Gloomshroom_stem1.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_stem1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_stem1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Gloomshroom_shooter1.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_shooter1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_shooter1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Gloomshroom_stem2.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_stem2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_stem2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Gloomshroom_shooter2.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_shooter2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_shooter2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Gloomshroom_stem3.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_stem3.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_stem3.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Gloomshroom_shooter3.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_shooter3.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_shooter3.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Gloomshroom_face1.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_face1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_face1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 18,
+      "message": "path=\"res://assets/reanim/Gloomshroom_face2.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_face2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_face2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 19,
+      "message": "path=\"res://assets/reanim/Gloomshroom_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/043_gloom_shroom/GloomShroom_face.tres",
+      "line": 20,
+      "message": "path=\"res://assets/reanim/Gloomshroom_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/GloomShroom_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GloomShroom_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_blink.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Wintermelon_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_blink.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Wintermelon_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf_righttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf_lefttip.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Wintermelon_basket.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_basket.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_basket.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Wintermelon_projectile.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_projectile.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_projectile.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Wintermelon_basket_overlay.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_basket_overlay.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_basket_overlay.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Wintermelon_stalk.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_stalk.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_stalk.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Wintermelon_melon.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_melon.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_melon.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Wintermelon_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Wintermelon_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Wintermelon_eyebrow.png\" differs in letter case from the file on disk (res://assets/reanim/WinterMelon_eyebrow.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/WinterMelon_eyebrow.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/045_winter_melon/WinterMelon_face.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" differs in letter case from the file on disk (res://assets/reanim/PeaShooter_frontleaf.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_blink.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Goldmagnet_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_blink.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Goldmagnet_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Goldmagnet_stem.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_stem.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_stem.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf5.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_leaf5.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf5.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf1.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_leaf1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf4.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_leaf4.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf4.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Goldmagnet_head1.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_head1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_head1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Goldmagnet_head2.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_head2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_head2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Goldmagnet_eyebrow.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_eyebrow.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_eyebrow.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf2.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_leaf2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf3.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_leaf3.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf3.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Goldmagnet_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Goldmagnet_smallspark1.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_smallspark1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_smallspark1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 18,
+      "message": "path=\"res://assets/reanim/Goldmagnet_smallspark2.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_smallspark2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_smallspark2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 19,
+      "message": "path=\"res://assets/reanim/Goldmagnet_smallspark3.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_smallspark3.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_smallspark3.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 20,
+      "message": "path=\"res://assets/reanim/Goldmagnet_bigspark1.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_bigspark1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_bigspark1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 21,
+      "message": "path=\"res://assets/reanim/Goldmagnet_bigspark2.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_bigspark2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_bigspark2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_face.tres",
+      "line": 22,
+      "message": "path=\"res://assets/reanim/Goldmagnet_bigspark3.png\" differs in letter case from the file on disk (res://assets/reanim/GoldMagnet_bigspark3.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_bigspark3.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/047_spike_rock/SpikeRock_blink.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Spikerock_eyebrow.png\" differs in letter case from the file on disk (res://assets/reanim/SpikeRock_eyebrow.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SpikeRock_eyebrow.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/047_spike_rock/SpikeRock_eye_leftbrow.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Spikerock_eyebrow.png\" differs in letter case from the file on disk (res://assets/reanim/SpikeRock_eyebrow.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SpikeRock_eyebrow.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/047_spike_rock/SpikeRock_eye_rightbrow.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Spikerock_eyebrow.png\" differs in letter case from the file on disk (res://assets/reanim/SpikeRock_eyebrow.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SpikeRock_eyebrow.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/047_spike_rock/SpikeRock_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Spikerock_spike.png\" differs in letter case from the file on disk (res://assets/reanim/SpikeRock_spike.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SpikeRock_spike.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/047_spike_rock/SpikeRock_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Spikerock_body.png\" differs in letter case from the file on disk (res://assets/reanim/SpikeRock_body.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SpikeRock_body.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/047_spike_rock/SpikeRock_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Spikerock_eyebrow.png\" differs in letter case from the file on disk (res://assets/reanim/SpikeRock_eyebrow.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SpikeRock_eyebrow.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/047_spike_rock/SpikeRock_face.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Spikerock_mouth.png\" differs in letter case from the file on disk (res://assets/reanim/SpikeRock_mouth.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/SpikeRock_mouth.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_blink.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Cobcannon_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_blink.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Cobcannon_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_blink2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Cobcannon_wheel.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_wheel.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_wheel.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Cobcannon_log.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_log.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_log.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Cobcannon_fuse.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_fuse.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_fuse.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk4.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_husk4.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk4.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk3.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_husk3.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk3.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Cobcannon_cob.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_cob.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_cob.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk2.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_husk2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk2.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk1.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_husk1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Cobcannon_blink1.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_blink1.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_blink1.png\"."
+    },
+    {
+      "code": "path-case-mismatch",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_face.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Cobcannon_blink2.png\" differs in letter case from the file on disk (res://assets/reanim/CobCannon_blink2.png). It works on Windows/macOS but breaks on Linux and in exported games.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_blink2.png\"."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss.tscn",
+      "line": 35,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss.tscn",
+      "line": 37,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_death.tres",
+      "line": 10,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_death.tres",
+      "line": 11,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_1.tres",
+      "line": 3,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_1.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_2.tres",
+      "line": 3,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_2.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_3.tres",
+      "line": 3,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_3.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_4.tres",
+      "line": 3,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_4.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_5.tres",
+      "line": 3,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_attack_5.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_enter.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_enter.tres",
+      "line": 5,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_idle.tres",
+      "line": 3,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_idle.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_leave.tres",
+      "line": 3,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_head_leave.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_stomp_3.tres",
+      "line": 4,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "animation/character/zombie_boss/001_doctor/Zombie_boss_stomp_4.tres",
+      "line": 11,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "scenes/character/zombie_boss/zombie_boss_001_doctor.tscn",
+      "line": 17,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_upperbody.png\" does not exist and uid uid://dq55l4c8ehewh matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "scenes/character/zombie_boss/zombie_boss_001_doctor.tscn",
+      "line": 27,
+      "message": "ext_resource path=\"res://assets/image/particles/Zombie_boss_iceball_particles_flip_h.png\" does not exist and uid uid://cpfce4np462tn matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "scenes/character/zombie_boss/zombie_boss_001_doctor.tscn",
+      "line": 31,
+      "message": "ext_resource path=\"res://assets/reanim/Zombie_boss_neck.png\" does not exist and uid uid://hdhq0s4y5nlc matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    },
+    {
+      "code": "ext-resource-missing",
+      "file": "scenes/character/zombie_boss/zombie_boss_001_doctor.tscn",
+      "line": 125,
+      "message": "ext_resource path=\"res://assets/image/particles/Zombie_boss_fireball_particles_flip_h.png\" does not exist and uid uid://imwctyv3o2to matches no file; the resource fails to load.",
+      "fix": "Create the file, or point path= at the file's current location."
+    }
+  ],
+  "warnings": [
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_farthest.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_farthest.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_farthest.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_3rdfarthest.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_3rdfarthest.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_3rdfarthest.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_nearest.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_nearest.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_nearest.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_tip_bottom.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_tip_bottom.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_tip_bottom.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_2rdfarthest.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_2rdfarthest.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_2rdfarthest.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_tip_top.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_tip_top.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_tip_top.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_Head.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_Head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_head_idle.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Peashooter_eyebrow.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_eyebrow.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_eyebrow.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_idle.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_idle.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_idle.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_idle.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Peashooter_stalk_bottom.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_stalk_bottom.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_stalk_bottom.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_idle.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_stalk_top.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_stalk_top.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_stalk_top.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_idle.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_idle.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_idle.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_farthest.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_farthest.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_farthest.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_3rdfarthest.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_3rdfarthest.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_3rdfarthest.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_nearest.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_nearest.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_nearest.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_tip_bottom.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_tip_bottom.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_tip_bottom.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_2rdfarthest.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_2rdfarthest.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_2rdfarthest.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_headleaf_tip_top.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_headleaf_tip_top.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_headleaf_tip_top.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_Head.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_Head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Peashooter_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Peashooter_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/008_pea_shooter_double/PeaShooter_shooting.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Peashooter_eyebrow.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_eyebrow.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_eyebrow.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom_blink.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Fumeshroom_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/FumeShroom_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom_face.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Fumeshroom_body.png\" is out of date; Godot finds the file by uid at res://assets/reanim/FumeShroom_body.png.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_body.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom_face.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Fumeshroom_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/FumeShroom_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom_face.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Fumeshroom_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/FumeShroom_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom_face.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Fumeshroom_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/FumeShroom_head.png.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Fumeshroom_spout.png\" is out of date; Godot finds the file by uid at res://assets/reanim/FumeShroom_spout.png.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_spout.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/011_fume_shroom/FumeShroom_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Fumeshroom_tip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/FumeShroom_tip.png.",
+      "fix": "Set path=\"res://assets/reanim/FumeShroom_tip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_blink.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye2.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_blink.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye1.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_eye1.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye2.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_eye1.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye1.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_eye2.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye2.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_eye2.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye1.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_head_inner.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_head_inner.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_head_inner.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_stem.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_stem.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_stem.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye2.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye_big.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye_big.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye_big.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_lips.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_lips.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_lips.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eye1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eye1.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eye1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_head2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_head2.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_head2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eyebrow1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eyebrow1.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eyebrow1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_eyebrow2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_eyebrow2.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_eyebrow2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/014_scaredy_shroom/ScaredyShroom_face.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Scaredyshroom_sweat.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ScaredyShroom_sweat.png.",
+      "fix": "Set path=\"res://assets/reanim/ScaredyShroom_sweat.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink1.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink2.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink2.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Threepeater_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink2.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink2.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Threepeater_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink2.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink2.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink3.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink3.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Threepeater_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink3.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_blink3.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Threepeater_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face1.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face1.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Threepeater_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face1.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face1.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Threepeater_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face1.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Threepeater_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face2.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face2.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Threepeater_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face2.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face2.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Threepeater_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face2.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face2.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face2.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Threepeater_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face3.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face3.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Threepeater_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face3.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face3.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Threepeater_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face3.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face3.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_face3.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Threepeater_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Threepeater_stem3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Threepeater_stem1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Threepeater_stem2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Threepeater_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Threepeater_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head1.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Threepeater_stem3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Threepeater_stem1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Threepeater_stem2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Threepeater_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Threepeater_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head2.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Threepeater_stem3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Threepeater_stem1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Threepeater_stem2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_stem2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_stem2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Threepeater_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_head.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Threepeater_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Threepeater_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf3.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/019_ThreePeater/ThreePeater_head3.tres",
+      "line": 17,
+      "message": "path=\"res://assets/reanim/Threepeater_headleaf2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ThreePeater_headleaf2.png.",
+      "fix": "Set path=\"res://assets/reanim/ThreePeater_headleaf2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_blink.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Seashroom_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_blink.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Seashroom_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Seashroom_tentacles.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_tentacles.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_tentacles.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Seashroom_body.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_body.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_body.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Seashroom_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Seashroom_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Seashroom_tentacles_zengarden.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_tentacles_zengarden.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_tentacles_zengarden.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Seashroom_foam.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_foam.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_foam.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Seashroom_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_head.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Seashroom_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Seashroom_lips.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_lips.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_lips.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_waterline.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Seashroom_tentacles.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_tentacles.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_tentacles.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_waterline.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Seashroom_body.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_body.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_body.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_waterline.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Seashroom_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_waterline.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Seashroom_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_waterline.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Seashroom_foam.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_foam.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_foam.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_waterline.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Seashroom_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_head.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_waterline.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Seashroom_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/025_sea_shroom/SeaShroom_waterline.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Seashroom_lips.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SeaShroom_lips.png.",
+      "fix": "Set path=\"res://assets/reanim/SeaShroom_lips.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_SplitPea_blink.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_blink.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Peashooter_stalk_bottom.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_stalk_bottom.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_stalk_bottom.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_stalk_top.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_stalk_top.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_stalk_top.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Peashooter_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_Head.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_Head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Peashooter_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Peashooter_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 15,
+      "message": "path=\"res://assets/reanim/Peashooter_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/029_split_pea/SplitPea_face.tres",
+      "line": 16,
+      "message": "path=\"res://assets/reanim/Peashooter_eyebrow.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_eyebrow.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_eyebrow.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_head_idle.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Gatlingpea_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GatlingPea_head.png.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_head_idle.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Gatlingpea_mouth.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GatlingPea_mouth.png.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_mouth.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_head_idle.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Gatlingpea_barrel.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GatlingPea_barrel.png.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_barrel.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_head_idle.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Gatlingpea_mouth_overlay.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GatlingPea_mouth_overlay.png.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_mouth_overlay.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_head_idle.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_eyebrow.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_eyebrow.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_eyebrow.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_head_idle.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Gatlingpea_helmet.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GatlingPea_helmet.png.",
+      "fix": "Set path=\"res://assets/reanim/GatlingPea_helmet.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_idle.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_idle.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_idle.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_idle.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Peashooter_stalk_bottom.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_stalk_bottom.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_stalk_bottom.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_idle.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Peashooter_stalk_top.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_stalk_top.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_stalk_top.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_idle.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_idle.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/041_gatling_pea/GatlingPea_idle.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Peashooter_backleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_backleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_backleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Twinsunflower_stem1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/TwinSunflower_stem1.png.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_stem1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Twinsunflower_leaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/TwinSunflower_leaf.png.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_leaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Twinsunflower_stem2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/TwinSunflower_stem2.png.",
+      "fix": "Set path=\"res://assets/reanim/TwinSunflower_stem2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_righttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_righttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_righttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Peashooter_frontleaf_lefttip.png\" is out of date; Godot finds the file by uid at res://assets/reanim/PeaShooter_frontleaf_lefttip.png.",
+      "fix": "Set path=\"res://assets/reanim/PeaShooter_frontleaf_lefttip.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Sunflower_double_petals.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SunFlower_double_petals.png.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_double_petals.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Sunflower_head.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SunFlower_head.png.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_head.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/042_twin_sun_flower/TwinSunFlower_idle.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Sunflower_blink2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/SunFlower_blink2.png.",
+      "fix": "Set path=\"res://assets/reanim/SunFlower_blink2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Goldmagnet_stem.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_stem.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_stem.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf5.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_leaf5.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf5.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_leaf1.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf4.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_leaf4.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf4.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Goldmagnet_head1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_head1.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_head1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Goldmagnet_eyebrow.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_eyebrow.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_eyebrow.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_leaf2.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Goldmagnet_leaf3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_leaf3.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_leaf3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Goldmagnet_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Goldmagnet_smallspark1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_smallspark1.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_smallspark1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Goldmagnet_smallspark2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_smallspark2.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_smallspark2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/046_gold_magnet/GoldMagnet_idle.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Goldmagnet_smallspark3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/GoldMagnet_smallspark3.png.",
+      "fix": "Set path=\"res://assets/reanim/GoldMagnet_smallspark3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Cobcannon_wheel.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_wheel.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_wheel.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Cobcannon_log.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_log.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_log.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Cobcannon_fuse.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_fuse.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_fuse.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk4.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_husk4.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk4.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_husk3.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Cobcannon_cob.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_cob.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_cob.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_husk2.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_husk1.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_idle.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Cobcannon_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_unarmed_idle.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Cobcannon_wheel.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_wheel.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_wheel.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_unarmed_idle.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Cobcannon_log.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_log.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_log.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_unarmed_idle.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Cobcannon_fuse.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_fuse.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_fuse.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_unarmed_idle.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk4.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_husk4.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk4.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_unarmed_idle.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_husk3.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_unarmed_idle.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_husk2.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_unarmed_idle.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Cobcannon_husk1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_husk1.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_husk1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/plant/048_cob_cannon/CobCannon_unarmed_idle.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Cobcannon_blink1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/CobCannon_blink1.png.",
+      "fix": "Set path=\"res://assets/reanim/CobCannon_blink1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/zombie/017_zombie_balloon/Zombie_balloon_head1.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Zombie_balloon_outerleg_foot.png\" is out of date; Godot finds the file by uid at res://assets/reanim/Zombie_balloon_outerleg_FOOT.png.",
+      "fix": "Set path=\"res://assets/reanim/Zombie_balloon_outerleg_FOOT.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/zombie/017_zombie_balloon/Zombie_balloon_head2.tres",
+      "line": 14,
+      "message": "path=\"res://assets/reanim/Zombie_balloon_outerleg_foot.png\" is out of date; Godot finds the file by uid at res://assets/reanim/Zombie_balloon_outerleg_FOOT.png.",
+      "fix": "Set path=\"res://assets/reanim/Zombie_balloon_outerleg_FOOT.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/character/zombie/999_zombie_boss/Zombie_boss_RV_1.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Zombie_boss_rvwheel.png\" is out of date; Godot finds the file by uid at res://assets/reanim/Zombie_boss_RVwheel.png.",
+      "fix": "Set path=\"res://assets/reanim/Zombie_boss_RVwheel.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 3,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan_water1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan_water1.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan_water1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan_water2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan_water2.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan_water2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 5,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan_water3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan_water3.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan_water3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 6,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan_water4.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan_water4.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan_water4.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 7,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan_water5.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan_water5.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan_water5.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 8,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan_water6.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan_water6.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan_water6.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 9,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan_water8.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan_water8.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan_water8.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 10,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan1.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 11,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan2.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan2.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan2.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 12,
+      "message": "path=\"res://assets/reanim/Zengarden_wateringcan3.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden_wateringcan3.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden_wateringcan3.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/garden/wateringcan/ZenGarden_wateringcan_water.tres",
+      "line": 13,
+      "message": "path=\"res://assets/reanim/Zengarden-wateringcan4.png\" is out of date; Godot finds the file by uid at res://assets/reanim/ZenGarden-wateringcan4.png.",
+      "fix": "Set path=\"res://assets/reanim/ZenGarden-wateringcan4.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "ext-resource-path-stale",
+      "file": "animation/item/Hammer/Hammer_open_pot.tres",
+      "line": 4,
+      "message": "path=\"res://assets/reanim/Hammer_1.png\" is out of date; Godot finds the file by uid at res://assets/reanim/hammer_1.png.",
+      "fix": "Set path=\"res://assets/reanim/hammer_1.png\" (the editor also fixes it when the scene is re-saved)."
+    },
+    {
+      "code": "uid-file-orphaned",
+      "file": "scripts/examples/event_bus_example.gd.uid",
+      "line": 1,
+      "message": "UID file has no source file res://scripts/examples/event_bus_example.gd.",
+      "fix": "If the script/shader was moved, move this .uid file next to it; if it was deleted, delete this file."
+    },
+    {
+      "code": "uid-file-orphaned",
+      "file": "scripts/examples/scaredy_shroom_refactor.gd.uid",
+      "line": 1,
+      "message": "UID file has no source file res://scripts/examples/scaredy_shroom_refactor.gd.",
+      "fix": "If the script/shader was moved, move this .uid file next to it; if it was deleted, delete this file."
+    },
+    {
+      "code": "uid-file-orphaned",
+      "file": "scripts/examples/store_system_refactor.gd.uid",
+      "line": 1,
+      "message": "UID file has no source file res://scripts/examples/store_system_refactor.gd.",
+      "fix": "If the script/shader was moved, move this .uid file next to it; if it was deleted, delete this file."
+    }
+  ],
+  "truncated": false
+}

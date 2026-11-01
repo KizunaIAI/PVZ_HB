@@ -1,0 +1,5 @@
+# 原始引擎录制、诊断日志及中间检查图留在本地，最终 PNG 与 MP4 可正常收录。
+*.avi
+*.log
+*_contact.png
+parts_contact.png

@@ -16,6 +16,7 @@ var blacklist_refresh_zombie_types: Array[CharacterRegistry.ZombieType] = [
 	CharacterRegistry.ZombieType.Z010Dancer,
 	CharacterRegistry.ZombieType.Z025Imp,
 	CharacterRegistry.ZombieType.Z1001BobsledSingle,
+	CharacterRegistry.ZombieType.Z1002DaFeiYu, ## 暂仅供图鉴与手动召唤，禁止进入自然出怪池
 ]
 
 ## 随机罐子刷新的植物白名单
@@ -36,6 +37,7 @@ var blacklist_plant_types_with_pot: Array[CharacterRegistry.PlantType] = [
 ]
 ## 随机罐子刷新的僵尸黑名单,白名单使用自然刷怪白名单
 var blacklist_zombie_types_with_pot: Array[CharacterRegistry.ZombieType] = [
+	CharacterRegistry.ZombieType.Z1002DaFeiYu, ## 随机罐子同样不生成 Boss
 	CharacterRegistry.ZombieType.Null,
 	CharacterRegistry.ZombieType.Z011Duckytube,
 ]

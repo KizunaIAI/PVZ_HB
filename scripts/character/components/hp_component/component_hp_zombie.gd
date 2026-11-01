@@ -91,6 +91,12 @@ func get_all_hp():
 ## [is_drop_2:bool] 是否有掉落额外条件
 ## return bool: 返回是否死亡
 func Hp_loss(attack_value:int, bullet_mode :BulletRegistry.AttackMode =BulletRegistry.AttackMode.Norm, is_drop_on_death=true, trigger_be_attack_SFX:=true, is_drop_2:=true):
+	# 本模式晒伤对敌方全部伤害生效，友军不承受增幅；其他模式未注册读取器。
+	if attack_value > 0 and not owner_character.is_hypno and is_instance_valid(Global.main_game):
+		# 实时查询可以即时反映成长、死亡和出售，不给僵尸留下永久增伤缓存。
+		var reader: Callable = Global.main_game.get_meta("currency_war_sunburn_reader", Callable())
+		if reader.is_valid():
+			attack_value = roundi(attack_value * (1.0 + float(reader.call())))
 	var ori_hp = get_all_hp()
 	## 掉血标志, 1:本体 2:一类防具 4:二类防具
 	var flag_loss:int = 0

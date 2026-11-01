@@ -23,7 +23,13 @@ func _init_attack_component_bullet_three_pea(row_col:Vector2i):
 
 
 func _shoot_bullet():
-	for i in range(3):
+	# 模式按真实开放草坪补偿；普通模式继续使用原版物理地图边路。
+	var active: Array = Global.main_game.get_meta("currency_war_active_lanes", []) if is_instance_valid(Global.main_game) else []
+	# 每个头独立发射，原本越界的一颗回到本行，特殊大豌豆概率仍逐颗计算。
+	for i: int in range(3):
+		if not active.is_empty() and not active.has(owner.row_col.x + i - 1):
+			_create_bullte(0.3, 1)
+			continue
 		## 边路补偿补偿
 		if (bullet_border_compensation == 1 and i == 0) or (bullet_border_compensation == -1 and i == 2):
 			_create_bullte(0.3, 1)
@@ -36,7 +42,9 @@ func _shoot_bullet():
 
 func _create_bullte(await_time:float, i:int=1, change_y_target:bool=false):
 	if await_time:
-		await get_tree().create_timer(await_time).timeout
+		await get_tree().create_timer(await_time, false).timeout
+		if not is_instance_valid(owner) or owner.is_death:
+			return
 	# 三个头分别调用同一模式工厂，各自独立判定大豌豆；原版依然返回普通豌豆。
 	var bullet: Bullet000Base = create_attack_bullet()
 	var bullet_paras: Dictionary = _build_three_pea_bullet_paras(i, change_y_target)

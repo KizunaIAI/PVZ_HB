@@ -22,6 +22,7 @@ enum E_ChangeColors{
 	CreateSunColor,
 	LightAndDark,	## 明暗交替颜色变化(紫卡种植\咖啡豆)
 	CharredBlack,	## 被炸弹炸黑
+	PoisonColor,	## 中毒独立染绿，与冰冻、魅惑及受击闪亮相乘，结束时只清除此项
 }
 
 

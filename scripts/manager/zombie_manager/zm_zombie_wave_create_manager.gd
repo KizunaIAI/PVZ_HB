@@ -81,6 +81,8 @@ var zombie_choose_random_pool:RandomPicker
 
 ## 每波最大僵尸数量
 @export var max_zombies_per_wave = 50
+## 货币战争当前节点的每波自然出怪数量；0表示未配置，其他模式仍走原版战力预算。
+var currency_war_wave_count: int = 0
 ## 刷新类型最小战力
 var min_power:=100
 ## 当前所有可能出怪僵尸权重上限和,每波修改
@@ -179,6 +181,8 @@ func wave_create_zombie(
 #region 创建当前波僵尸生成列表
 ## 创建当前波僵尸生成列表
 func create_curr_wave_zombie_list(wave:int, is_big_wave:bool):
+	if zombie_manager.game_para.game_mode == MainSceneRegistry.MainScenes.CurrencyWar and currency_war_wave_count > 0:
+		return _create_currency_war_zombie_list()
 	## 计算当前波僵尸战力上限
 	var curr_wave_power_limit = calculate_wave_power_limit(wave, is_big_wave)
 	## 更新僵尸权重上限
@@ -188,16 +192,26 @@ func create_curr_wave_zombie_list(wave:int, is_big_wave:bool):
 
 	return wave_spawn
 
+
+## 按当前节点数量从已解锁随机池独立抽取，保留原版权重与数量上限，不因高战力类型减少僵尸数量。
+func _create_currency_war_zombie_list() -> Array[CharacterRegistry.ZombieType]:
+	# 只返回自然出怪清单，原版选行、创建、死亡与末波结算流程保持复用。
+	var wave_spawn: Array[CharacterRegistry.ZombieType] = []
+	# 正常曲线为10至38只，保护上限以兼容后续手动调参。
+	var count: int = clampi(currency_war_wave_count, 1, max_zombies_per_wave)
+	# 每个自然出怪名额独立抽取，累计池里新类型不强制保底出现。
+	for slot: int in range(count):
+		# 蹦极即使误入随机池也改为普通，不开启抓植物的特殊刷新流程。
+		var zombie_type: CharacterRegistry.ZombieType = zombie_choose_random_pool.get_random_item()
+		wave_spawn.append(CharacterRegistry.ZombieType.Z001Norm if zombie_type == CharacterRegistry.ZombieType.Z021Bungi else zombie_type)
+	return wave_spawn
+
 ## 计算每波的战力上限
 func calculate_wave_power_limit(wave:int, is_big_wave: bool) -> int:
 	## x从0开始
 	## 计算战力上限 = y=int(x/3)+1
 	@warning_ignore("integer_division")
 	var base_power_limit:int = wave / 3 + 1
-	if zombie_manager.game_para.game_mode == MainSceneRegistry.MainScenes.CurrencyWar:
-		# 一至四波节点仍需让新解锁类型有机会被抽到，预算下限取池中最高原版战力，不固定刷出某一类型。
-		for zombie_type: int in zombie_manager.zombie_refresh_types:
-			base_power_limit = maxi(base_power_limit, int(zombie_power[zombie_type]))
 	## 如果是大波，战力上限是原战力上限的2.5倍
 	if is_big_wave:
 		return int(base_power_limit * 2.5) * zombie_multy
@@ -345,6 +359,9 @@ func _zombie_seaweed(z:Zombie001Norm):
 
 #region 蹦极僵尸
 func spawn_bungi_zombies():
+	# 货币战争明确暂不出现蹦极，特殊刷新入口同样关闭，防止只排除随机池仍漏刷。
+	if zombie_manager.game_para.game_mode == MainSceneRegistry.MainScenes.CurrencyWar:
+		return
 	## 选择plant_cell
 	var num_bungi_rand:int = randi_range(range_num_bungi.x, range_num_bungi.y)
 	var all_cell_have_plant:Array[PlantCell] = zombie_manager.main_game.plant_cell_manager.get_cell_have_plant()

@@ -25,6 +25,8 @@ var curr_attack_num:=0
 @export var max_distance := 2000.0
 ## 子弹初始位置
 var start_pos: Vector2
+## 发射本颗子弹的角色；只传递受击来源，不持有植物存活保证，命中前可能已被移除。
+var source_character: Character000Base
 ## 默认是否激活行属性，激活后只能攻击本行的僵尸
 @export var default_is_activate_lane:=true
 var is_activate_lane:bool
@@ -67,11 +69,13 @@ enum E_InitParasAttr{
 	## 抛物线子弹\追踪子弹额外属性
 	Enemy,				## 子弹选中的敌人
 	EnemyGloPos,		## 敌人位置(发射子弹时敌人若已经消失,抛物线依旧可以攻击)
+	SourceCharacter,	## 发射角色，用于需要定向反击的敌人；追加编号以兼容旧参数
 
 }
 
 ## 初始化子弹属性
 func init_bullet(bullet_paras:Dictionary):
+	source_character = bullet_paras.get(E_InitParasAttr.SourceCharacter)
 	## 子弹行
 	self.is_activate_lane = bullet_paras.get(E_InitParasAttr.IsActivateLane, default_is_activate_lane)
 	self.lane = bullet_paras.get(E_InitParasAttr.BulletLane, -1)
@@ -94,6 +98,7 @@ func get_bullet_paras()->Dictionary[E_InitParasAttr,Variant]:
 		E_InitParasAttr.Direction : self.direction,
 		E_InitParasAttr.CanAttackPlantState : self.can_attack_plant_status,
 		E_InitParasAttr.CanAttackZombieState : self.can_attack_zombie_status,
+		E_InitParasAttr.SourceCharacter : source_character if is_instance_valid(source_character) else null,
 	}
 
 ## 子弹与敌人碰撞
@@ -172,7 +177,12 @@ func attack_once(enemy:Character000Base):
 	if max_attack_num != -1 and curr_attack_num > max_attack_num:
 		return
 	## 对敌人造成伤害
+	# 只在本次同步命中期间提供来源，后续无来源的爆炸或持续伤害不能误用上一颗子弹的植物。
+	if is_instance_valid(enemy) and enemy.has_method("set_damage_source"):
+		enemy.set_damage_source(source_character if is_instance_valid(source_character) else null)
 	_attack_enemy(enemy)
+	if is_instance_valid(enemy) and enemy.has_method("set_damage_source"):
+		enemy.set_damage_source(null)
 	## 是否有音效
 	if type_bullet_SFX != SoundManagerClass.TypeBulletSFX.Null:
 		SoundManager.play_bullet_attack_SFX(type_bullet_SFX)

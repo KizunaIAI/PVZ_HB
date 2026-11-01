@@ -170,8 +170,8 @@ func create_plant(plant_type:CharacterRegistry.PlantType, is_imitater:=false, is
 		plant.imitater_plant_type = plant_type
 	else:
 		## 如果该植物为紫卡
-		# 货币战争的机枪豌豆直接种植，不消耗双发；其他紫卡及原版模式保持前置升级规则。
-		if plant_condition.is_purple_card and not (plant_type == CharacterRegistry.PlantType.P041GatlingPea and Global.game_para.game_mode == MainSceneRegistry.MainScenes.CurrencyWar):
+		# 货币战争升级植物直接放置，不消耗前置；其他模式保留原版升级流程。
+		if plant_condition.is_purple_card and not plant_condition.uses_currency_war_direct_placement():
 			## 删除紫卡前置植物,创建新植物
 			var condition_pre_plant :ResourcePlantCondition = Global.character_registry.get_plant_info(Global.character_registry.AllPrePlantPurple[plant_type], CharacterRegistry.PlantInfoAttribute.PlantConditionResource)
 			if is_instance_valid(plant_in_cell[condition_pre_plant.place_plant_in_cell]):

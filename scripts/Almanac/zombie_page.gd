@@ -15,7 +15,12 @@ func init_almanac_page() -> void:
 #
 ## 植物卡片初始化类型 连接点击信号
 func init_zombie_card():
-	for zombie_type in Global.global_game_state.curr_zombie:
+	# 图鉴单独补入新 Boss，兼容旧存档，不影响解锁列表与正常关卡出怪。
+	var entries: Array[CharacterRegistry.ZombieType] = Global.global_game_state.curr_zombie.duplicate()
+	if not entries.has(CharacterRegistry.ZombieType.Z1002DaFeiYu):
+		entries.append(CharacterRegistry.ZombieType.Z1002DaFeiYu)
+	# 每个图鉴条目对应一个已注册的角色编号。
+	for zombie_type: CharacterRegistry.ZombieType in entries:
 		var curr_zombie_name = Global.character_registry.get_zombie_info(zombie_type, CharacterRegistry.ZombieInfoAttribute.ZombieName)
 		if Global.global_read_data.data_almanac["Zombie"].has(curr_zombie_name):
 			var curr_zombie_card:AlmanacZombieCard = ALMANAC_ZOMBIE_CARD.instantiate()

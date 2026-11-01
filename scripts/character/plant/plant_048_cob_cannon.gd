@@ -75,7 +75,9 @@ func ready_norm_signal_connect():
 	cob_cannon_target.signal_cannon_fire.connect(attack_start)
 
 ## 开始攻击,获取攻击位置
+## [param target_global_pos]为世界坐标落点；货币战争只在实际开炮时累计一次装备攻击动作。
 func attack_start(target_global_pos:Vector2):
+	currency_war_attack_action()
 	self.attack_target_global_pos = target_global_pos
 	is_bullet = false
 	is_attack = true
@@ -87,6 +89,11 @@ func shoot_bullet():
 	is_attack = false
 
 	var bullet_cob_cannon :Bullet016CobCannon =  Global.bullet_registry.get_bullet_scenes(BulletRegistry.BulletType.Bullet016CobCannon).instantiate()
+	if has_meta("currency_war_attack_value"):
+		# 爆炸仍由原版子弹触发，仅写入本颗实例的实时伤害与装备斩杀。
+		var bomb: BombComponentBase = bullet_cob_cannon.get_node("BombComponent") as BombComponentBase
+		bomb.bomb_value = int(get_meta("currency_war_attack_value"))
+		bullet_cob_cannon.set_meta("currency_war_execute", get_meta("currency_war_execute", 0.0))
 	bullet_cob_cannon.init_cannon(attack_target_global_pos)
 	Global.main_game.bullets.add_child(bullet_cob_cannon)
 	bullet_cob_cannon.global_position = marker_2d_bullet.global_position

@@ -1,0 +1,4 @@
+# 原始录像及运行日志保留本地，交付的 GIF、PNG、MP4 可收录。
+*.avi
+*.log
+*_contact.png

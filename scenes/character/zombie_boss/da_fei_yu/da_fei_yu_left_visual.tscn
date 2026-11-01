@@ -1,0 +1,208 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/idle_left_parts_v1/head.png" id="head"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/idle_left_parts_v1/dress.png" id="dress"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/idle_left_parts_v1/arm.png" id="arm"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/idle_left_parts_v1/legs.png" id="legs"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/idle_left_parts_v1/hair.png" id="hair"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/idle_left_parts_v1/tail.png" id="tail"]
+[ext_resource type="Animation" path="res://animation/character/zombie_boss/da_fei_yu/da_fei_yu_idle_left.tres" id="idle"]
+
+[sub_resource type="Animation" id="Animation_reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyMotion:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -150)]
+}
+
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BodyMotion:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BodyMotion/HeadPivot:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-18, -68)]
+}
+
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("BodyMotion/HeadPivot:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("HairPivot:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(28, -410)]
+}
+
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HairPivot:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("TailPivot:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(30, -122)]
+}
+
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("TailPivot:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("BodyMotion/ArmPivot:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_idle"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"idle": ExtResource("idle")
+}
+
+[node name="DaFeiYuLeftVisual" type="Node2D"]
+texture_filter = 2
+
+[node name="TailPivot" type="Node2D" parent="."]
+position = Vector2(30, -122)
+z_index = 0
+
+[node name="Tail" type="Sprite2D" parent="TailPivot"]
+position = Vector2(-9, -57)
+z_index = 0
+texture = ExtResource("tail")
+centered = false
+
+[node name="HairPivot" type="Node2D" parent="."]
+position = Vector2(28, -410)
+z_index = 1
+
+[node name="Hair" type="Sprite2D" parent="HairPivot"]
+position = Vector2(-110, 0)
+z_index = 0
+texture = ExtResource("hair")
+centered = false
+
+[node name="Legs" type="Sprite2D" parent="."]
+position = Vector2(-58, -72)
+z_index = 2
+texture = ExtResource("legs")
+centered = false
+
+[node name="BodyMotion" type="Node2D" parent="."]
+position = Vector2(0, -150)
+z_index = 3
+
+[node name="Dress" type="Sprite2D" parent="BodyMotion"]
+position = Vector2(-98, -118)
+z_index = 1
+texture = ExtResource("dress")
+centered = false
+
+[node name="ArmPivot" type="Node2D" parent="BodyMotion"]
+position = Vector2(35, -85)
+z_index = 2
+
+[node name="Arm" type="Sprite2D" parent="BodyMotion/ArmPivot"]
+position = Vector2(-27, -10)
+z_index = 0
+texture = ExtResource("arm")
+centered = false
+
+[node name="HeadPivot" type="Node2D" parent="BodyMotion"]
+position = Vector2(-18, -68)
+z_index = 3
+
+[node name="Head" type="Sprite2D" parent="BodyMotion/HeadPivot"]
+position = Vector2(-125, -268)
+z_index = 2
+texture = ExtResource("head")
+centered = false
+
+[node name="CollarOverlay" type="Sprite2D" parent="BodyMotion"]
+position = Vector2(-58, -118)
+z_index = 6
+texture = ExtResource("dress")
+centered = false
+region_enabled = true
+region_rect = Rect2(40, 0, 82, 65)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_idle")
+}
+autoplay = "idle"

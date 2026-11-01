@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cdyjc082p66u0"]
+
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_left_v2_visual.tscn" id="base"]
+[ext_resource type="Texture2D" uid="uid://rr377v5q6jya" path="res://assets/image/character/boss/da_fei_yu/steel_basin_v1/basin.png" id="basin"]
+
+[node name="DaFeiYuSteelBasinVisual" unique_id=889029449 instance=ExtResource("base")]
+
+[node name="Feet" parent="Rig/Skeleton2D" index="0"]
+bone_angle = 0.0
+
+[node name="Body" parent="Rig/Skeleton2D" index="1"]
+bone_angle = 0.0
+
+[node name="Head" parent="Rig/Skeleton2D" index="2"]
+bone_angle = 0.0
+
+[node name="SteelBasin" type="Sprite2D" parent="Rig/Skeleton2D/Head" index="0" unique_id=1198718634]
+z_index = 10
+position = Vector2(30.920002, -196.49997)
+scale = Vector2(1.0938776, 1.2524267)
+texture = ExtResource("basin")
+
+[node name="Hair" parent="Rig/Skeleton2D" index="3"]
+bone_angle = 0.0
+
+[node name="Tail" parent="Rig/Skeleton2D" index="4"]
+bone_angle = 0.0
+
+[node name="AnimationPlayer" parent="." index="1"]
+autoplay = &"idle"

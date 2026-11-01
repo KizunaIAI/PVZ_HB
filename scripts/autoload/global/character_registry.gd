@@ -132,6 +132,7 @@ enum ZombieType {
 	Z025Imp,
 
 	Z1001BobsledSingle=1001,	## 单个雪橇车僵尸
+	Z1002DaFeiYu = 1002,	## 大肥鱼 Boss，仅图鉴与开发者召唤开放
 	}
 
 ## 僵尸行类型
@@ -758,6 +759,13 @@ const ZombieInfo = {
 	},
 
 	## 单独雪橇僵尸
+	ZombieType.Z1002DaFeiYu: {
+		ZombieInfoAttribute.ZombieName: "DaFeiYu",
+		ZombieInfoAttribute.CoolTime: 0.0,
+		ZombieInfoAttribute.SunCost: 0,
+		ZombieInfoAttribute.ZombieScenes: preload("res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_boss.tscn"),
+		ZombieInfoAttribute.ZombieRowType: ZombieRowType.Land,
+	},
 	ZombieType.Z1001BobsledSingle:{
 		ZombieInfoAttribute.ZombieName: "ZombieBobsledSingle",
 		ZombieInfoAttribute.CoolTime: 0.0,

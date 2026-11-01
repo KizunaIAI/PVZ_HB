@@ -26,8 +26,8 @@ const ACCENT: Color = Color("b9ed96")
 const GOLD_COLOR: Color = Color("f0cf7b")
 ## 大纲规定白绿蓝紫金分别对应一至五费，未定义的高费植物不填入商店。
 const TIER_COLORS: Array[Color] = [Color("e8efdf"), Color("9fdfaf"), Color("96cafa"), Color("d7adf8"), Color("f0cf7b")]
-## 左侧羁绊展示顺序及已实现的不同植物种类门槛；灰烬尚无生效档位。
-const TRAIT_DISPLAY_TIERS: Dictionary = {"豌豆": [3, 5, 7, 10], "阳光": [2, 3, 4], "灰烬": []}
+## 左侧阵营展示顺序与不同植物种类门槛；灰烬、毒和孢子未定义羁绊效果。
+const TRAIT_DISPLAY_TIERS: Dictionary = {"豌豆": [3, 5, 7, 10], "阳光": [2, 3, 4], "灰烬": [], "毒": [], "孢子": [], "召唤": []}
 ## 羁绊门槛未达成时的暗色，与高亮金色形成明确区分。
 const TRAIT_INACTIVE_COLOR: Color = Color("6b7770")
 ## 羁绊名称始终使用的亮白色，配合深色描边在浅色地图上保持可读。
@@ -37,6 +37,9 @@ const TRAIT_DISPLAY_TIPS: Dictionary = {
 	"豌豆": "豌豆：3/5/7/10种分别激活攻击、攻速与头盔效果；只计算场上不同种类。",
 	"阳光": "阳光：2/3/4种在节点结算时额外获得1/2/4阳光；只计算场上不同种类。",
 	"灰烬": "灰烬：当前尚无已实现的羁绊档位。",
+	"毒": "毒：当前仅标记植物阵营，羁绊效果尚未定义。",
+	"孢子": "孢子：当前仅标记植物阵营，羁绊效果尚未定义。",
+	"召唤": "召唤：当前仅标记植物阵营，羁绊效果尚未定义。",
 }
 
 ## 请求购买从零开始的[param slot]商品。
@@ -122,6 +125,8 @@ var _refresh_button: Button
 var _lock_button: Button
 ## 镜头预览期间禁止商店快捷键，准备阶段再恢复。
 var _previewing: bool = false
+## 开发者面板打开时停止处理商店快捷键，避免数字输入和空格误触交易；面板关闭后恢复。
+var developer_input_blocked: bool = false
 ## 当前选择的铲除按钮。
 var _sell_button: Button
 ## 准备阶段开始防守的按钮。
@@ -346,6 +351,8 @@ func show_merge_result(result: Dictionary) -> void:
 
 ## 优先处理[param event]中的D键和空格，避免焦点按钮先消费空格；设置打开时停用局内快捷键，允许Esc关闭。
 func _input(event: InputEvent) -> void:
+	if developer_input_blocked:
+		return
 	if _equipment_detail.visible and event is InputEventMouseButton and event.pressed and not _equipment_detail.get_global_rect().has_point(get_viewport().get_mouse_position()):
 		_equipment_detail.hide()
 	if _previewing:
@@ -377,6 +384,8 @@ func _input(event: InputEvent) -> void:
 
 ## 接收[param event]中的右键取消；设置打开时保留现有选择，不让输入穿透遮罩。
 func _unhandled_input(event: InputEvent) -> void:
+	if developer_input_blocked:
+		return
 	if _settings_overlay.visible:
 		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
@@ -442,7 +451,7 @@ func _build_market() -> void:
 	_lock_button = _button(_shop_drawer, Rect2(518, 76, 44, 44), "锁定", lock_requested.emit)
 	_lock_button.add_theme_font_size_override("font_size", 13)
 	_lock_button.toggle_mode = true
-	_lock_button.tooltip_text = "开启后，下一节点保留当前商品及售空位置一次，随后自动解除；关闭时新节点免费刷新。"
+	_lock_button.tooltip_text = "开启后，下一节点保留商品及售空位置一次，随后自动解除；跨地图无法上架的商品按原稀有度替换。关闭时新节点免费刷新。"
 	_level_button = _button(_market_drawer, Rect2(0, 51, 76, 76), "等级1\n0/4", experience_requested.emit)
 	_level_button.add_theme_font_size_override("font_size", 17)
 	_level_button.tooltip_text = "点击花费4阳光购买4经验，增加上场植物种类上限；睡莲和花盆不计入。"
@@ -489,7 +498,7 @@ func _build_trait_panel() -> void:
 	# 覆盖通用面板样式，保留羁绊内容和悬浮说明但不遮住庭院背景。
 	_trait_panel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
 	_trait_panel.hide()
-	# 固定顺序创建三种当前牌库会出现的羁绊行，实时刷新只切换内容和颜色。
+	# 固定顺序创建当前牌库会出现的阵营行，未定义羁绊只显示未开放，实时刷新只切换内容和颜色。
 	for trait_name: String in TRAIT_DISPLAY_TIERS:
 		# 单行承载图标、名称和门槛，不显示当前种类数量。
 		var row: Control = Control.new()
@@ -892,7 +901,7 @@ func _update_shop_button(button: PlantCard, plant_type: int, run: RunRules) -> v
 	# 不满足余额或手牌容量时，卡图变暗且价格保持可见。
 	var available: bool = run.can_manage() and capacity_available and run.sun >= run.purchase_price(plant_type)
 	button.show_plant(plant_type, RunRules.CATALOG[plant_type].name, "☀ %d" % run.purchase_price(plant_type), "买入即可升星 ↑" if count >= 2 else "同名1星 %d/3" % count, count >= 2, available, TIER_COLORS[int(RunRules.CATALOG[plant_type].tier) - 1])
-	button.tooltip_text = "%s｜%s\n场上与备战席同名1星：%d/3；三个相同1/2星植物合成为2/3星。%s" % [RunRules.CATALOG[plant_type].trait, RunRules.CATALOG[plant_type].tip, count, "\n十格备战席已满，请先种植或出售。" if not capacity_available else ""]
+	button.tooltip_text = "%s｜%s\n场上与备战席同名1星：%d/3；三个相同1/2星植物合成为2/3星。%s" % ["/".join(RunRules.CATALOG[plant_type].get("traits", [RunRules.CATALOG[plant_type].trait])), RunRules.CATALOG[plant_type].tip, count, "\n十格备战席已满，请先种植或出售。" if not capacity_available else ""]
 
 
 ## 发送[param slot]当前存储的海克斯候选标识，选择有效性由规则层复核。

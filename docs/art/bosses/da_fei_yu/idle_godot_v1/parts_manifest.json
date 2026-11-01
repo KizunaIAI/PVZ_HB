@@ -1,0 +1,139 @@
+[
+  {
+    "name": "head",
+    "rect": [
+      0,
+      10,
+      468,
+      470
+    ],
+    "size": [
+      304,
+      304
+    ],
+    "width": 304,
+    "height": 266,
+    "source_file": "head_source.png"
+  },
+  {
+    "name": "back_hair",
+    "rect": [
+      467,
+      20,
+      388,
+      510
+    ],
+    "size": [
+      352,
+      390
+    ],
+    "width": 352,
+    "height": 388,
+    "source_file": "back_hair_source.png"
+  },
+  {
+    "name": "dress",
+    "rect": [
+      843,
+      77,
+      411,
+      431
+    ],
+    "size": [
+      300,
+      226
+    ],
+    "width": 235,
+    "height": 226
+  },
+  {
+    "name": "arm_left",
+    "rect": [
+      58,
+      523,
+      346,
+      290
+    ],
+    "size": [
+      142,
+      132
+    ],
+    "width": 142,
+    "height": 119
+  },
+  {
+    "name": "arm_right",
+    "rect": [
+      492,
+      525,
+      328,
+      294
+    ],
+    "size": [
+      142,
+      132
+    ],
+    "width": 142,
+    "height": 129
+  },
+  {
+    "name": "legs",
+    "rect": [
+      881,
+      583,
+      331,
+      247
+    ],
+    "size": [
+      136,
+      108
+    ],
+    "width": 136,
+    "height": 105
+  },
+  {
+    "name": "tail",
+    "rect": [
+      42,
+      843,
+      587,
+      402
+    ],
+    "size": [
+      262,
+      184
+    ],
+    "width": 262,
+    "height": 167
+  },
+  {
+    "name": "lock_left",
+    "rect": [
+      693,
+      842,
+      183,
+      372
+    ],
+    "size": [
+      55,
+      133
+    ],
+    "width": 55,
+    "height": 122
+  },
+  {
+    "name": "lock_right",
+    "rect": [
+      953,
+      842,
+      212,
+      384
+    ],
+    "size": [
+      55,
+      133
+    ],
+    "width": 55,
+    "height": 117
+  }
+]

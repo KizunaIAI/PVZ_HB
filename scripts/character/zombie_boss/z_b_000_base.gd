@@ -137,3 +137,8 @@ func _fade_and_remove() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 1.0)
 	tween.tween_callback(queue_free)
+
+
+## Boss免疫击退，仍按原版受击资格正常承受伤害与其他已定义效果。
+func can_be_knocked_back() -> bool:
+	return false

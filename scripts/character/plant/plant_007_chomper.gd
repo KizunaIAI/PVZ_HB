@@ -71,6 +71,8 @@ func _eat_zombie():
 	SoundManager.play_character_SFX(&"BigChomp")
 	## 如果有僵尸
 	if is_instance_valid(detect_component.enemy_can_be_attacked):
+		currency_war_attack_action()
+		# 当前实际啃咬目标，星级伤害由模式控制器写入eat_attack。
 		var zombie :Zombie000Base = detect_component.enemy_can_be_attacked
 		zombie.be_chomper_eat(eat_attack)
 		chew_timer.start()

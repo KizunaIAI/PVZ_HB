@@ -20,11 +20,13 @@ var plant_condition:int = 22
 
 ## 判断是否可以种植
 func judge_is_can_plant(plant_cell:PlantCell, curr_plant_type:CharacterRegistry.PlantType) -> bool:
+	if uses_currency_war_direct_placement():
+		return judge_currency_war_direct(plant_cell, curr_plant_type)
 	## 特殊植物
 	if is_special_plants:
 		return judge_special_plants_condition(plant_cell)
-	# 货币战争明确允许机枪豌豆直接放置，仍检查草地、花盆、睡莲等原版地形条件。
-	elif not is_purple_card or (curr_plant_type == CharacterRegistry.PlantType.P041GatlingPea and Global.game_para != null and Global.game_para.game_mode == MainSceneRegistry.MainScenes.CurrencyWar):
+	## 普通植物非紫卡
+	elif not is_purple_card:
 		## 当前可以种植普通植物 and 当前格子地形符合 and 当前格子对应的植物位置为空
 		if plant_cell.can_common_plant and plant_condition & plant_cell.curr_condition and not is_instance_valid(plant_cell.plant_in_cell[place_plant_in_cell]):
 			## 如果是壳类植物,若当前植物格子中Norm为玉米加农炮
@@ -41,6 +43,44 @@ func judge_is_can_plant(plant_cell:PlantCell, curr_plant_type:CharacterRegistry.
 			return true
 		else:
 			return false
+
+
+## 返回是否为货币战争可直接放置的升级植物，其他模式保持原版前置升级。
+func uses_currency_war_direct_placement() -> bool:
+	return is_purple_card and Global.game_para != null and Global.game_para.game_mode == MainSceneRegistry.MainScenes.CurrencyWar
+
+
+## 校验[param plant_cell]直接放[param curr_plant_type]的地形与占格；猫尾草只在水路，玉米炮保留两格且两格均须合法。
+## [param allow_occupied]仅供准备交换预校验，实际创建保持false；[param ignored_plant]允许双格植物平移时重叠自己的旧位置。
+func judge_currency_war_direct(plant_cell: PlantCell, curr_plant_type: int, allow_occupied: bool = false, ignored_plant: Plant000Base = null) -> bool:
+	# 普通升级植物占一格，玉米炮额外占右侧一格，不能从最右列越界。
+	var cells: Array[PlantCell] = [plant_cell]
+	if curr_plant_type == CharacterRegistry.PlantType.P048CobCannon:
+		if plant_cell.row_col.y >= Global.main_game.plant_cell_manager.row_col.y - 1:
+			return false
+		cells.append(Global.main_game.plant_cell_manager.all_plant_cells[plant_cell.row_col.x][plant_cell.row_col.y + 1])
+	# 每个实际占用格都检查；死去实体的指针允许交给原版清理流程释放。
+	for cell: PlantCell in cells:
+		if not cell.can_common_plant:
+			return false
+		if curr_plant_type == CharacterRegistry.PlantType.P044Cattail:
+			if not cell.ori_condition & 8:
+				return false
+		elif curr_plant_type == CharacterRegistry.PlantType.P047SpikeRock and not cell.curr_condition & 2:
+			# 地刺王保留地刺仅草地的地形限制，不能因紫卡共用资源而放到花盆或睡莲上。
+			return false
+		elif not plant_condition & cell.curr_condition:
+			return false
+		# 此接口只用于普通升级植物层，不消耗已拥有的睡莲或其他前置植物。
+		var occupant: Plant000Base = cell.plant_in_cell[place_plant_in_cell]
+		if is_instance_valid(occupant) and not occupant.is_death and occupant != ignored_plant and not allow_occupied:
+			return false
+		if curr_plant_type == CharacterRegistry.PlantType.P048CobCannon:
+			# 原版玉米炮不能与南瓜壳共格。
+			var shell: Plant000Base = cell.plant_in_cell[CharacterRegistry.PlacePlantInCell.Shell]
+			if is_instance_valid(shell) and not shell.is_death:
+				return false
+	return true
 
 
 ## 判断当前场上是否有紫卡预种植植物,紫卡是否可以种植

@@ -41,13 +41,14 @@ func jump_up_start():
 
 ## 压扁所有范围内可攻击僵尸
 func squash_all_area_zombie():
+	currency_war_attack_action()
 	var areas = area_2d_squash_attack.get_overlapping_areas()
 	for area in areas:
 		var zombie:Zombie000Base = area.owner
 		## 如果为同一行僵尸
 		if zombie.lane == row_col.x:
 			if zombie.curr_be_attack_status & can_attack_zombie_status:
-				zombie.be_squash()
+				zombie.be_squash(int(get_meta("currency_war_attack_value", 1800)))
 
 ## 跳入水中判断
 func judge_jump_pool():

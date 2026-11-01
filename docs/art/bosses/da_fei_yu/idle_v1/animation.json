@@ -1,0 +1,130 @@
+{
+  "name": "da_fei_yu_idle_v1",
+  "status": "art_preview",
+  "frame_size": [
+    512,
+    512
+  ],
+  "frame_count": 8,
+  "columns": 4,
+  "rows": 2,
+  "loop": true,
+  "frame_duration_ms": [
+    300,
+    300,
+    300,
+    300,
+    300,
+    100,
+    100,
+    300
+  ],
+  "total_duration_ms": 2000,
+  "baseline_y": 480,
+  "frames": [
+    {
+      "file": "frames/idle_01.png",
+      "source_rect": {
+        "x": 0,
+        "y": 0,
+        "width": 444,
+        "height": 444
+      },
+      "padding": {
+        "left": 34,
+        "top": 47
+      }
+    },
+    {
+      "file": "frames/idle_02.png",
+      "source_rect": {
+        "x": 444,
+        "y": 0,
+        "width": 443,
+        "height": 444
+      },
+      "padding": {
+        "left": 34,
+        "top": 47
+      }
+    },
+    {
+      "file": "frames/idle_03.png",
+      "source_rect": {
+        "x": 887,
+        "y": 0,
+        "width": 444,
+        "height": 444
+      },
+      "padding": {
+        "left": 34,
+        "top": 47
+      }
+    },
+    {
+      "file": "frames/idle_04.png",
+      "source_rect": {
+        "x": 1331,
+        "y": 0,
+        "width": 443,
+        "height": 444
+      },
+      "padding": {
+        "left": 34,
+        "top": 47
+      }
+    },
+    {
+      "file": "frames/idle_05.png",
+      "source_rect": {
+        "x": 0,
+        "y": 444,
+        "width": 444,
+        "height": 443
+      },
+      "padding": {
+        "left": 34,
+        "top": 48
+      }
+    },
+    {
+      "file": "frames/idle_06.png",
+      "source_rect": {
+        "x": 444,
+        "y": 444,
+        "width": 443,
+        "height": 443
+      },
+      "padding": {
+        "left": 34,
+        "top": 48
+      }
+    },
+    {
+      "file": "frames/idle_07.png",
+      "source_rect": {
+        "x": 887,
+        "y": 444,
+        "width": 444,
+        "height": 443
+      },
+      "padding": {
+        "left": 34,
+        "top": 48
+      }
+    },
+    {
+      "file": "frames/idle_08.png",
+      "source_rect": {
+        "x": 1331,
+        "y": 444,
+        "width": 443,
+        "height": 443
+      },
+      "padding": {
+        "left": 34,
+        "top": 48
+      }
+    }
+  ]
+}

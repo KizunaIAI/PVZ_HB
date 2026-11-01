@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/main/11Almanac.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_almanac_preview.gd" id="controller"]
+
+[node name="DaFeiYuAlmanacPreview" instance=ExtResource("base")]
+script = ExtResource("controller")

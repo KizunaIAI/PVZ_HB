@@ -1,0 +1,14 @@
+{
+  "texture": "assets/image/character/boss/da_fei_yu/steel_basin_v1/basin.png",
+  "base_scene": "scenes/character/zombie_boss/da_fei_yu/da_fei_yu_left_v2_visual.tscn",
+  "scene": "scenes/character/zombie_boss/da_fei_yu/da_fei_yu_steel_basin_visual.tscn",
+  "bone": "Rig/Skeleton2D/Head",
+  "width": 245,
+  "height": 103,
+  "image_center_x": 118,
+  "image_rim_y": 80,
+  "local_position": [
+    20.56,
+    -216.5
+  ]
+}

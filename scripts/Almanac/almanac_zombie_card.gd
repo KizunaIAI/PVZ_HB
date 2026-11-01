@@ -8,6 +8,13 @@ var zombie_type:CharacterRegistry.ZombieType
 signal signal_card_click
 
 func _ready() -> void:
+	if zombie_type == CharacterRegistry.ZombieType.Z1002DaFeiYu:
+		# Boss 尚未开放战斗卡槽，图鉴头像直接使用独立美术场景，不要求 AllCards 中有召唤卡。
+		var boss_portrait: Node2D = load("res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_steel_basin_visual.tscn").instantiate()
+		almanac_zombie_card_bg.add_child(boss_portrait)
+		boss_portrait.scale = Vector2.ONE * 0.11
+		boss_portrait.position = Vector2(35, 62)
+		return
 	var zombie_card:Card = AllCards.all_zombie_card_prefabs[zombie_type]
 	var character_static:Node2D = zombie_card.character_static.duplicate()
 	almanac_zombie_card_bg.add_child(character_static)

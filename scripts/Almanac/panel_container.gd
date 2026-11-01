@@ -87,6 +87,10 @@ func create_zombie(curr_zombie_type:CharacterRegistry.ZombieType):
 ## 生成的特殊僵尸修改位置
 func special_zombie_update_pos(new_show_zombie:Zombie000Base):
 	match new_show_zombie.zombie_type:
+		CharacterRegistry.ZombieType.Z1002DaFeiYu:
+			# 角色原生尺寸约160像素高，缩小后连同幻想气泡完整放入图鉴展示窗口。
+			new_show_zombie.scale = Vector2.ONE * 0.8
+			new_show_zombie.position = Vector2(95, 195)
 		CharacterRegistry.ZombieType.Z024Gargantuar:
 			new_show_zombie.position = Vector2(100,200)
 

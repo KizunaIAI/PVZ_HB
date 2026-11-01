@@ -11,6 +11,8 @@ func _on_bullet_attack_cd_timer_timeout() -> void:
 	last_target_enemy = detect_component.update_first_enemy()
 	#print(last_target_enemy)
 	if is_instance_valid(last_target_enemy):
+		# 投手重写了普通攻击定时回调，仍需在实际开始一轮投掷时计数。
+		signal_attack_action.emit()
 		last_target_enemy_global_pos = last_target_enemy.global_position
 		# 在这里调用实际攻击逻辑
 		animation_tree.set(attack_para, AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)

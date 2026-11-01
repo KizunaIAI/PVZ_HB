@@ -19,6 +19,8 @@ const Combat = preload("res://scripts/currency_war/currency_war_combat.gd")
 const EquipmentIcon = preload("res://scripts/currency_war/currency_war_equipment_icon.gd")
 ## 场上植物脚下的微型装备槽，普通三格加独立头盔。
 const EquipmentSlots = preload("res://scripts/currency_war/currency_war_equipment_slots.gd")
+## 开始菜单进入的独立开发者面板，正常货币战争不创建该工具。
+const Developer = preload("res://scripts/currency_war/currency_war_developer.gd")
 ## 使用原版1066×600视口，所有模式界面叠放显示，不加高、压缩或移动地图。
 const MODE_SIZE: Vector2i = Vector2i(1066, 600)
 ## 奖励关每只僵尸的固定总生命，包含本体和两类护甲，不受节点难度加成。
@@ -53,6 +55,8 @@ var _window_configured: bool = false
 var _combat: Combat
 ## 第一大关的连续原版草坪贴图和新增行草卷，镜头返回后才开始铺开。
 var _opening_lawn: LawnVisual
+## 当前场景的开发者工具实例，负责测试前快照和鼠标摆放。
+var _developer: Developer
 
 
 ## 在原版子管理器进入树前加载当前节点的原版参数与扩展视口，兼容整局入口和F6节点场景。
@@ -67,7 +71,7 @@ func _enter_tree() -> void:
 		get_window().move_to_center()
 	_window_configured = true
 	game_para = ResourceLevelData.new()
-	# 沿用原版关卡的地形与背景，实际波数、阵容及出怪倍率由本模式节点规则覆盖。
+	# 沿用原版关卡的地形与背景，实际波数、阵容及每波数量由本模式节点规则覆盖。
 	var original: ResourceLevelData = (load(_run.campaign.level_path()) as ResourceLevelData).duplicate(true)
 	# 只复制战场配置，卡牌、预种植、阳光余额和节点流程由本模式持有，避免额外赠送植物。
 	for property: String in ["game_sences", "game_BG", "game_BGM", "is_fog", "is_day", "max_wave", "zombie_refresh_types", "is_bungi", "range_num_bungi", "is_have_tombston", "init_tombstone_num", "zombie_multy"]:
@@ -75,11 +79,9 @@ func _enter_tree() -> void:
 		var value: Variant = original.get(property)
 		if value != null:
 			game_para.set(property, value)
-	# 使用用户最新的一至四个实际小波，不再沿用原版整面旗帜波数及整套僵尸名单。
+	# 按大关使用1/2/4个旗帜波，每旗数量独立沿用当前节点配置，不换算成原版十小波。
 	game_para.max_wave = _run.configured_wave_count()
 	game_para.zombie_refresh_types = _run.configured_zombies()
-	# 每波使用更高的战力预算以生成更多僵尸，不改变原版随机权重与五十只的数量上限。
-	game_para.zombie_multy = maxi(game_para.zombie_multy, RunRules.ZOMBIE_WAVE_MULTIPLIER)
 	game_para.is_bungi = false
 	game_para.game_mode = MainSceneRegistry.MainScenes.CurrencyWar
 	game_para.level_id = "currency_war"
@@ -112,6 +114,8 @@ func _ready() -> void:
 	game_item_manager.init_manager()
 	hand_manager.init_manager()
 	zombie_manager.init_manager()
+	# 每波按整局节点数量出怪，避免重载场景使原版波数预算重新回到第一波。
+	zombie_manager.zombie_wave_manager.zombie_wave_create_manager.currency_war_wave_count = _run.configured_zombie_count()
 	# 遭遇关后续波次缩短最短等待和自然刷新时间，普通节点的一波只使用首波等待。
 	var wave_refresh: ZombieWaveRefreshManager = zombie_manager.zombie_wave_manager.zombie_wave_refresh_manager
 	wave_refresh.time_min_wave = 4.0
@@ -147,6 +151,7 @@ func _ready() -> void:
 	# 同一大关五节点使用对应场景的实际行数和地形商品。
 	var support: int = 17 if _run.campaign.theme().scene == "back" else (34 if _run.campaign.theme().scene == "roof" else -1)
 	_run.configure_node(plant_cell_manager.all_plant_cells.size(), game_para.max_wave, support)
+	set_meta("currency_war_active_lanes", _run.active_lanes.duplicate())
 	if _run.campaign.theme().scene == "roof" and bool(_run.campaign.theme().night):
 		# 主背景的self_modulate不会传给子节点，屋顶房屋遮罩需单独使用同一夜色色调。
 		background_manager.background.self_modulate = ROOF_NIGHT_TINT
@@ -167,8 +172,17 @@ func _ready() -> void:
 	_configure_open_lanes()
 	_sync_battlefield()
 	_configure_opening_lawn()
+	if Session.developer_session:
+		_developer = Developer.new()
+		_developer.configure(self, _run)
+		add_child(_developer)
 	_redraw()
-	call_deferred("_preview_node_zombies")
+	if Session.developer_session:
+		# 独立开发者入口直接开放测试战场与面板，不先播放普通节点预览。
+		_run.phase = RunRules.Phase.PREPARATION
+		_developer.call_deferred("open_session")
+	else:
+		call_deferred("_preview_node_zombies")
 
 
 ## 使用原版展示僵尸与镜头移动，右移查看下一节点阵容后返回草坪，随后开放准备操作。
@@ -258,6 +272,8 @@ func _process(delta: float) -> void:
 
 ## 退出模式时恢复原窗口、速度及暂停状态，不改动原版关卡存档。
 func _exit_tree() -> void:
+	if is_instance_valid(_developer):
+		_developer.restore_snapshot()
 	TreePauseManager.end_tree_pause_clear_all_pause_factors()
 	Global.time_scale = 1.0
 	Engine.time_scale = 1.0
@@ -367,8 +383,8 @@ func _on_hex_chosen(hex_id: String) -> void:
 ## 根据逻辑牌记录增删战场实体，合成和铲除不会被误判为自然阵亡退库。
 func _sync_battlefield() -> void:
 	_synchronizing = true
-	# 准备阶段允许自由移动，先清理普通层再清理底座，防止底座销毁时带走上方植物容器。
-	for layer: int in [CharacterRegistry.PlacePlantInCell.Norm, CharacterRegistry.PlacePlantInCell.Down]:
+	# 准备移动时先清理漂浮、壳、普通层再清底座，避免底座销毁带走仍需处理的上层容器。
+	for layer: int in [CharacterRegistry.PlacePlantInCell.Float, CharacterRegistry.PlacePlantInCell.Shell, CharacterRegistry.PlacePlantInCell.Norm, CharacterRegistry.PlacePlantInCell.Down]:
 		# 使用标识快照，删除实体映射不会影响本轮遍历。
 		for unit_id: int in _plants.keys():
 			if not is_instance_valid(_plants[unit_id]):
@@ -381,8 +397,8 @@ func _sync_battlefield() -> void:
 			if _run.phase == RunRules.Phase.PREPARATION or _run.find_unit(unit_id).is_empty():
 				_discard_battle_plant(plant)
 				_plants.erase(unit_id)
-	# 先重建睡莲/花盆，再按原版地形条件放置普通植物；不适配新地图的植物回到备战席。
-	for layer: int in [CharacterRegistry.PlacePlantInCell.Down, CharacterRegistry.PlacePlantInCell.Norm]:
+	# 依次重建底座、普通、壳与漂浮层；咖啡豆等依赖普通层的植物最后创建。
+	for layer: int in [CharacterRegistry.PlacePlantInCell.Down, CharacterRegistry.PlacePlantInCell.Norm, CharacterRegistry.PlacePlantInCell.Shell, CharacterRegistry.PlacePlantInCell.Float]:
 		# 持有数组不删除元素，退回备战只修改当前单位位置。
 		for unit: Dictionary in _run.units:
 			if unit.cell == RunRules.BENCH_CELL or _plants.has(unit.id) or _run.placement(int(unit.type)) != layer:
@@ -396,6 +412,7 @@ func _sync_battlefield() -> void:
 
 ## 移除[param plant]战斗实体并清理原格的死亡引用；规则记录由上层处理，不返库、不判自然阵亡。
 func _discard_battle_plant(plant: Plant000Base) -> void:
+	_remember_sunshroom_growth(plant)
 	# 底座和普通植物分层清理，死亡回调仍通过原版恢复容器与地形条件。
 	var layer: int = _run.placement(int(plant.plant_type))
 	# 实体的plant_cell始终是旧格，不能使用已经被拖拽改写的逻辑cell。
@@ -403,8 +420,14 @@ func _discard_battle_plant(plant: Plant000Base) -> void:
 	# 合成、出售和准备移动不是战斗阵亡，不能触发土豆地雷等植物的临终爆炸。
 	plant.is_can_death_language = false
 	plant.character_death_disappear()
-	if cell.plant_in_cell[layer] == plant:
-		cell.plant_in_cell[layer] = null
+	# 双格植物的前轮也必须清除，避免出售、移动后残留一格不可种植的占位。
+	for part: Vector2i in _run.occupied_cells(int(plant.plant_type), cell.row_col):
+		# 已验证过的占格仍加边界保护，兼容旧存档或跨地图清理。
+		if part.x < plant_cell_manager.all_plant_cells.size() and part.y < plant_cell_manager.all_plant_cells[part.x].size():
+			# 每格只清理当前实体自己的引用，不误删新放入的植物。
+			var occupied: PlantCell = plant_cell_manager.all_plant_cells[part.x][part.y]
+			if occupied.plant_in_cell[layer] == plant:
+				occupied.plant_in_cell[layer] = null
 
 
 ## 将[param unit]在原版格子中实例化；原版地形条件不满足时保留拥有记录并退回备战，不凭空生成睡莲或花盆。
@@ -431,7 +454,18 @@ func _create_battle_unit(unit: Dictionary) -> void:
 	if not is_instance_valid(plant):
 		_run.restore_reserve(int(unit.id))
 		return
+	# 本模式夜间植物在各场景保持清醒；使用原版唤醒信号恢复攻击、生产和爆炸组件。
+	if plant.is_sleep_in_day:
+		plant.is_sleep_in_day = false
+		plant.sleep_component.end_sleep()
+	if plant is Plant010SunShroom and unit.has("sunshroom_grown"):
+		plant.is_grow = bool(unit.sunshroom_grown)
+		plant.grow_timer.stop()
+		if not plant.is_grow:
+			plant.grow_timer.start(maxf(0.001, float(unit.get("sunshroom_remaining", plant.time_grow))))
 	plant.set_meta("war_base_hp", plant.hp_component.max_hp)
+	if _run.developer_testing:
+		plant.hp_component.show()
 	plant.random_speed_range = Vector2.ONE
 	plant.signal_character_death.connect(_on_plant_died.bind(int(unit.id)))
 	_plants[unit.id] = plant
@@ -466,7 +500,7 @@ func _create_battle_unit(unit: Dictionary) -> void:
 		_combat.register_plant(plant, int(unit.id))
 
 
-## 应用大纲已定义的植物星级与向日葵结算生产，攻击、攻速分别读取当前规则。
+## 应用独有或通用模板星级与向日葵结算生产，攻击、攻速分别读取当前规则。
 func _apply_current_bonuses() -> void:
 	_run.sync_helmet()
 	# 逐株从保存的基础属性重新计算。
@@ -491,9 +525,9 @@ func _apply_current_bonuses() -> void:
 		if is_instance_valid(attack):
 			attack.attack_cd = float(plant.get_meta("war_base_attack_cd")) / speed
 			attack.bullet_attack_cd_timer.wait_time = attack.attack_cd
-		# 新经济不混入原版25点生产阳光，向日葵的1/4/10在节点结算处理。
+		# 向日葵按节点结算，阳光菇改为晒伤，两者禁原版生产；双子仍保留原版生产。
 		var sun_component: CreateSunComponent = plant.get_node_or_null("CreateSunComponent") as CreateSunComponent
-		if is_instance_valid(sun_component):
+		if is_instance_valid(sun_component) and int(unit.type) in [2, 10]:
 			sun_component.disable_component(ComponentNormBase.E_IsEnableFactor.GameMode)
 		plant.get_node("CurrencyWarRank").text = "%s%s %d星" % ["锁 · " if bool(unit.get("merge_locked", false)) else "", "★".repeat(unit.star), unit.star]
 		plant.get_node("CurrencyWarEquipmentSlots").visible = not _run.is_support(int(unit.type)) and (not unit.get("equipment", []).is_empty() or _run.helmet_unit_id == unit_id)
@@ -580,14 +614,17 @@ func _on_toggle_merge_lock(unit_id: int) -> void:
 	_redraw()
 
 
-## 准备阶段草坪按钮收到[param event]右键时切换[param cell]内植物的合成锁定，其他阶段不改变锁定状态。
+## [param event]为[param cell]按钮输入；准备右键切换锁定，战斗右键仅取消选择和准星。
 func _on_lawn_input(event: InputEvent, cell: PlantCell) -> void:
+	if _run.phase == RunRules.Phase.BATTLE and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		# 战斗右键只取消选择与加农炮准星，不改变植物的合成锁定。
+		cell.button.accept_event()
+		_on_cancel_selection()
+		return
 	if _run.phase != RunRules.Phase.PREPARATION or not event is InputEventMouseButton or not event.pressed or event.button_index != MOUSE_BUTTON_RIGHT:
 		return
 	# 上层植物优先，没有上层时才操作睡莲或花盆，避免误锁底座。
-	var unit: Dictionary = _run.unit_at(cell.row_col)
-	if unit.is_empty():
-		unit = _run.unit_at(cell.row_col, CharacterRegistry.PlacePlantInCell.Down)
+	var unit: Dictionary = _sale_target(cell)
 	if not unit.is_empty():
 		cell.button.accept_event()
 		_on_toggle_merge_lock(int(unit.id))
@@ -595,14 +632,35 @@ func _on_lawn_input(event: InputEvent, cell: PlantCell) -> void:
 
 ## 点击原版草坪[param cell]：有手牌时种植，没有选择时选中该格已有植物供铲除。
 func _on_cell_pressed(cell: PlantCell) -> void:
+	if is_instance_valid(_developer) and _developer.handle_cell(cell):
+		return
 	if not _run.can_manage():
 		return
+	# 草坪按钮会截获鼠标，手动转交加农炮瞄准，避免原版_unhandled_input收不到落点。
+	if _run.phase == RunRules.Phase.BATTLE:
+		# 同一时间只允许一门炮瞄准，确认落点后保持原版充能与发射动画。
+		for unit_id: int in _plants:
+			# 无效或非加农炮实体不参与瞄准。
+			var cannon: Plant048CobCannon = _plants.get(unit_id) as Plant048CobCannon
+			if is_instance_valid(cannon) and cannon.cob_cannon_target.is_activate:
+				cannon.cob_cannon_target.deactivate_it()
+				cannon.attack_start(get_global_mouse_position())
+				return
+		# 没有拿着备战卡时，点击已充能的加农炮开始原版瞄准。
+		var target: Dictionary = _run.unit_at(cell.row_col)
+		if _selected_id == -1 and not target.is_empty() and int(target.type) == 48:
+			# 逻辑占两格，点击前后轮均可打开同一门炮的准星。
+			var cannon: Plant048CobCannon = _plants.get(int(target.id)) as Plant048CobCannon
+			if is_instance_valid(cannon) and cannon.is_bullet:
+				cannon.cob_cannon_target.activate_it()
+			# 尚未充能时不把场上加农炮拿成手牌，等待充能后仍可直接点击瞄准。
+			return
 	if _selected_id != -1:
 		if _can_drop_on_lawn(Vector2.ZERO, {"kind": ReserveSlot.DRAG_KIND, "unit_id": _selected_id}, cell) and _run.plant_card(_selected_id, cell.row_col):
 			_selected_id = -1
 			_sync_battlefield()
 	else:
-		_selected_id = _run.unit_at(cell.row_col).get("id", -1)
+		_selected_id = _sale_target(cell).get("id", -1)
 	_redraw()
 
 
@@ -612,19 +670,29 @@ func _can_drop_on_lawn(_at_position: Vector2, data: Variant, cell: PlantCell) ->
 		return _run.can_manage() and not _sale_target(cell).is_empty()
 	if data is Dictionary and data.get("kind", "") == EquipmentIcon.DRAG_KIND:
 		# 装备落到当前格的上层植物，底座本身仍禁止装备。
-		var target: Dictionary = _run.unit_at(cell.row_col)
+		var target: Dictionary = _sale_target(cell)
 		return not target.is_empty() and _run.can_equip_item(int(target.id), str(data.get("item", "")))
 	if not _run.can_manage() or _run.lawn_expanding or not _run.is_lane_open(cell.row_col.x) or not data is Dictionary or data.get("kind", "") != ReserveSlot.DRAG_KIND:
 		return false
 	# 释放鼠标时重新查询唯一标识，防止合成、出售或海克斯切换使旧拖拽数据失效。
 	var unit: Dictionary = _run.find_unit(int(data.get("unit_id", -1)))
-	if unit.is_empty() or (unit.cell != RunRules.BENCH_CELL and _run.phase != RunRules.Phase.PREPARATION) or not cell.can_common_plant:
+	if unit.is_empty() or (unit.cell != RunRules.BENCH_CELL and _run.phase != RunRules.Phase.PREPARATION):
 		return false
 	# 水与屋顶沿用原版条件；准备阶段同层有植物时由规则层交换，战斗阶段不可覆盖。
 	var condition: ResourcePlantCondition = Global.character_registry.get_plant_info(unit.type, CharacterRegistry.PlantInfoAttribute.PlantConditionResource)
+	if condition.uses_currency_war_direct_placement():
+		if not condition.judge_currency_war_direct(cell, int(unit.type), int(unit.type) != 48 and _run.phase == RunRules.Phase.PREPARATION, _plants.get(int(unit.id)) as Plant000Base):
+			return false
+	if not condition.uses_currency_war_direct_placement() and condition.is_special_plants and not condition.judge_special_plants_condition(cell):
+		return false
+	if not condition.is_special_plants and not cell.can_common_plant:
+		return false
+	# 南瓜壳保留原版不能罩住玉米炮的占格要求。
+	if int(unit.type) == 31 and int(_run.unit_at(cell.row_col).get("type", -1)) == 48:
+		return false
 	# 已有底座会把当前条件改成睡莲/花盆，替换底座时应检查原地形，而非其自身转换后的条件。
 	var terrain: int = cell.ori_condition if _run.is_support(int(unit.type)) else cell.curr_condition
-	if not condition.plant_condition & terrain:
+	if not condition.uses_currency_war_direct_placement() and not condition.plant_condition & terrain:
 		return false
 	# 两株场上植物交换时，另一株也必须能放在源格，不能把花盆或睡莲换到非法地形。
 	var occupant: Dictionary = _run.unit_at(cell.row_col, _run.placement(int(unit.type)))
@@ -638,7 +706,10 @@ func _can_drop_on_lawn(_at_position: Vector2, data: Variant, cell: PlantCell) ->
 			var source_cell: PlantCell = plant_cell_manager.all_plant_cells[unit.cell.x][unit.cell.y]
 			# 对称交换底座时同样使用原地形，普通植物仍要求已有合适底座。
 			var source_terrain: int = source_cell.ori_condition if _run.is_support(int(occupant.type)) else source_cell.curr_condition
-			if not other_condition.plant_condition & source_terrain:
+			if other_condition.uses_currency_war_direct_placement():
+				if not other_condition.judge_currency_war_direct(source_cell, int(occupant.type), true):
+					return false
+			elif not other_condition.plant_condition & source_terrain:
 				return false
 	return true
 
@@ -651,7 +722,7 @@ func _drop_on_lawn(at_position: Vector2, data: Variant, cell: PlantCell) -> void
 		_on_sell_unit(int(_sale_target(cell).id))
 		return
 	if data.get("kind", "") == EquipmentIcon.DRAG_KIND:
-		_on_equip_item(int(_run.unit_at(cell.row_col).id), str(data.item))
+		_on_equip_item(int(_sale_target(cell).id), str(data.item))
 		return
 	if _run.plant_card(int(data.unit_id), cell.row_col):
 		_selected_id = -1
@@ -681,9 +752,7 @@ func _drag_from_lawn(at_position: Vector2, cell: PlantCell) -> Variant:
 	if _run.phase != RunRules.Phase.PREPARATION or _run.lawn_expanding:
 		return null
 	# 优先拖普通植物，没有普通植物时再拖睡莲或花盆，避免点击上层却抓到底座。
-	var unit: Dictionary = _run.unit_at(cell.row_col)
-	if unit.is_empty():
-		unit = _run.unit_at(cell.row_col, CharacterRegistry.PlacePlantInCell.Down)
+	var unit: Dictionary = _sale_target(cell)
 	if unit.is_empty() or not is_instance_valid(_plants.get(unit.id)):
 		return null
 	# 复制真实身体姿态，换算到按钮局部坐标后减去抓取点，不受摄像机偏移影响。
@@ -744,6 +813,11 @@ func _save_final_collection() -> bool:
 ## 原版行容器加入[param node]时应用节点属性；奖励关仅总生命固定1点，双方攻击保持正常，其他节点沿用难度倍率。
 func _on_zombie_entered(node: Node) -> void:
 	if not node is Zombie000Base:
+		return
+	if bool(node.get_meta("currency_war_summon", false)):
+		return
+	# 自由测试的手动僵尸及其召唤物默认使用原版生命，不套用奖励关一血或节点难度。
+	if _run.developer_testing:
 		return
 	# 在角色ready之前修改基础上限，原版初始化会据此填满生命与护甲并计算波次总生命。
 	var hp: HpComponentZombie = node.get_node_or_null("HpComponent") as HpComponentZombie
@@ -811,9 +885,13 @@ func _on_sell_unit(unit_id: int) -> void:
 
 ## 返回[param cell]中铲子的售卖对象，优先上层植物，空上层才选择睡莲或花盆。
 func _sale_target(cell: PlantCell) -> Dictionary:
-	# 上下层独立售卖，不能一次把上层植物和底座都出售。
-	var unit: Dictionary = _run.unit_at(cell.row_col)
-	return unit if not unit.is_empty() else _run.unit_at(cell.row_col, CharacterRegistry.PlacePlantInCell.Down)
+	# 按原版从外层到内层选中，南瓜壳、咖啡豆和底座都能独立售卖或拖回备战。
+	for layer: int in [CharacterRegistry.PlacePlantInCell.Float, CharacterRegistry.PlacePlantInCell.Shell, CharacterRegistry.PlacePlantInCell.Norm, CharacterRegistry.PlacePlantInCell.Down]:
+		# 返回首个真实逻辑记录，不以实体尚未释放的死亡指针决定点击对象。
+		var unit: Dictionary = _run.unit_at(cell.row_col, layer)
+		if not unit.is_empty():
+			return unit
+	return {}
 
 
 ## 购买一次4点经验并刷新等级与种类上限，满级不扣阳光。
@@ -845,7 +923,7 @@ func _on_equip_item(unit_id: int, item: String) -> void:
 	_redraw()
 
 
-## 准备时切换遭遇档位[param selected]，同步本节点难度、实际波数与结算奖励。
+## 准备时切换遭遇档位[param selected]，调整难度与奖励；实际波数始终由大关决定。
 func _on_encounter_selected(selected: int) -> void:
 	_run.set_encounter_level(selected)
 	_configure_node_wave_count()
@@ -868,6 +946,12 @@ func _configure_node_wave_count() -> void:
 
 ## 清空选择，让下一次点击草坪恢复为查看已种植物。
 func _on_cancel_selection() -> void:
+	# 右键取消时同时撤销原版加农炮准星，不保留隐藏的待发射状态。
+	for unit_id: int in _plants:
+		# 其他植物没有准星，不受取消操作影响。
+		var cannon: Plant048CobCannon = _plants.get(unit_id) as Plant048CobCannon
+		if is_instance_valid(cannon):
+			cannon.cob_cannon_target.deactivate_it()
 	_selected_id = -1
 	_redraw()
 
@@ -888,8 +972,12 @@ func _on_speed_selected(fast: bool) -> void:
 
 ## 根据[param won]结算当前节点并冻结战场；仅第四次吃脑或最后节点结算触发整局结束与永久入库。
 func _finish_game(won: bool) -> void:
-	if _run.phase != RunRules.Phase.BATTLE:
+	if _run.developer_testing or _run.phase != RunRules.Phase.BATTLE:
 		return
+	# 切场景之前保存存活阳光菇的原版成长进度，阵亡植物没有对应持有记录。
+	for plant: Plant000Base in _plants.values():
+		if is_instance_valid(plant):
+			_remember_sunshroom_growth(plant)
 	_run.settle_node(won)
 	_selected_id = -1
 	TreePauseManager.start_tree_pause(TreePauseManager.E_PauseFactor.GameOver)
@@ -903,6 +991,9 @@ func _finish_game(won: bool) -> void:
 
 ## 返回原有主菜单，退出过程会恢复窗口与暂停状态。
 func _on_menu() -> void:
+	if Session.developer_session and is_instance_valid(_developer):
+		_developer._end_test()
+		return
 	if _run.phase == RunRules.Phase.FINISHED and not _run.collection_saved:
 		if not _save_final_collection():
 			# 未选择用户或写盘失败时保留本局内存，允许回菜单选择用户后在仓库重试保存。
@@ -914,6 +1005,10 @@ func _on_menu() -> void:
 
 ## 开始新的十五节点整局，仅重置5阳光和空备战席；未保存的最终植物需要先保存才能被新局覆盖。
 func _on_restart() -> void:
+	if Session.developer_session:
+		Session.start_developer()
+		get_tree().reload_current_scene()
+		return
 	if _run.phase == RunRules.Phase.FINISHED and not _run.collection_saved and not _save_final_collection():
 		_redraw()
 		return
@@ -928,3 +1023,19 @@ func _redraw() -> void:
 	if _run.find_unit(_selected_id).is_empty():
 		_selected_id = -1
 	_war_ui.render(_run, _selected_id)
+
+
+## 保存[param plant]阳光菇的原版成长状态供本局重建；非阳光菇和已被移除的单位不产生记录。
+func _remember_sunshroom_growth(plant: Plant000Base) -> void:
+	if not plant is Plant010SunShroom:
+		return
+	# 实体可能刚被拖动，按唯一编号定位而非旧格子。
+	for unit_id: int in _plants:
+		if _plants[unit_id] != plant:
+			continue
+		# 所有保存字段都是纯数据，兼容节点切换、准备换位和仓库保存。
+		var unit: Dictionary = _run.find_unit(unit_id)
+		if not unit.is_empty():
+			unit["sunshroom_grown"] = plant.is_grow
+			unit["sunshroom_remaining"] = plant.grow_timer.time_left
+		return

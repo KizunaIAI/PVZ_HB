@@ -38,8 +38,8 @@ func _ready() -> void:
 	mini_zombie.position.x = start_minizombie
 
 
-## 根据旗帜数量生成旗帜，并删除原本的旗帜
-func create_flag(flag_num:int):
+## 按[param flag_num]生成旗帜并删除原始模板；[param waves_per_flag]默认10保持原版，货币战争传1表示每波一旗。
+func create_flag(flag_num:int, waves_per_flag: int = 10):
 	flag_arr.clear()
 	# 计算总距离
 	var total_distance = start_flag - end_flag
@@ -47,7 +47,8 @@ func create_flag(flag_num:int):
 
 	# 计算每个分段的结束位置
 	for i in range(1, flag_num+1):  # 1到10
-		var end_pos = start_flag - total_distance * ((i*10.0-1)/(flag_num * 10.0-1))
+		# 单旗放在终点；多旗按各波开始的进度均匀排列，普通模式仍每十小波一旗。
+		var end_pos = start_flag - total_distance * (1.0 if flag_num * waves_per_flag <= 1 else (i * float(waves_per_flag) - 1.0) / (flag_num * float(waves_per_flag) - 1.0))
 
 		var flag_new : FlagProgressBarFlag = flag.duplicate()
 
@@ -59,12 +60,12 @@ func create_flag(flag_num:int):
 	## 删除原始的flag
 	flag.queue_free()
 
-## 根据波数生成大波的旗帜
-func init_flag_from_wave(wave_num:int):
+## 根据[param wave_num]生成旗帜；[param waves_per_flag]默认10，货币战争为1，其1/2/4波对应1/2/4面旗帜。
+func init_flag_from_wave(wave_num:int, waves_per_flag: int = 10):
 	assert(wave_num > 0, "关卡至少需要一波僵尸")
-	# 短局不创建不存在的十波旗帜，进度条和僵尸头像仍正常显示。
-	var flag_num : int = int(wave_num / 10.0)
-	create_flag(flag_num)
+	# 普通模式短局仍不插入十波旗帜，模式专用波则逐波显示旗帜。
+	var flag_num: int = int(wave_num / float(maxi(1, waves_per_flag)))
+	create_flag(flag_num, maxi(1, waves_per_flag))
 
 ## 开始下一轮游戏,进度条更新数据
 func start_next_game_flag_progress_bar_update():

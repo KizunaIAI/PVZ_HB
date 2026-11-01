@@ -20,6 +20,7 @@ func ready_norm_signal_connect():
 
 ## 攻击一次
 func _attack_once():
+	currency_war_attack_action()
 	SoundManager.play_character_SFX("Throw")
 	var all_enemy_can_be_attacked = detect_component.get_all_enemy_can_be_attacked()
 	for i in range(all_enemy_can_be_attacked.size() - 1, -1, -1):

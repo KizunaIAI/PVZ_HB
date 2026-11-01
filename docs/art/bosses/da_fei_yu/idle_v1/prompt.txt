@@ -1,0 +1,17 @@
+Use case: identity-preserve.
+Asset type: ONE coherent 8-frame 2D game idle animation sprite sheet for Boss 大肥鱼, to be sliced into frames and played as a loop.
+Input image 1 is the strict CHARACTER IDENTITY AND ART STYLE reference, a character model sheet. Render ONLY this same character, never the reference layout.
+Primary request: create a gentle idle breathing cycle of the blue-haired chibi whale maid in the reference. Match her face, age-neutral cute chibi proportions, huge blue eyes, deep blue wavy hair with light blue tips, curled ahoge, white ruffled maid headband, two cyan bows and dark fin-shaped side ornaments, navy blue long-sleeved maid dress, white frilly apron with blue whale emblem, gold stitching and tiny gold bows, blue jewel neck bow, white frilled socks, navy round shoes, large SINGLE blue whale tail with forked fluke attached behind waist.
+Pose: planted feet, relaxed arms held slightly away from skirt with open relaxed hands, same friendly small smile. Head and torso in a subtle three-quarter view toward viewer LEFT, both eyes visible. Tail arcs behind her toward viewer RIGHT. She must remain exactly the same character, costume and viewpoint in all frames.
+Layout is mandatory: EXACTLY FOUR equal columns and TWO equal rows, EIGHT frames total, left-to-right top row then left-to-right bottom row. Desired output canvas 2048x1024, each cell 512x512. Invisible uniform grid, no gutters, no drawn lines, no labels or text. Each complete full-body sprite fits entirely inside its own cell, including hair, curled ahoge, shoes and whole tail; keep generous padding at every cell edge. Every sprite's feet are planted at identical local coordinates, shoes around local y=465; torso centered around local x=245; head size, eye spacing, costume markings and body proportions fixed. Never auto-center each character differently.
+Motion amplitude is SMALL: upper body rises and falls about 4 pixels across the cycle at 512px cell size, tail fluke sways by about 8px, hair tips lag softly. No stepping, no jumping, no turning, no gestures, no pose swaps, no attack, no redesign.
+Frame 1: neutral height, eyes open, tail neutral.
+Frame 2: gently inhale, body slightly up, hair and tail begin gentle sway.
+Frame 3: top of inhale, body at highest point, eyes open, tail gently raised.
+Frame 4: begin exhale, body easing toward neutral, hair tips follow.
+Frame 5: neutral height, eyes open, tail returning.
+Frame 6: lowest breathing position, eyes half closed in brief blink, tail low.
+Frame 7: low breathing position, eyes gently closed, same smile, hair settles.
+Frame 8: rising toward frame 1, eyes open again, tail and hair returning to initial position, smooth transition to frame 1.
+Style: same polished hand-drawn chibi anime illustration as reference, clean dark navy outlines, soft cel shading, crisp readable shapes, consistent line weight and restrained detail; NOT pixel art, NOT photoreal, NOT 3D.
+Background: genuinely transparent alpha across ALL empty spaces. No checkerboard painted in. No ground, no floor shadow, no scene, no props, no extra characters, no watermark. This is a single production sprite sheet of one animation, NOT a concept board or character turnaround.

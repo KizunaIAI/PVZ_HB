@@ -6,9 +6,11 @@ extends RefCounted
 const CampaignRules = preload("res://scripts/currency_war/currency_war_campaign.gd")
 ## 大纲装备、合成配方和纯属性计算。
 const Equipment = preload("res://scripts/currency_war/currency_war_equipment.gd")
+## 未单独设定植物的费用与一至三星增幅，已有独有植物不使用通用加成。
+const PlantTemplate = preload("res://scripts/currency_war/currency_war_plant_template.gd")
 ## 一至八级升到下一级所需经验，九级为文档规定上限。
 const EXPERIENCE_THRESHOLDS: Array[int] = [4, 6, 8, 16, 32, 40, 52, 64]
-## 大纲九级概率表暂存；用户最新要求暂不启用，所有已定义普通植物等概率出现。
+## 一至九级商店费用概率，按一至五费顺序记录百分比；先抽费用，再在该费用普通植物中等概率抽取。
 const SHOP_ODDS: Array[Array] = [[100, 0, 0, 0, 0], [85, 15, 0, 0, 0], [75, 20, 5, 0, 0], [60, 25, 15, 0, 0], [43, 32, 22, 3, 0], [32, 40, 23, 5, 0], [24, 25, 35, 15, 1], [18, 22, 30, 25, 5], [13, 17, 20, 35, 15]]
 ## 费用档位对应的一至三星售卖价格，直接使用用户大纲1.1的数值。
 const SELL_PRICES: Array[Array] = [[1, 3, 9], [2, 5, 17], [3, 8, 26], [4, 11, 35], [5, 14, 44]]
@@ -33,28 +35,60 @@ const SHOP_SIZE: int = 5
 const REROLL_COST: int = 2
 ## 用户确认取消开局植物赠送，仅保留5点初始阳光。
 const STARTING_SUN: int = 5
-## 货币战争每波的出怪战力倍率；提高数量时仍沿用原版随机选怪与每波数量上限。
-const ZOMBIE_WAVE_MULTIPLIER: int = 2
+## 第一、二、三大关每个节点固定的旗帜波数，节点类型与遭遇难度不改变波数。
+const STAGE_WAVE_COUNTS: Array[int] = [1, 2, 4]
+## 第一节点每个实际小波的自然出怪数量，不包含舞王或巨人的额外召唤。
+const STARTING_ZOMBIE_COUNT: int = 5
+## 每进入下一节点，每波增加的自然出怪数量；十五节点从5只缓慢增加到19只。
+const ZOMBIE_COUNT_PER_NODE: int = 1
+## 以一基节点号逐步解锁的原版随机池；前两节点只出普通，蹦极和现有植物无法对空处理的气球不加入。
+const ZOMBIE_UNLOCKS: Dictionary = {
+	1: [CharacterRegistry.ZombieType.Z001Norm],
+	3: [CharacterRegistry.ZombieType.Z003Cone, CharacterRegistry.ZombieType.Z004PoleVaulter],
+	4: [CharacterRegistry.ZombieType.Z005Bucket],
+	5: [CharacterRegistry.ZombieType.Z006Paper],
+	6: [CharacterRegistry.ZombieType.Z007ScreenDoor],
+	7: [CharacterRegistry.ZombieType.Z008Football],
+	8: [CharacterRegistry.ZombieType.Z016Jackbox],
+	9: [CharacterRegistry.ZombieType.Z019Pogo],
+	10: [CharacterRegistry.ZombieType.Z022Ladder],
+	11: [CharacterRegistry.ZombieType.Z009Jackson],
+	12: [CharacterRegistry.ZombieType.Z018Digger],
+	13: [CharacterRegistry.ZombieType.Z013Zamboni],
+	14: [CharacterRegistry.ZombieType.Z023Catapult],
+	15: [CharacterRegistry.ZombieType.Z024Gargantuar],
+}
 ## 一级可上场的不同普通植物种类数；升级后每级再增加一种。
 const STARTING_SPECIES_LIMIT: int = 3
 ## 尚未种下的手牌位置标记；草坪位置为从零开始的行、列。
 const BENCH_CELL: Vector2i = Vector2i(-1, -1)
-## 大纲已定义的白绿蓝紫植物与两种直购地形植物；未定义的金卡不填入。
-const CATALOG: Dictionary = {
+## 大纲已定义的独有植物及两种直购地形植物，费用与星级规则优先于通用模板。
+const CUSTOM_CATALOG: Dictionary = {
 	1: {"name": "豌豆射手", "tier": 1, "trait": "豌豆", "tip": "稳定的单行远程输出"},
 	2: {"name": "向日葵", "tier": 1, "trait": "阳光", "tip": "节点结束按星级产生1/4/10阳光"},
 	5: {"name": "土豆地雷", "tier": 1, "trait": "灰烬", "tip": "爆炸后重新入土；二三星加快出土并提升伤害"},
-	6: {"name": "寒冰豌豆", "tier": 2, "trait": "豌豆", "tip": "二三星强化减速，并有概率发射可冰冻1秒的冰球"},
+	6: {"name": "寒冰豌豆", "tier": 2, "trait": "豌豆", "tip": "二三星强化减速，并有概率发射可冰冻1秒的冰棱"},
 	8: {"name": "双发豌豆", "tier": 2, "trait": "豌豆", "tip": "二三星提高攻速；概率发射火球，三星可发射紫球"},
+	9: {"name": "小喷菇", "tier": 1, "trait": "孢子", "tip": "0费；场上一星每两节点向前分裂一株；二/三星每节点分裂一/两株；无空地生成卡片"},
+	10: {"name": "阳光菇", "tier": 2, "trait": "阳光", "traits": ["阳光", "孢子"], "tip": "不产阳光；全场晒伤，成长前5%/15%/50%，成长后10%/30%/100%增伤"},
+	11: {"name": "大喷菇", "tier": 3, "trait": "孢子", "tip": "每5秒全力攻击，伤害+100%/200%/500%，击退0.5/1/2格；二三星全屏射程"},
+	13: {"name": "魅惑菇", "tier": 3, "trait": "孢子", "traits": ["孢子", "召唤"], "tip": "保留原版魅惑；开战召唤普通/路障/铁桶友军，之后每10/7/3秒召唤"},
+	29: {"name": "裂荚射手", "tier": 3, "trait": "豌豆", "tip": "后向豌豆到屏幕左边反弹；二三星左火球/右原版冰球概率10%/30%，攻击攻速+50%/+100%"},
+	14: {"name": "胆小菇", "tier": 2, "trait": "孢子", "tip": "二/三星攻击与攻速+50%/+100%；每次缩地对周围3×3僵尸造成50/100/100伤害，三星击退一格"},
+	37: {"name": "大蒜", "tier": 1, "trait": "毒", "tip": "保留换行；每次被啃食叠加一层持续5秒的毒，每秒10/20/50伤害"},
 	19: {"name": "三发豌豆", "tier": 3, "trait": "豌豆", "tip": "三个头独立判定大豌豆，命中造成一格范围伤害"},
 	41: {"name": "机枪豌豆", "tier": 4, "trait": "豌豆", "tip": "可直接种植；二三星有概率发射8颗，三星可发射火豌豆"},
 	17: {"name": "睡莲", "tier": 1, "trait": "", "tip": "泳池场景1阳光直购，不参与升星", "support": true},
 	34: {"name": "花盆", "tier": 1, "trait": "", "tip": "屋顶场景1阳光直购，不参与升星", "support": true},
 }
-## 已定义植物一至三星的攻击增幅；缺省类型不擅自添加星级攻击。
-const STAR_ATTACK_BONUS: Dictionary = {1: [0.0, 0.2, 0.5], 19: [0.0, 0.2, 0.5], 41: [0.0, 0.3, 1.0]}
-## 普通、双发、三发与机枪豌豆分别增加0%、50%、100%攻击频率，寒冰不加文档未写的攻速。
-const STAR_SPEED_BONUS: Dictionary = {1: [0.0, 0.5, 1.0], 8: [0.0, 0.5, 1.0], 19: [0.0, 0.5, 1.0], 41: [0.0, 0.5, 1.0]}
+## 完整普通植物名册，未独立设计的植物从原版阳光费用与通用模板生成。
+static var CATALOG: Dictionary = PlantTemplate.build_catalog(CUSTOM_CATALOG)
+## 用户移出本模式的植物；保留名称资料以兼容仓库旧记录，不再出现在商店或开发者可放置列表。
+const EXCLUDED_PLANTS: Array[int] = [CharacterRegistry.PlantType.P036CoffeeBean, CharacterRegistry.PlantType.P039MariGold, CharacterRegistry.PlantType.P046GoldMagnet]
+## 已定义植物的独有攻击增幅；通用植物另走PlantTemplate，不覆盖未写攻击提升的独有植物。
+const STAR_ATTACK_BONUS: Dictionary = {11: [0.0, 0.5, 1.0], 29: [0.0, 0.5, 1.0], 14: [0.0, 0.5, 1.0], 9: [0.0, 0.5, 1.0], 1: [0.0, 0.2, 0.5], 19: [0.0, 0.2, 0.5], 41: [0.0, 0.3, 1.0]}
+## 小喷菇、胆小菇和普通、双发、三发、机枪豌豆的二/三星增加50%/100%攻击频率，寒冰仍按独有设定。
+const STAR_SPEED_BONUS: Dictionary = {29: [0.0, 0.5, 1.0], 14: [0.0, 0.5, 1.0], 9: [0.0, 0.5, 1.0], 1: [0.0, 0.5, 1.0], 8: [0.0, 0.5, 1.0], 19: [0.0, 0.5, 1.0], 41: [0.0, 0.5, 1.0]}
 ## 羁绊只计算草坪上不同植物种类，同名植物不重复计数。
 const TRAITS: Dictionary = {
 	"豌豆": "2种：豌豆攻速+25%；4种：+55%",
@@ -136,6 +170,10 @@ var equipment_actions: Dictionary = {}
 var helmet_unit_id: int = -1
 ## 遭遇关选择的难度档位，一至四，仅影响当前遭遇节点。
 var encounter_level: int = 1
+## 独立开发者自由测试正在运行，期间暂停自动波次及节点结算。
+var developer_testing: bool = false
+## 当前自由测试按“植物类型:星级”保存的最终属性覆盖；不写入原版资源、文档或仓库。
+var developer_overrides: Dictionary = {}
 
 
 ## 建立初始商店；按用户确认取消十株赠送，备战席初始为空，不叠加大纲未指定的20张副本上限。
@@ -164,7 +202,7 @@ func unit_at(cell: Vector2i, layer: int = CharacterRegistry.PlacePlantInCell.Nor
 		return {}
 	# 已种植物必须占用唯一的草坪格子。
 	for unit: Dictionary in units:
-		if unit.cell == cell and placement(int(unit.type)) == layer:
+		if (unit.cell == cell or (int(unit.type) == 48 and unit.cell != BENCH_CELL and unit.cell.x == cell.x and unit.cell.y + 1 == cell.y)) and placement(int(unit.type)) == layer:
 			return unit
 	return {}
 
@@ -209,6 +247,9 @@ func move_reserve(unit_id: int, slot: int) -> bool:
 	var occupant: Dictionary = reserve_at(slot)
 	if not occupant.is_empty():
 		if unit.cell != BENCH_CELL:
+			if int(unit.type) == 48 or int(occupant.type) == 48:
+				message = "玉米加农炮占两格，请先拖到空备战格，再重新放置。"
+				return false
 			# 从场上换回备战时，目标备战植物承接原格；不同地形层有其他植物时拒绝覆盖。
 			var board_occupant: Dictionary = unit_at(unit.cell, placement(int(occupant.type)))
 			if not board_occupant.is_empty() and int(board_occupant.id) != unit_id:
@@ -232,18 +273,22 @@ func move_reserve(unit_id: int, slot: int) -> bool:
 	return true
 
 
-## 按大纲1.1返回[param plant_type]的1至5费价格，不读取原版25至数百点的种植费用。
+## 返回[param plant_type]的阳光价格；小喷菇为0，其他按独有费用或通用模板，抽卡稀有度仍独立使用tier。
 func base_price(plant_type: int) -> int:
-	return int(CATALOG[plant_type].tier)
+	return 0 if plant_type == CharacterRegistry.PlantType.P009PuffShroom else int(CATALOG[plant_type].tier)
 
 
-## 返回[param plant_type]的[param star]星攻击增幅，未定义类型返回0，不包括装备和羁绊。
+## 返回[param plant_type]的[param star]星攻击增幅，独有植物优先；未独立设计的普通植物使用0%、50%、100%。
 func star_attack_bonus(plant_type: int, star: int) -> float:
+	if bool(CATALOG.get(plant_type, {}).get("generic", false)):
+		return PlantTemplate.STAR_BONUS[clampi(star, 1, 3) - 1]
 	return float(STAR_ATTACK_BONUS[plant_type][clampi(star, 1, 3) - 1]) if STAR_ATTACK_BONUS.has(plant_type) else 0.0
 
 
-## 返回[param plant_type]的[param star]星攻速增幅，未定义类型返回0，频率增幅不能作为伤害倍率。
+## 返回[param plant_type]的[param star]星攻速增幅，独有植物优先，其他植物使用通用模板；不作为伤害倍率。
 func star_speed_bonus(plant_type: int, star: int) -> float:
+	if bool(CATALOG.get(plant_type, {}).get("generic", false)):
+		return PlantTemplate.STAR_BONUS[clampi(star, 1, 3) - 1]
 	return float(STAR_SPEED_BONUS[plant_type][clampi(star, 1, 3) - 1]) if STAR_SPEED_BONUS.has(plant_type) else 0.0
 
 
@@ -273,6 +318,8 @@ func buy(slot: int) -> bool:
 		return false
 	# 使用当前商品类型，不额外引入大纲未规定的有限副本库存。
 	var plant_type: int = shop[slot]
+	if not _can_offer_plant(plant_type):
+		return false
 	# 购买只花阳光，种植已持有手牌时不重复收费。
 	var price: int = purchase_price(plant_type)
 	if sun < price:
@@ -318,6 +365,16 @@ func plant_card(unit_id: int, cell: Vector2i) -> bool:
 	if cell.x < 0 or cell.x >= board_rows or not is_lane_open(cell.x) or lawn_expanding or cell.y < 0 or cell.y >= 9:
 		message = "这块草坪已有植物，请选择空地。"
 		return false
+	# 玉米炮在逻辑记录中也占两格，不能只让原版实体占住前轮却漏掉种植、出售或交换校验。
+	for part: Vector2i in occupied_cells(int(unit.type), cell):
+		if part.y >= 9:
+			message = "玉米加农炮需要连续两格，不能放在最后一列。"
+			return false
+		# 宽植物不与已有植物直接交换，避免交换后前轮越界或覆盖第三株。
+		var other: Dictionary = unit_at(part, placement(int(unit.type)))
+		if not other.is_empty() and int(other.id) != unit_id and (int(unit.type) == 48 or int(other.type) == 48):
+			message = "玉米加农炮需要两格空位；请先把占位植物移开。"
+			return false
 	# 为失败的种类上限校验保留原始位置与绑定，拖放失败不改备战格号。
 	var previous_cell: Vector2i = unit.cell
 	# 上场单位为-1，备战单位保留其固定位置。
@@ -378,9 +435,11 @@ func sell(unit_id: int) -> bool:
 	return true
 
 
-## 返回[param unit]在大纲售卖表中的价格；底座不升星，按一费一星返还1阳光。
+## 返回[param unit]的售卖价格；0费小喷菇各星均返0，底座按一费一星返1，其他沿用大纲售卖表。
 func sell_value(unit: Dictionary) -> int:
-	return int(SELL_PRICES[base_price(unit.type) - 1][int(unit.star) - 1])
+	# 先处理0费，防止以-1下标误取五费售卖金额。
+	var price: int = base_price(int(unit.type))
+	return 0 if price == 0 else int(SELL_PRICES[price - 1][int(unit.star) - 1])
 
 
 ## 植物[param unit_id]阵亡后永久移除本局拥有记录；不返阳光，节点切换也不复活。
@@ -443,12 +502,15 @@ func trait_counts() -> Dictionary:
 	# 每种植物只计数一次。
 	var seen: Dictionary = {}
 	# 只统计大纲中的两种待开发羁绊和暂缓制作的灰烬标记，不混入旧原型的羁绊类别。
-	var counts: Dictionary = {"豌豆": 0, "阳光": 0, "灰烬": 0}
+	var counts: Dictionary = {"豌豆": 0, "阳光": 0, "灰烬": 0, "毒": 0, "孢子": 0, "召唤": 0}
 	# 手牌不提供任何羁绊。
 	for unit: Dictionary in units:
 		if unit.cell != BENCH_CELL and not is_support(int(unit.type)) and not seen.has(unit.type):
 			seen[unit.type] = true
-			counts[CATALOG[unit.type].trait] += 1
+			# 双阵营植物各计入一次，不重复计算同种多株。
+			for family: String in CATALOG[unit.type].get("traits", [CATALOG[unit.type].trait]):
+				if counts.has(family):
+					counts[family] += 1
 	return counts
 
 
@@ -507,6 +569,21 @@ func has_hex(hex_id: String) -> bool:
 func _add_unit(plant_type: int) -> void:
 	units.append({"id": _next_id, "type": plant_type, "star": 1, "cell": BENCH_CELL, "reserve_slot": _first_free_reserve_slot(), "equipment": [], "merge_locked": false})
 	_next_id += 1
+
+
+## 在自由测试的[param cell]免费创建[param plant_type]、[param star]星植物，不扣阳光、不占种类限制、不自动合成；失败返回-1。
+func developer_add_plant(plant_type: int, star: int, cell: Vector2i) -> int:
+	if not developer_testing or not is_plant_enabled(plant_type) or not unit_at(cell, placement(plant_type)).is_empty():
+		return -1
+	# 开发者放置也遵守双格宽度，不能越界或覆盖另一株测试植物。
+	for part: Vector2i in occupied_cells(plant_type, cell):
+		if part.x < 0 or part.x >= board_rows or part.y < 0 or part.y >= 9 or not unit_at(part, placement(plant_type)).is_empty():
+			return -1
+	# 测试植物锁定合成，允许同时摆放多株同星单位观察属性。
+	var unit_id: int = _next_id
+	units.append({"id": unit_id, "type": plant_type, "star": 1 if is_support(plant_type) else clampi(star, 1, 3), "cell": cell, "reserve_slot": -1, "equipment": [], "merge_locked": true})
+	_next_id += 1
+	return unit_id
 
 
 ## 返回首个空备战格；[param allow_overflow]仅用于跨地图退回，允许十格之外的保留位置；正常满席购买时返回-1。
@@ -582,17 +659,67 @@ func _merge_three(plant_type: int, star: int) -> void:
 	last_merges.append({"id": keeper_id, "type": plant_type, "star": star + 1, "consumed": consumed_ids})
 
 
-## 按用户最新确认从全部已定义的普通植物中等概率抽取，暂不启用等级费用概率或添加金卡。
+## 按当前等级的稀有度概率抽一张可售植物，同档等概率且允许重复；排除直购、停用和地形不适配类型，空池返回-1。
 func _draw_card() -> int:
-	# 地形直购品始终排除，普通植物保留大纲费用，不因等概率抽取改变价格。
+	# 等级限定一至九级，兼容旧存档中越界的等级值。
+	var odds: Array = SHOP_ODDS[clampi(level, 1, SHOP_ODDS.size()) - 1]
+	# 每个商店位置独立投一次百分位随机数，不受各费用植物种数影响档位概率。
+	var roll: int = _random.randi_range(1, 100)
+	# 按概率表累计区间，0概率档位不会被选中。
+	var cumulative: int = 0
+	# 费用档位为一基；未命中表示配置表不完整，保留-1而不擅自改抽其他费用。
+	var selected_tier: int = -1
+	# 每个索引对应一至五费，不改变原版阳光映射或独有费用。
+	for tier_index: int in range(odds.size()):
+		cumulative += int(odds[tier_index])
+		if roll <= cumulative:
+			selected_tier = tier_index + 1
+			break
+	# 档位确定后只从当前场景该费用池抽植物，保持等级概率不被种类数稀释。
+	var candidates: Array[int] = _shop_candidates(selected_tier)
+	return -1 if candidates.is_empty() else candidates[_random.randi_range(0, candidates.size() - 1)]
+
+
+## 返回[param plant_type]是否仍在本模式启用；旧仓库名称资料保留，不代表可重新购买或测试放置。
+func is_plant_enabled(plant_type: int) -> bool:
+	return CATALOG.has(plant_type) and not EXCLUDED_PLANTS.has(plant_type)
+
+
+## 返回[param plant_type]是否仅能种在水路；普通陆生植物即使能种睡莲上也不归为水生专用植物。
+func _is_water_only_plant(plant_type: int) -> bool:
+	if plant_type == CharacterRegistry.PlantType.P044Cattail:
+		# 猫尾草共用紫卡资源，但本模式直接放置时仍只允许水路，须单独识别。
+		return true
+	# 读取种植地形掩码；8为水、16为睡莲，2为草地、4为花盆、32为屋顶裸地。
+	var condition: ResourcePlantCondition = Global.character_registry.get_plant_info(plant_type, CharacterRegistry.PlantInfoAttribute.PlantConditionResource)
+	return (condition.plant_condition & (8 | 16)) != 0 and (condition.plant_condition & (2 | 4 | 32)) == 0
+
+
+## 返回[param plant_type]能否进入当前场景普通商店；泳池白天、黑夜均可抽水生植物，地形直购独立处理。
+func _can_offer_plant(plant_type: int) -> bool:
+	return is_plant_enabled(plant_type) and not is_support(plant_type) and (campaign.theme().scene == "back" or not _is_water_only_plant(plant_type))
+
+
+## 返回[param tier]稀有度的当前可售植物，0费小喷菇仍使用白卡档位；候选内部等概率。
+func _shop_candidates(tier: int) -> Array[int]:
+	# 只筛选当前场景和已启用类型，不改变一至九级的费用档位概率。
 	var candidates: Array[int] = []
-	# 每个已定义类型占一个候选位置，与费用和等级无关。
+	# 相同植物类型只进入一次，地形卡与停用类型均由统一上架条件排除。
 	for plant_type: int in CATALOG:
-		if not is_support(plant_type):
+		if int(CATALOG[plant_type].tier) == tier and _can_offer_plant(plant_type):
 			candidates.append(plant_type)
-	if candidates.is_empty():
-		return -1
-	return candidates[_random.randi_range(0, candidates.size() - 1)]
+	return candidates
+
+
+## 替换跨地图或规则更新后不可上架的旧商品；保留其稀有度、其他商品及售空位置，不收取D牌费用。
+func _sanitize_shop() -> void:
+	# 逐栏检查，锁店跨大关也不能把水生商品带到没有水路的场景继续出售。
+	for slot: int in range(shop.size()):
+		if shop[slot] == -1 or _can_offer_plant(int(shop[slot])):
+			continue
+		# 在原费用档内替换，避免修正地形商品时额外抽出更高稀有度。
+		var candidates: Array[int] = _shop_candidates(int(CATALOG[shop[slot]].tier))
+		shop[slot] = -1 if candidates.is_empty() else candidates[_random.randi_range(0, candidates.size() - 1)]
 
 
 ## 返回[param plant_type]是否为用户新增的睡莲或花盆直购品，两者永不参与升星。
@@ -600,9 +727,18 @@ func is_support(plant_type: int) -> bool:
 	return plant_type == 17 or plant_type == 34
 
 
-## 返回[param plant_type]的地形层，睡莲和花盆使用底座层，其余使用普通层。
+## 返回[param plant_type]放在[param cell]时的逻辑占格，玉米炮占本格和右侧格，其他植物一格。
+func occupied_cells(plant_type: int, cell: Vector2i) -> Array[Vector2i]:
+	if plant_type == 48 and cell != BENCH_CELL:
+		return [cell, cell + Vector2i(0, 1)]
+	return [cell]
+
+
+## 返回[param plant_type]的原版种植层：普通、南瓜壳、底座或咖啡豆漂浮层，避免把辅助植物误当成普通层覆盖。
 func placement(plant_type: int) -> int:
-	return CharacterRegistry.PlacePlantInCell.Down if is_support(plant_type) else CharacterRegistry.PlacePlantInCell.Norm
+	# 只读注册资源，不修改共享地形条件。
+	var condition: ResourcePlantCondition = Global.character_registry.get_plant_info(plant_type, CharacterRegistry.PlantInfoAttribute.PlantConditionResource)
+	return condition.place_plant_in_cell
 
 
 ## 返回备战席需要展示的格数；正常为十格，跨场景退回的额外植物保留在可滚动溢出格，绝不丢弃。
@@ -639,6 +775,7 @@ func configure_node(rows: int, waves: int, support: int) -> void:
 	lawn_expanding = false
 	node_wave_limit = waves
 	support_type = support
+	_sanitize_shop()
 	# 保持仍有效的部署位置，第六行退回时允许溢出十格，防止静默删除幸存植物。
 	for unit: Dictionary in units:
 		if unit.cell != BENCH_CELL and not is_lane_open(unit.cell.x):
@@ -684,11 +821,43 @@ func settle_node(won: bool) -> void:
 			grant_equipment(2, false)
 		elif encounter_level == 4:
 			grant_equipment(2, true)
+	_split_puff_shrooms()
 	phase = Phase.FINISHED if campaign.is_final_result() else Phase.NODE_RESULT
 	campaign_won = won and campaign.brain_losses < CampaignRules.FINAL_BRAIN_LOSS and campaign.node_index == CampaignRules.NODE_COUNT - 1
 	settlement_text = "%s %s\n连胜%d · 已吃脑%d次（第4次结束）\n存活植物%d株，备战植物%d株。" % [campaign.node_label(), "获胜" if won else "被吃脑", campaign.win_streak, campaign.brain_losses, count_units(), count_units(false)]
 	settlement_text += "\n阳光：固定5 + 植物%d + 连胜%d + 利息%d + 节点%d\n等级%d · 经验%d · 背包装备%d件" % [plant_income + solar_income, streak_income, interest_income, reward_income + encounter_income, level, experience, equipment_inventory.size()]
 	message = "节点已结束，存活植物将在下一准备节点满血，阵亡植物不会恢复。"
+
+
+## 节点结束时仅让存活场上小喷菇累计分裂进度；新增一星后代不继承装备、星级和进度，统一遵守现有三合一。
+func _split_puff_shrooms() -> void:
+	# 固定本次结算的亲本快照，后代不能在出生节点继续分裂。
+	var parents: Array[Dictionary] = units.duplicate()
+	# 同节点所有分裂完成后再检查合成，避免中途合成删除尚未处理的亲本。
+	var created: bool = false
+	# 备战植物不累计节点，前方按同一行列号递增，不选择其他随机落点。
+	for parent: Dictionary in parents:
+		if int(parent.type) != 9 or parent.cell == BENCH_CELL:
+			continue
+		parent["spore_nodes"] = int(parent.get("spore_nodes", 0)) + 1
+		if int(parent.spore_nodes) < (2 if int(parent.star) == 1 else 1):
+			continue
+		parent["spore_nodes"] = 0
+		# 三星两个后代分别尝试前方第一和第二格；未满足种植条件时在实体创建阶段退回备战。
+		for offset: int in range(1, 3 if int(parent.star) == 3 else 2):
+			# 默认生成卡片，备战满十格时使用已有溢出展示，不丢弃后代。
+			var child: Dictionary = {"id": _next_id, "type": 9, "star": 1, "cell": BENCH_CELL, "reserve_slot": _first_free_reserve_slot(true), "equipment": [], "merge_locked": false, "spore_nodes": 0}
+			# 逻辑空位可直接部署，占用或越界时保留为卡片。
+			var target: Vector2i = parent.cell + Vector2i(0, offset)
+			if target.y < 9 and unit_at(target).is_empty():
+				child.cell = target
+				child.reserve_slot = -1
+			units.append(child)
+			_next_id += 1
+			created = true
+	if created:
+		_merge_all()
+		_assign_reserve_slots()
 
 
 ## 从节点结果进入下一准备阶段；复用整局单位与阳光，绝不重新发放开局资源。
@@ -699,10 +868,11 @@ func advance_node() -> bool:
 	current_wave = 0
 	encounter_level = 1
 	if shop_locked:
-		# 商品及已售空栏位原样保留一次，之后的节点恢复自动刷新。
+		# 合法商品及已售空栏位保留一次；跨地图不再可售的商品在下方按原稀有度替换。
 		shop_locked = false
 	else:
 		refresh_shop(false)
+	_sanitize_shop()
 	message = "准备%s %s，可拖动场上和备战席植物调整位置。" % [campaign.node_label(), campaign.node_kind()]
 	return true
 
@@ -852,23 +1022,32 @@ func sync_helmet() -> void:
 func set_encounter_level(selected: int) -> void:
 	if phase == Phase.PREPARATION and campaign.node_kind() == "遭遇关" and selected >= 1 and selected <= 4:
 		encounter_level = selected
-		node_wave_limit = selected
+		node_wave_limit = configured_wave_count()
 
 
-## 返回实际小波数：普通节点一波，遭遇关的难度一至四分别一至四波，不换算成旗帜。
+## 返回当前大关每节点的旗帜波数：第一大关1波、第二2波、第三4波；每旗沿用当前一波的自然出怪数量。
 func configured_wave_count() -> int:
-	return encounter_level if campaign.node_kind() == "遭遇关" else 1
+	return STAGE_WAVE_COUNTS[clampi(campaign.stage_number(), 1, STAGE_WAVE_COUNTS.size()) - 1]
 
 
-## 根据整局节点逐渐开放随机池：前两节点只有普通，第三加入路障和撑杆，第四起加入铁桶。
+## 返回当前节点每个实际小波的自然出怪数量；跨大关不重置，遭遇关的各波均使用本节点数量。
+func configured_zombie_count() -> int:
+	return STARTING_ZOMBIE_COUNT + ZOMBIE_COUNT_PER_NODE * clampi(campaign.node_index, 0, CampaignRules.NODE_COUNT - 1)
+
+
+## 按整局一至十五节点累计开放原版随机池，已解锁类型不因换大关而移除，蹦极不出现。
 func configured_zombies() -> Array[CharacterRegistry.ZombieType]:
 	# 新类型只加入池子，不保证每波固定出现。
-	var types: Array[CharacterRegistry.ZombieType] = [CharacterRegistry.ZombieType.Z001Norm]
-	if campaign.node_index >= 2:
-		types.append(CharacterRegistry.ZombieType.Z003Cone)
-		types.append(CharacterRegistry.ZombieType.Z004PoleVaulter)
-	if campaign.node_index >= 3:
-		types.append(CharacterRegistry.ZombieType.Z005Bucket)
+	var types: Array[CharacterRegistry.ZombieType] = []
+	# 存档边界钳制到第十五节点，不因最终结果索引越界改变累计阵容。
+	var node_number: int = clampi(campaign.node_index, 0, CampaignRules.NODE_COUNT - 1) + 1
+	# 解锁表使用一基节点号，与玩家看到的整局顺序相同。
+	for unlock_node: int in ZOMBIE_UNLOCKS:
+		if unlock_node > node_number:
+			continue
+		# 每个已解锁类型只入池一次，沿用原版权重而非保证刷出新类型。
+		for zombie_type: int in ZOMBIE_UNLOCKS[unlock_node]:
+			types.append(zombie_type)
 	return types
 
 

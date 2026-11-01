@@ -12,4 +12,8 @@ func _start_bomb_fx():
 
 ## 爆炸冰冻所有敌人
 func _bomb_all_enemy():
-	EventBus.push_event("ice_all_zombie", [time_ice, time_decelerate])
+	# 只有货币战争传入星级后的伤害，原版事件继续使用默认20点。
+	if owner.has_meta("currency_war_attack_value"):
+		EventBus.push_event("ice_all_zombie", [time_ice, time_decelerate, bomb_value])
+	else:
+		EventBus.push_event("ice_all_zombie", [time_ice, time_decelerate])

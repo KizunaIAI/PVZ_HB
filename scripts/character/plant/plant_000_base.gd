@@ -266,3 +266,11 @@ func load_game_data_plant(save_game_data_plant:Dictionary):
 
 	hp_component.curr_hp = save_game_data_plant["curr_hp"]
 	hp_component.signal_hp_loss.emit(hp_component.curr_hp, true)
+
+
+## 通知货币战争一次特殊攻击动作；其他模式没有回调，不改变原版行为。
+func currency_war_attack_action() -> void:
+	# 模式控制器绑定单位标识；不让角色脚本依赖整局规则或场景。
+	var callback: Callable = get_meta("currency_war_action_callback", Callable())
+	if callback.is_valid():
+		callback.call()
