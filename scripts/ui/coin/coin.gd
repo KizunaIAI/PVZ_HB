@@ -28,6 +28,8 @@ var tween: Tween = null
 
 ## 是否被获取
 var is_get:bool = false
+## 模式钱币拾取回调；绑定后立即交付本局币值，不写入原版永久金币余额。
+var currency_war_collect_callback: Callable
 
 func setup(coin_target_pos:Vector2):
 	coin_target_position = coin_target_pos
@@ -87,6 +89,10 @@ func _on_button_pressed() -> void:
 	if is_get:
 		return
 	is_get = true
+	# 在飞向界面前记账，避免节点切换打断动画时丢失已经拾取的钱币。
+	var mode_collection: bool = currency_war_collect_callback.is_valid()
+	if mode_collection:
+		currency_war_collect_callback.call(coin_value)
 	SoundManager.play_other_SFX("coin")
 	button.queue_free()
 	##打断抛物线
@@ -96,7 +102,8 @@ func _on_button_pressed() -> void:
 	var click_tween:Tween = create_tween()
 	click_tween.tween_property(self, "global_position", coin_target_position, 0.5)
 	await click_tween.finished
-	Global.global_game_state.coin_value += coin_value
+	if not mode_collection:
+		Global.global_game_state.coin_value += coin_value
 	click_tween = create_tween()
 	click_tween.set_parallel()
 	click_tween.tween_property(self, "modulate:a", 0, 0.5)
@@ -111,13 +118,18 @@ func be_attract_gold_magnet(target_global_pos:Vector2):
 	if is_get:
 		return
 	is_get = true
+	# 如有模式拾取物被原版吸取入口调用，仍只交付模式币值，不混入永久金币。
+	var mode_collection: bool = currency_war_collect_callback.is_valid()
+	if mode_collection:
+		currency_war_collect_callback.call(coin_value)
 	##打断抛物线
 	_on_interrupt_triggered()
 
 	var be_attract_tween:Tween = create_tween()
 	be_attract_tween.tween_property(self, "global_position", target_global_pos, 0.5)
 	await be_attract_tween.finished
-	Global.global_game_state.coin_value += coin_value
+	if not mode_collection:
+		Global.global_game_state.coin_value += coin_value
 	be_attract_tween = create_tween()
 	be_attract_tween.set_parallel()
 	be_attract_tween.tween_property(self, "modulate:a", 0, 0.5)

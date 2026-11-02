@@ -30,6 +30,7 @@ var zero_cd_plnat_card_type_on_pot_mode: Array = [
 
 ## 随机罐子刷新的植物黑名单类型(null等)
 var blacklist_plant_types_with_pot: Array[CharacterRegistry.PlantType] = [
+	CharacterRegistry.PlantType.P051DaFeiYu, ## Boss奖励不进入随机罐子。
 	CharacterRegistry.PlantType.Null,
 	CharacterRegistry.PlantType.P036CoffeeBean,
 	CharacterRegistry.PlantType.P999Imitater,

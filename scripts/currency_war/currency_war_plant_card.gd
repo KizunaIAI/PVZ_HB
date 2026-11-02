@@ -106,7 +106,7 @@ func _set_portrait(plant_type: int) -> void:
 	if plant_type == -1:
 		return
 	# 原版自动加载已经整理好每种植物的完整卡面，无需只截取头部或额外生成素材。
-	var source: Card = AllCards.all_plant_card_prefabs.get(plant_type)
+	var source: Card = preload("res://scripts/currency_war/da_fei_yu_reward.gd").card(plant_type)
 	if not is_instance_valid(source):
 		return
 	_portrait = source.character_static.duplicate(0) as Node2D

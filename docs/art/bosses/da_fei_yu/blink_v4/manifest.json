@@ -1,0 +1,82 @@
+[
+  {
+    "name": "standing",
+    "file": "exec-ddaefe31-db9c-4258-9825-0bab4d48f521.png",
+    "crop": [
+      32,
+      19,
+      55,
+      53
+    ],
+    "target": [
+      48,
+      158,
+      54,
+      64
+    ]
+  },
+  {
+    "name": "reach",
+    "file": "exec-521a6c02-1c72-4c65-aa53-f58629d04495.png",
+    "crop": [
+      36,
+      19,
+      54,
+      42
+    ],
+    "target": [
+      52,
+      150,
+      60,
+      62
+    ]
+  },
+  {
+    "name": "hold",
+    "file": "exec-2e6e0ffd-0188-439a-b50e-e9d855cf5267.png",
+    "crop": [
+      36,
+      20,
+      56,
+      52
+    ],
+    "target": [
+      75,
+      157,
+      60,
+      65
+    ]
+  },
+  {
+    "name": "angry",
+    "file": "exec-00fa74e0-3765-4caa-b600-6fbd9f43bda0.png",
+    "crop": [
+      37,
+      30,
+      58,
+      48
+    ],
+    "target": [
+      75,
+      167,
+      64,
+      58
+    ]
+  },
+  {
+    "name": "throw",
+    "file": "exec-f15a1b78-16cb-4bd9-a966-3a3b3a4a3d7c.png",
+    "crop": [
+      24,
+      34,
+      60,
+      52
+    ],
+    "target": [
+      116,
+      183,
+      64,
+      62
+    ]
+  }
+]

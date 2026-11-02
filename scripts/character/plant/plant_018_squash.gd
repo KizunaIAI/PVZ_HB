@@ -42,13 +42,34 @@ func jump_up_start():
 ## 压扁所有范围内可攻击僵尸
 func squash_all_area_zombie():
 	currency_war_attack_action()
-	var areas = area_2d_squash_attack.get_overlapping_areas()
-	for area in areas:
-		var zombie:Zombie000Base = area.owner
-		## 如果为同一行僵尸
-		if zombie.lane == row_col.x:
-			if zombie.curr_be_attack_status & can_attack_zombie_status:
-				zombie.be_squash(int(get_meta("currency_war_attack_value", 1800)))
+	# 同一僵尸可能有多个检测框，快照去重后只结算一次压击。
+	var targets: Array[Zombie000Base] = []
+	# 原版压击范围，不扩大到相邻行。
+	for area: Area2D in area_2d_squash_attack.get_overlapping_areas():
+		# 只处理有效僵尸，不将地形或其他检测对象强转为僵尸。
+		var zombie: Zombie000Base = area.owner as Zombie000Base
+		if is_instance_valid(zombie) and not zombie.is_death and not zombie.is_hypno and zombie.lane == row_col.x and (zombie.curr_be_attack_status & can_attack_zombie_status) and not targets.has(zombie):
+			targets.append(zombie)
+	# 伤害可能立即触发节点结算，因此仍在本次同步回调结束前记录回备战状态。
+	for zombie: Zombie000Base in targets:
+		if is_instance_valid(zombie) and not zombie.is_death:
+			zombie.be_squash(int(get_meta("currency_war_attack_value", 1800)))
+	# 没有模式回调时仍由原版动画后续帧处理水花与消失。
+	var callback: Callable = get_meta("currency_war_return_callback", Callable())
+	if callback.is_valid() and hp_component.curr_hp > 0:
+		set_meta("currency_war_squash_landed", true)
+		judge_jump_pool()
+		callback.call()
+
+
+## 模式中已完成压击的自毁改为回备战；未落地前真实阵亡仍按原版移除。
+func character_death():
+	# 水中落地和动画结束都可能调用，同一次返库由规则层保证只执行一次。
+	var callback: Callable = get_meta("currency_war_return_callback", Callable())
+	if callback.is_valid() and bool(get_meta("currency_war_squash_landed", false)) and hp_component.curr_hp > 0:
+		callback.call()
+		return
+	super()
 
 ## 跳入水中判断
 func judge_jump_pool():

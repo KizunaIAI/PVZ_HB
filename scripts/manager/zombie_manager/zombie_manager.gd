@@ -318,11 +318,14 @@ func ice_all_zombie(time_ice:float, time_decelerate: float, freeze_damage: int =
 	## 冰消珊瑚
 	is_ice = true
 	start_ice_timer(time_ice)
+	# 每行只读取当前敌军，魅惑友军已从二维敌军列表移除。
 	for zombie_row:Array in all_zombies_2d:
 		if zombie_row.is_empty():
 			continue
-		for zombie:Zombie000Base in zombie_row:
-			zombie.be_ice_freeze(time_ice, time_decelerate, freeze_damage)
+		# 冻结伤害可能立即移除一血敌人，快照遍历避免漏掉同一行的下一只。
+		for zombie:Zombie000Base in zombie_row.duplicate():
+			if is_instance_valid(zombie) and not zombie.is_death:
+				zombie.be_ice_freeze(time_ice, time_decelerate, freeze_damage)
 
 func start_ice_timer(wait_time:float):
 	if not is_instance_valid(ice_timer):

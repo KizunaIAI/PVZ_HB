@@ -6,13 +6,15 @@ class_name MagnetComponent
 @onready var attack_cd_timer: Timer = $AttackCdTimer
 @onready var area_2d: Area2D = $Area2D
 
-## 攻击cd(笑话铁器时间)
+## 吸取一件铁器后的消化间隔，单位为游戏秒。
 @export var attack_cd:float = 30
 
 ## 当前持有铁器
 var curr_iron : Node2D
 ## 是否已攻击
 var is_attack_cd:=false
+## 货币战争消化结束时保留铁器投掷；未绑定时继续原版消失与重新吸铁流程。
+var currency_war_digest_callback: Callable
 
 ## 开始攻击
 signal signal_attack_start
@@ -54,11 +56,24 @@ func attack_once(iron_node:IronNode):
 
 ## 消化铁器完成
 func _on_attack_cd_timer_timeout() -> void:
+	if currency_war_digest_callback.is_valid():
+		currency_war_digest_callback.call()
+		return
 	signal_attack_cd_end.emit()
 	is_attack_cd = false
 	curr_iron.queue_free()
 	for area in area_2d.get_overlapping_areas():
 		_on_area_2d_area_entered(area)
+
+## 模式已将铁器移交子弹后解除持有并恢复吸铁；不释放已经在飞行的铁器节点。
+func finish_currency_war_throw() -> void:
+	curr_iron = null
+	signal_attack_cd_end.emit()
+	is_attack_cd = false
+	# 消化期间已进入范围的铁器不再触发area_entered，需要沿用原版重叠补检。
+	for area: Area2D in area_2d.get_overlapping_areas():
+		_on_area_2d_area_entered(area)
+
 
 ## 有僵尸进入到吸铁范围内
 func _on_area_2d_area_entered(area: Area2D) -> void:

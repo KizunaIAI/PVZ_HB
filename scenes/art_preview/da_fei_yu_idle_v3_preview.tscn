@@ -1,0 +1,96 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_steel_basin_visual.tscn" id="visual"]
+[ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_idle_v3_preview.gd" id="controller"]
+
+[node name="DaFeiYuIdleV3Preview" type="Node2D"]
+script = ExtResource("controller")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+offset_right = 1066.0
+offset_bottom = 600.0
+color = Color(0.925, 0.949, 0.984, 1)
+mouse_filter = 2
+
+[node name="Ground" type="Line2D" parent="."]
+points = PackedVector2Array(30, 566, 1040, 566)
+width = 2.0
+default_color = Color(0.66, 0.74, 0.85, 1)
+
+[node name="StandingFull" parent="." instance=ExtResource("visual")]
+position = Vector2(660, 566)
+
+[node name="StandingSmall" parent="." instance=ExtResource("visual")]
+position = Vector2(962, 566)
+scale = Vector2(0.32, 0.32)
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Title" type="Label" parent="Interface"]
+offset_left = 30.0
+offset_top = 18.0
+offset_right = 440.0
+offset_bottom = 62.0
+theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(0.11, 0.19, 0.33, 1)
+text = "大肥鱼 · 待机 v3"
+
+[node name="Notes" type="Label" parent="Interface"]
+offset_left = 32.0
+offset_top = 70.0
+offset_right = 440.0
+offset_bottom = 150.0
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.3, 0.4, 0.55, 1)
+autowrap_mode = 3
+text = "12 秒循环 · 三次呼吸递减 · 三次眨眼
+3.6s 尾鳍 · 6.8s 歪头 · 10.1s 钢盆回正
+左 1.0 看细节 · 右 0.32 看实机"
+
+[node name="StateLabel" type="Label" parent="Interface"]
+offset_left = 32.0
+offset_top = 156.0
+offset_right = 440.0
+offset_bottom = 186.0
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.42, 0.3, 0.42, 1)
+text = "眨眼：睁眼"
+
+[node name="BtnPause" type="Button" parent="Interface"]
+offset_left = 32.0
+offset_top = 196.0
+offset_right = 152.0
+offset_bottom = 240.0
+text = "暂停"
+
+[node name="BtnHalf" type="Button" parent="Interface"]
+offset_left = 164.0
+offset_top = 196.0
+offset_right = 284.0
+offset_bottom = 240.0
+text = "半速"
+
+[node name="BtnReplay" type="Button" parent="Interface"]
+offset_left = 296.0
+offset_top = 196.0
+offset_right = 416.0
+offset_bottom = 240.0
+text = "重新播放"
+
+[node name="LabelFull" type="Label" parent="Interface"]
+offset_left = 540.0
+offset_top = 572.0
+offset_right = 810.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.25, 0.36, 0.52, 1)
+text = "1.0 缩放 · 动作细节"
+
+[node name="LabelSmall" type="Label" parent="Interface"]
+offset_left = 890.0
+offset_top = 572.0
+offset_right = 1040.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.25, 0.36, 0.52, 1)
+text = "0.32 缩放 · 实机"

@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/art_preview/fire_variants_preview.gd" id="script"]
+
+[node name="FireVariantsPreview" type="Node2D"]
+script = ExtResource("script")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1066.0
+offset_bottom = 600.0
+color = Color(0.09, 0.12, 0.17, 1)
+
+[node name="Title" type="Label" parent="."]
+offset_left = 40.0
+offset_top = 25.0
+theme_override_font_sizes/font_size = 28
+text = "原版火球换色 · 本体与命中特效"
+
+[node name="Label160" type="Label" parent="."]
+offset_left = 160.0
+offset_top = 100.0
+theme_override_font_sizes/font_size = 24
+text = "原版橙火"
+
+[node name="Label470" type="Label" parent="."]
+offset_left = 470.0
+offset_top = 100.0
+theme_override_font_sizes/font_size = 24
+text = "紫火球"
+
+[node name="Label780" type="Label" parent="."]
+offset_left = 780.0
+offset_top = 100.0
+theme_override_font_sizes/font_size = 24
+text = "红火球"

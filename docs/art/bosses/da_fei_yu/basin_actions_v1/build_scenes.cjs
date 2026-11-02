@@ -9,11 +9,16 @@ const ext=(type,file,id)=>'[ext_resource type="'+type+'" path="'+file+'" id="'+i
 scene+=ext('Script','res://scripts/art_preview/da_fei_yu_basin_actions.gd','controller');
 scene+=ext('Script','res://scripts/art_preview/da_fei_yu_thought_bubble.gd','bubble');
 scene+=ext('PackedScene','res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_steel_basin_visual.tscn','standing');
-for(const name of ['reach','hold','angry','throw','rice_basin']) scene+=ext('Texture2D',assets+name+'.png',name);
+scene+=ext('PackedScene','res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_hold_idle_visual.tscn','hold');
+for(const name of ['reach','angry','throw','rice_basin']) scene+=ext('Texture2D',assets+name+'.png',name);
 scene+='\n[node name="DaFeiYuBasinActionsVisual" type="Node2D"]\nscript = ExtResource("controller")\n';
 scene+='\n[node name="Standing" parent="." instance=ExtResource("standing")]\n';
 scene+='\n[node name="Poses" type="Node2D" parent="."]\nvisible = false\n';
 for(const [index,name] of ['reach','hold','angry','throw'].entries()){
+ if(name==='hold') {
+  scene+='\n[node name="hold" parent="Poses" instance=ExtResource("hold")]\nvisible = false\n';
+  continue;
+ }
  scene+='\n[node name="'+name+'" type="Sprite2D" parent="Poses"]\nvisible = false\nposition = Vector2('+(-[146,168,150,220][index])+', -500)\ncentered = false\ntexture = ExtResource("'+name+'")\n';
 }
 scene+='\n[node name="Basin" type="Sprite2D" parent="."]\nvisible = false\nz_index = 5\n';
@@ -44,16 +49,18 @@ function label(name,text,x,y,w,h,size=19){
 preview+='\n[node name="'+name+'" type="Label" parent="Interface"]\noffset_left = '+x+'.0\noffset_top = '+y+'.0\noffset_right = '+(x+w)+'.0\noffset_bottom = '+(y+h)+'.0\nmouse_filter = 2\ntheme_override_colors/font_color = Color(0.12, 0.22, 0.38, 1)\ntheme_override_font_sizes/font_size = '+size+'\ntext = '+JSON.stringify(text)+'\n';
 }
 label('Title','大肥鱼',52,55,230,52,34);
-label('Subtitle','新待机动作 · 初版',52,118,250,35,19);
+label('Subtitle','攻击动作1 · 取盆反击',52,118,250,35,19);
 label('Notes','① 双手取盆，端在身前\n     幻想一大盆米饭\n\n② 幻想被打破后\n     鼓脸生气，丢盆反击',52,180,260,165,18);
 label('Status','戴盆待机',570,552,450,30,18);
 label('PlantLabel','打破幻想的植物',321,548,220,30,17);
 function button(name,text,y){
 preview+='\n[node name="'+name+'" type="Button" parent="Interface"]\noffset_left = 52.0\noffset_top = '+y+'.0\noffset_right = 277.0\noffset_bottom = '+(y+42)+'.0\ntheme_override_font_sizes/font_size = 18\ntext = '+JSON.stringify(text)+'\n';
 }
-button('Dream','待机1：取盆幻想',365);
-button('Hit','待机2：植物攻击',417);
-button('Reset','恢复戴盆待机',469);
+button('Dream','攻击动作1：取盆幻想',365);
+button('Hit','植物攻击：打破幻想',417);
+button('Reset','普通待机',469);
 preview+='\n[node name="Auto" type="CheckButton" parent="Interface"]\noffset_left = 52.0\noffset_top = 521.0\noffset_right = 277.0\noffset_bottom = 558.0\nbutton_pressed = true\ntext = "自动演示"\ntheme_override_font_sizes/font_size = 17\n';
 preview += 'theme_override_colors/font_color = Color(0.12, 0.22, 0.38, 1)\ntheme_override_colors/font_hover_color = Color(0.12, 0.22, 0.38, 1)\ntheme_override_colors/font_pressed_color = Color(0.12, 0.22, 0.38, 1)\n';
 fs.writeFileSync(path.join(root,'scenes/art_preview/da_fei_yu_basin_actions_preview.tscn'),preview);
+// 保留最新的逐姿势眼睑绑定，避免重建旧场景时丢失真实眨眼。
+require('../blink_v4/attach_blinks.cjs');

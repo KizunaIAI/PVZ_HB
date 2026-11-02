@@ -25,6 +25,10 @@ func _attack_once():
 		if enemy is Zombie000Base:
 			var zombie = enemy as Zombie000Base
 			zombie.be_attacked_bullet(attack_value,BulletRegistry.AttackMode.Real, true, true)
+			# 模式尖刺状态只附着当前实际命中的僵尸，原版模式没有回调。
+			var callback: Callable = get_meta("currency_war_spike_callback", Callable())
+			if callback.is_valid():
+				callback.call(zombie)
 
 ## 被压扁
 ## [character:Character000Base] 发动攻击的角色

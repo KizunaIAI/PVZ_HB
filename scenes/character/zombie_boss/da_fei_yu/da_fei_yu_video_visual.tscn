@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/character/zombie_boss/da_fei_yu_video_visual.gd" id="controller"]
+[ext_resource type="SpriteFrames" path="res://animation/character/zombie_boss/da_fei_yu/da_fei_yu_video_frames.tres" id="frames"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/video_v1/basin_projectile.png" id="basin"]
+[ext_resource type="Script" path="res://scripts/fx/other_effect/da_fei_yu_token_text.gd" id="token_text"]
+
+[node name="DaFeiYuVideoVisual" type="Node2D"]
+texture_filter = 2
+script = ExtResource("controller")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-192, -273.6)
+sprite_frames = ExtResource("frames")
+animation = &"idle"
+centered = false
+
+[node name="HeadAnchor" type="Marker2D" parent="."]
+position = Vector2(-2, -175)
+
+[node name="Basin" type="Sprite2D" parent="."]
+visible = false
+z_index = 2
+texture = ExtResource("basin")
+
+[node name="TokenText" type="Node2D" parent="."]
+z_index = 3
+position = Vector2(0, -270)
+script = ExtResource("token_text")

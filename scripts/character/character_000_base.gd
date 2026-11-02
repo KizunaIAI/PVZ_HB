@@ -228,6 +228,8 @@ func be_attacked_hammer(attack_value:int):
 
 ## 被[param _attack_zombie]啃食扣除[param attack_value]生命，奖励关不限制双方伤害。
 func be_zombie_eat(attack_value:int, _attack_zombie:Zombie000Base):
+	# 魅惑友军承受敌军啃食时同样应用Boss增伤，魅惑攻击者自身不享受敌军光环。
+	attack_value = preload("res://scripts/currency_war/da_fei_yu_boss_stage.gd").outgoing_damage(_attack_zombie, attack_value)
 	hp_component.Hp_loss(attack_value,BulletRegistry.AttackMode.Penetration, true, false)
 
 ## 被僵尸啃食一次发光

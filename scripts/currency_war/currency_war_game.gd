@@ -15,12 +15,18 @@ const Collection = preload("res://scripts/currency_war/currency_war_collection.g
 const LawnVisual = preload("res://scripts/currency_war/currency_war_lawn.gd")
 ## 模式装备、攻击动作叠层、生命回复与头盔大招。
 const Combat = preload("res://scripts/currency_war/currency_war_combat.gd")
+## 寒冰菇与毁灭菇在本模式的手动引爆和休眠，不改原版植物场景。
+const ManualShroom = preload("res://scripts/currency_war/currency_war_manual_shroom.gd")
 ## 识别左侧装备栏拖出的物品，不与植物移动数据混用。
 const EquipmentIcon = preload("res://scripts/currency_war/currency_war_equipment_icon.gd")
 ## 场上植物脚下的微型装备槽，普通三格加独立头盔。
 const EquipmentSlots = preload("res://scripts/currency_war/currency_war_equipment_slots.gd")
 ## 开始菜单进入的独立开发者面板，正常货币战争不创建该工具。
 const Developer = preload("res://scripts/currency_war/currency_war_developer.gd")
+## 三档Boss关的统一配置，不将Boss混进普通随机出怪池。
+const BossStage = preload("res://scripts/currency_war/da_fei_yu_boss_stage.gd")
+## 本节点是否已经创建过唯一Boss，后续旗帜波不重复生成。
+var _stage_boss_spawned: bool = false
 ## 使用原版1066×600视口，所有模式界面叠放显示，不加高、压缩或移动地图。
 const MODE_SIZE: Vector2i = Vector2i(1066, 600)
 ## 奖励关每只僵尸的固定总生命，包含本体和两类护甲，不受节点难度加成。
@@ -35,6 +41,8 @@ var _run: RunRules
 var _war_ui: WarInterface
 ## 选中的手牌或已种植物标识；-1表示未选中。
 var _selected_id: int = -1
+## 正在手持的直购地形类型；成功落地才扣款，-1表示未选择。
+var _support_held_type: int = -1
 ## 单位标识到实际场上植物的映射，只包含已种植单位。
 var _plants: Dictionary = {}
 ## 合成或铲除时抑制自然阵亡回调，避免材料或已出售的场上单位重复退库。
@@ -162,7 +170,11 @@ func _ready() -> void:
 	_war_ui = WarInterface.new()
 	add_child(_war_ui)
 	_war_ui.attach_game_widgets(zombie_manager.zombie_wave_manager.flag_progress_bar, ui_remind_word)
-	_war_ui.set_node_preview(game_para.zombie_refresh_types)
+	# 只向关卡预览加入Boss，不让自然随机池在每波重复刷出Boss。
+	var preview_types: Array[CharacterRegistry.ZombieType] = game_para.zombie_refresh_types.duplicate()
+	if _run.campaign.node_kind() == "Boss关":
+		preview_types.append(CharacterRegistry.ZombieType.Z1002DaFeiYu)
+	_war_ui.set_node_preview(preview_types, _run.campaign.stage_number() if _run.campaign.node_kind() == "Boss关" else 0)
 	marker_2d_sun_target = _war_ui.sun_target
 	_connect_war_ui()
 	TreePauseManager.start_tree_pause(TreePauseManager.E_PauseFactor.ReChooseCard)
@@ -264,6 +276,7 @@ func _on_lawn_expansion_finished() -> void:
 func _process(delta: float) -> void:
 	if _run.phase != RunRules.Phase.BATTLE:
 		return
+	_run.advance_return_cooldowns(delta)
 	_hud_wait -= delta
 	if _hud_wait <= 0.0:
 		_hud_wait = 0.25
@@ -368,7 +381,44 @@ func _on_wave_refreshed(_is_end_wave: bool) -> void:
 	if _run.phase != RunRules.Phase.BATTLE:
 		return
 	_run.current_wave = zombie_manager.zombie_wave_manager.curr_wave + 1
+	if _run.campaign.node_kind() == "Boss关" and not _stage_boss_spawned and not _run.developer_testing:
+		_spawn_stage_boss()
 	_redraw()
+
+
+## 在Boss关首波真正开始时生成唯一大肥鱼；保留原自然波次、数量及清场条件。
+func _spawn_stage_boss() -> void:
+	# 大肥鱼为陆地Boss，从已开放陆地行中选靠近地图中间的一行，兼容泳池及屋顶。
+	var lanes: Array[int] = []
+	# 按实际场景行号检查地形，不能将陆地Boss刷到泳池水路。
+	for index: int in _run.active_lanes:
+		if zombie_manager.all_zombie_rows[index].zombie_row_type == CharacterRegistry.ZombieRowType.Land:
+			lanes.append(index)
+	if lanes.is_empty():
+		push_error("大肥鱼Boss关没有可用陆地行，无法创建Boss。")
+		return
+	_stage_boss_spawned = true
+	# 陆地候选的中位行，在泳池中选择靠近中部的岸边。
+	var lane: int = lanes[lanes.size() / 2]
+	# Boss固定第八列，给换行和前列召唤保留空间。
+	var row: ZombieRow = zombie_manager.all_zombie_rows[lane]
+	# 标准脚底高度保留原版斜面修正。
+	var position: Vector2 = row.zombie_create_position.global_position
+	position.x = plant_cell_manager.all_plant_cells[lane][7].get_global_rect().get_center().x
+	# 走原工厂参与死亡、魅惑、数量和清场；初始配置在ready之前注入。
+	var boss: Zombie000Base = zombie_manager.create_norm_zombie(CharacterRegistry.ZombieType.Z1002DaFeiYu, row, {Zombie000Base.E_ZInitAttr.Lane: lane, Zombie000Base.E_ZInitAttr.CurrWave: zombie_manager.zombie_wave_manager.curr_wave}, position, _configure_stage_boss)
+	set_meta("da_fei_yu_stage_boss", weakref(boss))
+
+
+## [param boss]尚未入树，按一基大关号注入技能节奏、偷取和召唤范围。
+func _configure_stage_boss(boss: Zombie000Base) -> void:
+	# 集中配置复制件，不修改静态全局默认值或开发者召唤的Boss。
+	var settings: Dictionary = BossStage.profile(_run.campaign.stage_number())
+	boss.set_meta("da_fei_yu_stage", _run.campaign.stage_number())
+	boss.set("dream_delay", settings.delay)
+	boss.set("combat_animation_speed", settings.speed)
+	boss.set("sun_steal_range", settings.sun)
+	boss.set("summon_count_range", settings.summons)
 
 
 ## 应用[param hex_id]当前候选并恢复同一片草坪，植物血量、僵尸和阳光均保留。
@@ -458,12 +508,21 @@ func _create_battle_unit(unit: Dictionary) -> void:
 	if plant.is_sleep_in_day:
 		plant.is_sleep_in_day = false
 		plant.sleep_component.end_sleep()
+	if plant is Plant015IceShroom or plant is Plant016DoomShroom:
+		# 先接管原版自动引爆动画，避免准备结束或睡醒时立即自毁。
+		var manual_shroom: ManualShroom = ManualShroom.new()
+		manual_shroom.name = "CurrencyWarManualShroom"
+		plant.add_child(manual_shroom)
+		manual_shroom.configure(plant, _run, unit)
 	if plant is Plant010SunShroom and unit.has("sunshroom_grown"):
 		plant.is_grow = bool(unit.sunshroom_grown)
 		plant.grow_timer.stop()
 		if not plant.is_grow:
 			plant.grow_timer.start(maxf(0.001, float(unit.get("sunshroom_remaining", plant.time_grow))))
 	plant.set_meta("war_base_hp", plant.hp_component.max_hp)
+	if unit.has("return_health_ratio"):
+		# 同节点内技能回备战不凭空治疗，跨节点由规则层清除此快照恢复满血。
+		plant.hp_component.curr_hp = clampi(roundi(plant.hp_component.max_hp * float(unit.return_health_ratio)), 1, plant.hp_component.max_hp)
 	if _run.developer_testing:
 		plant.hp_component.show()
 	plant.random_speed_range = Vector2.ONE
@@ -498,6 +557,44 @@ func _create_battle_unit(unit: Dictionary) -> void:
 	plant.add_child(equipment_slots)
 	if is_instance_valid(_combat):
 		_combat.register_plant(plant, int(unit.id))
+	if int(unit.type) in [3, 18, 21, 28]:
+		plant.set_meta("currency_war_return_callback", _on_return_attack_finished.bind(int(unit.id)))
+		if plant is Plant003CherryBomb or plant is Plant021Jalapeno:
+			plant.bomb_component.signal_bomb_once.connect(_on_return_attack_finished.bind(int(unit.id)))
+
+
+## 攻击完成的[param unit_id]同步回备战并开始冷却，实际实体清理延迟到动画回调之后；真实阵亡不会进入。
+func _on_return_attack_finished(unit_id: int) -> void:
+	if not is_instance_valid(_plants.get(unit_id)):
+		return
+	# 使用旧实体保存血量；规则层回备战后已不再记录旧格子。
+	var plant: Plant000Base = _plants[unit_id]
+	if plant.is_death or plant.hp_component.curr_hp <= 0 or not _run.return_after_attack(unit_id):
+		return
+	# 只保存本节点内损伤比例，不将特效节点或实体引用写入持有记录。
+	var unit: Dictionary = _run.find_unit(unit_id)
+	unit["return_health_ratio"] = float(plant.hp_component.curr_hp) / plant.hp_component.max_hp
+	# 规则已回备战，旧实体立即退出索敌，避免延迟释放的同一帧又被僵尸补刀判为阵亡。
+	plant.is_death = true
+	plant.hurt_box_component.disable_component(ComponentNormBase.E_IsEnableFactor.Death)
+	call_deferred("_discard_returned_plant", plant, unit_id)
+	_redraw()
+
+
+## 释放[param unit_id]上一轮攻击后的[param plant]实体，抑制阵亡回调；切场景已移除者不重复处理。
+func _discard_returned_plant(plant: Plant000Base, unit_id: int) -> void:
+	if not is_inside_tree() or not is_instance_valid(plant) or _plants.get(unit_id) != plant:
+		return
+	# 清除回备战拦截，下面的内部清理才能正常发出原版格子释放信号。
+	plant.set_meta("currency_war_return_callback", Callable())
+	# 保留外层同步标记，避免本次清理改变其他正在执行的同步流程。
+	var was_synchronizing: bool = _synchronizing
+	_synchronizing = true
+	_discard_battle_plant(plant)
+	_plants.erase(unit_id)
+	_synchronizing = was_synchronizing
+	_apply_current_bonuses()
+	_redraw()
 
 
 ## 应用独有或通用模板星级与向日葵结算生产，攻击、攻速分别读取当前规则。
@@ -580,7 +677,7 @@ func _on_plant_died(unit_id: int) -> void:
 	_redraw()
 
 
-## 购买[param slot]商品后同步场上与备战合成结果，被消耗的场上植物由同步流程实际移除。
+## 购买[param slot]商品后同步备战合成与必要实体更新，场上植物不参与三合一。
 func _on_buy(slot: int) -> void:
 	if _run.buy(slot):
 		_sync_battlefield()
@@ -597,6 +694,7 @@ func _on_buy(slot: int) -> void:
 
 ## 选择或取消[param unit_id]对应手牌，不在海克斯选择或结局期间改变选择。
 func _on_unit_selected(unit_id: int) -> void:
+	_support_held_type = -1
 	if _run.can_manage():
 		_selected_id = -1 if _selected_id == unit_id else unit_id
 		_redraw()
@@ -616,6 +714,10 @@ func _on_toggle_merge_lock(unit_id: int) -> void:
 
 ## [param event]为[param cell]按钮输入；准备右键切换锁定，战斗右键仅取消选择和准星。
 func _on_lawn_input(event: InputEvent, cell: PlantCell) -> void:
+	if _support_held_type != -1 and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		cell.button.accept_event()
+		_on_cancel_selection()
+		return
 	if _run.phase == RunRules.Phase.BATTLE and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		# 战斗右键只取消选择与加农炮准星，不改变植物的合成锁定。
 		cell.button.accept_event()
@@ -636,6 +738,9 @@ func _on_cell_pressed(cell: PlantCell) -> void:
 		return
 	if not _run.can_manage():
 		return
+	if _support_held_type != -1:
+		_place_support(_support_held_type, cell)
+		return
 	# 草坪按钮会截获鼠标，手动转交加农炮瞄准，避免原版_unhandled_input收不到落点。
 	if _run.phase == RunRules.Phase.BATTLE:
 		# 同一时间只允许一门炮瞄准，确认落点后保持原版充能与发射动画。
@@ -646,8 +751,19 @@ func _on_cell_pressed(cell: PlantCell) -> void:
 				cannon.cob_cannon_target.deactivate_it()
 				cannon.attack_start(get_global_mouse_position())
 				return
-		# 没有拿着备战卡时，点击已充能的加农炮开始原版瞄准。
+		# 普通层植物可位于南瓜壳或睡莲上，主动技能始终查询普通层。
 		var target: Dictionary = _run.unit_at(cell.row_col)
+		# 仅真正拿着备战卡时优先种植，场上植物的售卖选择不阻断手动释放。
+		var selected: Dictionary = _run.find_unit(_selected_id)
+		if (selected.is_empty() or selected.cell != RunRules.BENCH_CELL) and not target.is_empty() and int(target.type) in [15, 16]:
+			_selected_id = -1
+			# 点击睡眠中的植物也消费本次点击，避免将其选中后阻止下一次手动释放。
+			var mushroom: Plant000Base = _plants.get(int(target.id)) as Plant000Base
+			if is_instance_valid(mushroom):
+				mushroom.get_node("CurrencyWarManualShroom").activate()
+			_redraw()
+			return
+		# 没有拿着备战卡时，点击已充能的加农炮开始原版瞄准。
 		if _selected_id == -1 and not target.is_empty() and int(target.type) == 48:
 			# 逻辑占两格，点击前后轮均可打开同一门炮的准星。
 			var cannon: Plant048CobCannon = _plants.get(int(target.id)) as Plant048CobCannon
@@ -656,6 +772,11 @@ func _on_cell_pressed(cell: PlantCell) -> void:
 			# 尚未充能时不把场上加农炮拿成手牌，等待充能后仍可直接点击瞄准。
 			return
 	if _selected_id != -1:
+		# 墓碑吞噬者以僵尸为释放目标，不占用该格原有植物层。
+		var selected_skill: Dictionary = _run.find_unit(_selected_id)
+		if not selected_skill.is_empty() and int(selected_skill.type) == 12:
+			_use_grave_buster(_selected_id, cell)
+			return
 		if _can_drop_on_lawn(Vector2.ZERO, {"kind": ReserveSlot.DRAG_KIND, "unit_id": _selected_id}, cell) and _run.plant_card(_selected_id, cell.row_col):
 			_selected_id = -1
 			_sync_battlefield()
@@ -666,6 +787,8 @@ func _on_cell_pressed(cell: PlantCell) -> void:
 
 ## 检查拖拽[param data]能否落到主草坪[param cell]；[param _at_position]为目标按钮局部坐标。
 func _can_drop_on_lawn(_at_position: Vector2, data: Variant, cell: PlantCell) -> bool:
+	if data is Dictionary and data.get("kind", "") == "currency_war_support":
+		return _can_plant_support(int(data.get("type", -1)), cell)
 	if data is Dictionary and data.get("kind", "") == ReserveSlot.SHOVEL_DRAG_KIND:
 		return _run.can_manage() and not _sale_target(cell).is_empty()
 	if data is Dictionary and data.get("kind", "") == EquipmentIcon.DRAG_KIND:
@@ -678,6 +801,12 @@ func _can_drop_on_lawn(_at_position: Vector2, data: Variant, cell: PlantCell) ->
 	var unit: Dictionary = _run.find_unit(int(data.get("unit_id", -1)))
 	if unit.is_empty() or (unit.cell != RunRules.BENCH_CELL and _run.phase != RunRules.Phase.PREPARATION):
 		return false
+	if float(unit.get("return_cooldown_remaining", 0.0)) > 0.0:
+		return false
+	if int(unit.type) == 28 and int(unit.get("blover_uses", 0)) >= [1, 2, 1000][clampi(int(unit.star), 1, 3) - 1]:
+		return false
+	if int(unit.type) == 12:
+		return _run.phase == RunRules.Phase.BATTLE and _grave_target(cell) != null
 	# 水与屋顶沿用原版条件；准备阶段同层有植物时由规则层交换，战斗阶段不可覆盖。
 	var condition: ResourcePlantCondition = Global.character_registry.get_plant_info(unit.type, CharacterRegistry.PlantInfoAttribute.PlantConditionResource)
 	if condition.uses_currency_war_direct_placement():
@@ -718,11 +847,17 @@ func _can_drop_on_lawn(_at_position: Vector2, data: Variant, cell: PlantCell) ->
 func _drop_on_lawn(at_position: Vector2, data: Variant, cell: PlantCell) -> void:
 	if not _can_drop_on_lawn(at_position, data, cell):
 		return
+	if data.get("kind", "") == "currency_war_support":
+		_place_support(int(data.type), cell)
+		return
 	if data.get("kind", "") == ReserveSlot.SHOVEL_DRAG_KIND:
 		_on_sell_unit(int(_sale_target(cell).id))
 		return
 	if data.get("kind", "") == EquipmentIcon.DRAG_KIND:
 		_on_equip_item(int(_sale_target(cell).id), str(data.item))
+		return
+	if int(_run.find_unit(int(data.unit_id)).get("type", -1)) == 12:
+		_use_grave_buster(int(data.unit_id), cell)
 		return
 	if _run.plant_card(int(data.unit_id), cell.row_col):
 		_selected_id = -1
@@ -781,9 +916,116 @@ func _notification(what: int) -> void:
 				plant.body.modulate.a = 1.0
 
 
-## 在当前地形花费1阳光直购[param plant_type]睡莲或花盆，不触发升星。
+## 返回[param cell]横向范围内距格中心最近的存活敌军；不会把魅惑友军作为吞噬目标。
+func _grave_target(cell: PlantCell) -> Zombie000Base:
+	# 多只僵尸重叠时，固定选择距释放格中心最近者，不依赖列表顺序。
+	var nearest: Zombie000Base = null
+	# 距离只用于同一真实行的横向选择。
+	var best_distance: float = INF
+	# 真实格子的横向范围包含正常移动中的僵尸脚点。
+	var bounds: Rect2 = cell.get_global_rect()
+	# 只查询敌军快照，友军单独由原版列表管理。
+	for zombie: Zombie000Base in zombie_manager.all_zombies_1d:
+		if not is_instance_valid(zombie) or zombie.is_death or zombie.is_hypno or zombie.lane != cell.row_col.x:
+			continue
+		if zombie.global_position.x < bounds.position.x or zombie.global_position.x > bounds.end.x:
+			continue
+		# 僵尸身体摇摆不改变释放目标所属格。
+		var distance: float = absf(zombie.global_position.x - bounds.get_center().x)
+		if distance < best_distance:
+			nearest = zombie
+			best_distance = distance
+	return nearest
+
+
+## 将[param unit_id]墓碑吞噬者释放到[param cell]僵尸身上；空目标不消耗、不进入冷却。
+func _use_grave_buster(unit_id: int, cell: PlantCell) -> void:
+	# 本技能只能从备战席在正式战斗使用，准备期间不能提前吞预览僵尸。
+	var unit: Dictionary = _run.find_unit(unit_id)
+	# 冷却与星级保存在同一持有记录，跨节点仍有效。
+	var target: Zombie000Base = _grave_target(cell)
+	if _run.phase != RunRules.Phase.BATTLE or unit.is_empty() or int(unit.type) != 12 or unit.cell != RunRules.BENCH_CELL or float(unit.get("return_cooldown_remaining", 0.0)) > 0.0 or target == null:
+		return
+	# 先同步回备战，最后一只敌军被吞时节点结算也不会丢失该植物或冷却。
+	unit["cell"] = cell.row_col
+	_run.return_after_attack(unit_id)
+	# 友军保留原版本体与护甲，标记召唤来源使其不触发自然出怪结算。
+	var type: int = [CharacterRegistry.ZombieType.Z001Norm, CharacterRegistry.ZombieType.Z003Cone, CharacterRegistry.ZombieType.Z005Bucket][clampi(int(unit.star), 1, 3) - 1]
+	# 出生脚点使用被吞僵尸所在位置，保持泳池和屋顶高度。
+	var position: Vector2 = target.global_position
+	# 创建友军后才吞掉原目标，避免最后一只被吞时抢先切换节点。
+	var ally: Zombie000Base = zombie_manager.create_norm_zombie(type, zombie_manager.all_zombie_rows[target.lane], {Zombie000Base.E_ZInitAttr.CharacterInitType: Character000Base.E_CharacterInitType.IsNorm, Zombie000Base.E_ZInitAttr.Lane: target.lane}, position, _tag_grave_ally)
+	ally.be_hypno()
+	_spawn_grave_visual(position)
+	target.set_meta("currency_war_consumed", true)
+	target.is_can_death_language = false
+	target.hp_component.Hp_loss_death(false)
+	target.queue_free()
+	_selected_id = -1
+	_redraw()
+
+
+## 给未入树的[param zombie]标记吞噬生成的友军，绕过敌方难度和奖励关生命覆盖。
+func _tag_grave_ally(zombie: Zombie000Base) -> void:
+	zombie.set_meta("currency_war_summon", true)
+	zombie.is_can_death_language = false
+
+
+## 在[param position]播放纯视觉的原版吞噬动画；移除方法轨道，绝不执行墓碑或植物阵亡逻辑。
+func _spawn_grave_visual(position: Vector2) -> void:
+	# 原版完整拼图和动画仅作模板，不进入战场或攻击检测。
+	var sample: Plant012GraveBuster = Global.character_registry.get_plant_info(12, CharacterRegistry.PlantInfoAttribute.PlantScenes).instantiate() as Plant012GraveBuster
+	# 独立视觉节点随当前战斗场景释放，不进入持有植物映射。
+	var effect: Node2D = Node2D.new()
+	# 静态身体不带角色脚本或血量、墓碑组件。
+	var body_copy: Node2D = sample.get_node("Body").duplicate(0) as Node2D
+	effect.add_child(body_copy)
+	# 独立动画副本允许关闭方法轨道而不修改原版共享动画。
+	var animation: Animation = sample.get_node("AnimationPlayer").get_animation("ALL_ANIMS").duplicate() as Animation
+	# 方法轨道包含吞墓碑和自毁，纯视觉播放必须全部禁用。
+	for track: int in range(animation.get_track_count()):
+		if animation.track_get_type(track) == Animation.TYPE_METHOD:
+			animation.track_set_enabled(track, false)
+	# 单次吞噬动画库只包含该副本。
+	var library: AnimationLibrary = AnimationLibrary.new()
+	library.add_animation("consume", animation)
+	# 播放器以effect为动画根，保持原版Body路径。
+	var player: AnimationPlayer = AnimationPlayer.new()
+	player.add_animation_library("", library)
+	effect.add_child(player)
+	add_child(effect)
+	effect.global_position = position
+	player.animation_finished.connect(func(_animation_name: StringName): effect.queue_free())
+	player.play("consume")
+	SoundManager.play_character_SFX(&"GraveBusterChomp")
+	sample.free()
+
+
+## 手持[param plant_type]直购地形，不生成备战植物，允许右键取消。
 func _on_buy_support(plant_type: int) -> void:
-	_run.buy_support(plant_type)
+	if _run.can_manage() and _run.is_support(plant_type) and _run.sun >= 1:
+		_support_held_type = plant_type
+		_selected_id = -1
+		_run.message = "手持%s：点击合法空格种植，花费1阳光；右键取消。" % RunRules.CATALOG[plant_type].name
+	_redraw()
+
+
+## 返回[param type]能否直接种在[param cell]；使用原始地形，不允许叠放两个底座。
+func _can_plant_support(type: int, cell: PlantCell) -> bool:
+	if not _run.can_manage() or not _run.is_support(type) or _run.sun < 1 or _run.lawn_expanding or not _run.is_lane_open(cell.row_col.x) or not cell.can_common_plant:
+		return false
+	if not _run.unit_at(cell.row_col, CharacterRegistry.PlacePlantInCell.Down).is_empty():
+		return false
+	# 花盆和水盆使用相同的陆地/屋顶种植条件，睡莲只允许水面。
+	var condition: ResourcePlantCondition = Global.character_registry.get_plant_info(type, CharacterRegistry.PlantInfoAttribute.PlantConditionResource)
+	return bool(condition.plant_condition & cell.ori_condition)
+
+
+## 将[param type]种到[param cell]，只在合法落点付款；失败保持手持状态且不占备战格。
+func _place_support(type: int, cell: PlantCell) -> void:
+	if _can_plant_support(type, cell) and _run.plant_support(type, cell.row_col):
+		_support_held_type = -1
+		_sync_battlefield()
 	_redraw()
 
 
@@ -814,6 +1056,9 @@ func _save_final_collection() -> bool:
 func _on_zombie_entered(node: Node) -> void:
 	if not node is Zombie000Base:
 		return
+	# 先连接死亡吸收，包括开发者手动生成的敌军；魅惑友军在回调中排除。
+	if is_instance_valid(_combat):
+		node.signal_character_death.connect(_combat.enemy_died.bind(node))
 	if bool(node.get_meta("currency_war_summon", false)):
 		return
 	# 自由测试的手动僵尸及其召唤物默认使用原版生命，不套用奖励关一血或节点难度。
@@ -946,6 +1191,7 @@ func _configure_node_wave_count() -> void:
 
 ## 清空选择，让下一次点击草坪恢复为查看已种植物。
 func _on_cancel_selection() -> void:
+	_support_held_type = -1
 	# 右键取消时同时撤销原版加农炮准星，不保留隐藏的待发射状态。
 	for unit_id: int in _plants:
 		# 其他植物没有准星，不受取消操作影响。
@@ -1023,6 +1269,7 @@ func _redraw() -> void:
 	if _run.find_unit(_selected_id).is_empty():
 		_selected_id = -1
 	_war_ui.render(_run, _selected_id)
+	_war_ui.show_support_cursor(_support_held_type)
 
 
 ## 保存[param plant]阳光菇的原版成长状态供本局重建；非阳光菇和已被移除的单位不产生记录。

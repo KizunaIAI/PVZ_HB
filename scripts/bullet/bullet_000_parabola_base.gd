@@ -68,6 +68,8 @@ func _physics_process(delta: float) -> void:
 
 ## 攻击一次
 func attack_once(enemy:Character000Base):
+	if try_currency_war_feed(enemy):
+		return
 	## 攻击植物时,若周围有叶子保护伞
 	if enemy is Plant000Base:
 		var all_umbrella_surrounding:Array[Plant000Base] = enemy.plant_cell.get_plant_surrounding(CharacterRegistry.PlantType.P038UmbrellaLeaf)

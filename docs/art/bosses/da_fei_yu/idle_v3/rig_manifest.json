@@ -1,0 +1,68 @@
+{
+  "animation": "animation/character/zombie_boss/da_fei_yu/da_fei_yu_idle_left_v3.tres",
+  "animation_basin": "animation/character/zombie_boss/da_fei_yu/da_fei_yu_idle_left_v3_basin.tres",
+  "duration_seconds": 12,
+  "fps": 30,
+  "sample_step": 0.03125,
+  "tracks": [
+    "Rig/Skeleton2D/Body:position",
+    "Rig/Skeleton2D/Head:position",
+    "Rig/Skeleton2D/Head:rotation",
+    "Rig/Skeleton2D/Hair:position",
+    "Rig/Skeleton2D/Hair:rotation",
+    "Rig/Skeleton2D/Tail:position",
+    "Rig/Skeleton2D/Tail:rotation",
+    "Rig/Skeleton2D/Head/EyeHalf:visible",
+    "Rig/Skeleton2D/Head/EyeClosed:visible"
+  ],
+  "track_count": 9,
+  "track_count_basin": 11,
+  "eye_layers": {
+    "texture_size": [
+      348,
+      500
+    ],
+    "anchor_head": [
+      97.44,
+      245
+    ],
+    "sprite_local_position": [
+      -97.44,
+      -245
+    ],
+    "eye_box": [
+      53,
+      166,
+      96,
+      208
+    ]
+  },
+  "blink_windows": [
+    {
+      "kind": "normal",
+      "at": 1.2
+    },
+    {
+      "kind": "double",
+      "at": 5.45
+    },
+    {
+      "kind": "slow",
+      "at": 9.3
+    }
+  ],
+  "beats": {
+    "tail_flick": [
+      3.6,
+      4.3
+    ],
+    "head_tilt": [
+      6.8,
+      8.05
+    ],
+    "basin_wobble": [
+      10.1,
+      11.1
+    ]
+  }
+}

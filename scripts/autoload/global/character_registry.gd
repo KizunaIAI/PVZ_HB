@@ -73,6 +73,10 @@ enum PlantType {
 	P048CobCannon,
 
 	P049PeaShooterDoubleReverse,
+	## 货币战争直购水盆，复用花盆底座且提供水地形，不加入原版种子卡选择。
+	P050WaterPot = 50,
+	## 击败大肥鱼Boss后获得的植物阵营伙伴。
+	P051DaFeiYu = 51,
 
 	## 模仿者
 	P999Imitater = 999,
@@ -168,6 +172,13 @@ enum ZombieInfoAttribute{
 }
 
 const PlantInfo = {
+	PlantType.P050WaterPot: {
+		PlantInfoAttribute.PlantName: "WaterPot",
+		PlantInfoAttribute.CoolTime: 7.5,
+		PlantInfoAttribute.SunCost: 25,
+		PlantInfoAttribute.PlantConditionResource: preload("res://resources/character_resource/plant_condition/034_flower_pot.tres"),
+		PlantInfoAttribute.PlantScenes: preload("res://scenes/currency_war/water_pot.tscn"),
+	},
 	PlantType.P001PeaShooterSingle: {
 		PlantInfoAttribute.PlantName: "PeaShooterSingle",
 		PlantInfoAttribute.CoolTime: 7.5,
@@ -524,6 +535,13 @@ const PlantInfo = {
 		PlantInfoAttribute.PlantScenes : preload("res://scenes/character/plant/plant_049_pea_shooter_double_reverse.tscn")
 		},
 
+	PlantType.P051DaFeiYu: {
+		PlantInfoAttribute.PlantName: "DaFeiYuAlly",
+		PlantInfoAttribute.CoolTime: 30.0,
+		PlantInfoAttribute.SunCost: 300,
+		PlantInfoAttribute.PlantConditionResource: preload("res://resources/character_resource/plant_condition/000_common_plant_land.tres"),
+		PlantInfoAttribute.PlantScenes: preload("res://scenes/character/plant/plant_051_da_fei_yu.tscn")
+	},
 	## 模仿者
 	PlantType.P999Imitater:{
 		PlantInfoAttribute.PlantName: "Imitater",

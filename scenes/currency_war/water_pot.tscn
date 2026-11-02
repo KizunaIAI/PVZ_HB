@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/character/plant/plant_034_flower_pot.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/currency_war/currency_war_water_pot.gd" id="2"]
+
+[node name="CurrencyWarWaterPot" instance=ExtResource("1")]
+script = ExtResource("2")
+plant_type = 50

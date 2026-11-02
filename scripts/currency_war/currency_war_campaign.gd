@@ -66,9 +66,9 @@ func node_label() -> String:
 	return "%d-%d" % [stage_number(), node_number()]
 
 
-## 返回奖励、战斗、遭遇或普通替代boss节点；不加入文档要求暂缓的boss机制。
+## 每个大关第五节点为大肥鱼Boss关，前三个节点类型及遭遇关保持原规则。
 func node_kind() -> String:
-	return ["奖励关", "战斗关", "战斗关", "遭遇关", "普通关"][node_number() - 1]
+	return ["奖励关", "战斗关", "战斗关", "遭遇关", "Boss关"][node_number() - 1]
 
 
 ## 返回当前节点在[param row_count]行场景里开放的零基行号；1-1中行、1-2中三行、1-3以后全部开放。

@@ -91,7 +91,7 @@ offset_bottom = 153.0
 mouse_filter = 2
 theme_override_colors/font_color = Color(0.12, 0.22, 0.38, 1)
 theme_override_font_sizes/font_size = 19
-text = "新待机动作 · 初版"
+text = "攻击动作1 · 取盆反击"
 
 [node name="Notes" type="Label" parent="Interface"]
 offset_left = 52.0
@@ -129,7 +129,7 @@ offset_top = 365.0
 offset_right = 277.0
 offset_bottom = 407.0
 theme_override_font_sizes/font_size = 18
-text = "待机1：取盆幻想"
+text = "攻击动作1：取盆幻想"
 
 [node name="Hit" type="Button" parent="Interface"]
 offset_left = 52.0
@@ -137,7 +137,7 @@ offset_top = 417.0
 offset_right = 277.0
 offset_bottom = 459.0
 theme_override_font_sizes/font_size = 18
-text = "待机2：植物攻击"
+text = "植物攻击：打破幻想"
 
 [node name="Reset" type="Button" parent="Interface"]
 offset_left = 52.0
@@ -145,7 +145,7 @@ offset_top = 469.0
 offset_right = 277.0
 offset_bottom = 511.0
 theme_override_font_sizes/font_size = 18
-text = "恢复戴盆待机"
+text = "普通待机"
 
 [node name="Auto" type="CheckButton" parent="Interface"]
 offset_left = 52.0

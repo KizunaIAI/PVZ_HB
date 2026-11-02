@@ -1,0 +1,78 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_steel_basin_visual.tscn" id="standing"]
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_basin_actions_visual.tscn" id="dream"]
+[ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_natural_idle_preview.gd" id="controller"]
+
+[node name="DaFeiYuNaturalIdlePreview" type="Node2D"]
+script = ExtResource("controller")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+offset_right = 1066.0
+offset_bottom = 600.0
+color = Color(0.92, 0.95, 0.985, 1)
+mouse_filter = 2
+
+[node name="GroundLeft" type="Line2D" parent="."]
+points = PackedVector2Array(110, 529, 485, 529)
+width = 2.0
+default_color = Color(0.65, 0.74, 0.85, 1)
+
+[node name="GroundRight" type="Line2D" parent="."]
+points = PackedVector2Array(560, 529, 980, 529)
+width = 2.0
+default_color = Color(0.65, 0.74, 0.85, 1)
+
+[node name="Standing" parent="." instance=ExtResource("standing")]
+position = Vector2(280, 527)
+scale = Vector2(0.66, 0.66)
+
+[node name="Dreaming" parent="." instance=ExtResource("dream")]
+position = Vector2(770, 527)
+scale = Vector2(0.66, 0.66)
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Title" type="Label" parent="Interface"]
+offset_left = 48.0
+offset_top = 32.0
+offset_right = 580.0
+offset_bottom = 82.0
+theme_override_font_sizes/font_size = 30
+theme_override_colors/font_color = Color(0.12, 0.2, 0.34, 1)
+text = "大肥鱼 · 普通待机 / 攻击动作1"
+
+[node name="Notes" type="Label" parent="Interface"]
+offset_left = 50.0
+offset_top = 93.0
+offset_right = 550.0
+offset_bottom = 160.0
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.3, 0.4, 0.55, 1)
+text = "探头偷瞄 · 收肩回正 · 鲸尾回应
+所有姿势均有真实眼睑眨眼"
+
+[node name="StandingLabel" type="Label" parent="Interface"]
+offset_left = 175.0
+offset_top = 542.0
+offset_right = 470.0
+offset_bottom = 577.0
+theme_override_font_sizes/font_size = 21
+theme_override_colors/font_color = Color(0.12, 0.2, 0.34, 1)
+text = "普通待机"
+
+[node name="DreamLabel" type="Label" parent="Interface"]
+offset_left = 655.0
+offset_top = 542.0
+offset_right = 1000.0
+offset_bottom = 577.0
+theme_override_font_sizes/font_size = 21
+theme_override_colors/font_color = Color(0.12, 0.2, 0.34, 1)
+text = "攻击动作1 · 准备"
+
+[node name="Replay" type="Button" parent="Interface"]
+offset_left = 430.0
+offset_top = 542.0
+offset_right = 590.0
+offset_bottom = 580.0
+text = "重新播放"

@@ -286,6 +286,15 @@ func _arm_placement(kind: String) -> void:
 ## 免费将[param kind]的[param type]、[param star]对象放到[param cell]；地形不匹配或植物占位时保留已有单位。
 func _place(kind: String, type: int, star: int, cell: PlantCell) -> void:
 	if kind == "plant":
+		if type == 12:
+			# 墓碑吞噬者直接释放到僵尸，不能沿用原版必须种在墓碑上的判定。
+			if _game._grave_target(cell) == null:
+				_notice.text = "该格没有可吞噬的敌军僵尸。"
+				return
+			# 测试专用备战卡仍走正式技能入口，保留真实星级冷却和友军生成。
+			var skill_id: int = _run.developer_add_skill_card(type, star)
+			_game._use_grave_buster(skill_id, cell)
+			return
 		# 机枪沿用模式的直接种植条件，水面和屋顶仍需先放睡莲或花盆。
 		var condition: ResourcePlantCondition = Global.character_registry.get_plant_info(type, CharacterRegistry.PlantInfoAttribute.PlantConditionResource)
 		if not condition.judge_is_can_plant(cell, type):
@@ -416,8 +425,10 @@ func _default_profile(type: int, star: int) -> Dictionary:
 	var profile: Dictionary = RunRules.PlantTemplate.native_attack_profile(sample)
 	# 土豆地雷遵守独有倍率，其余按独有或通用攻击模板，不把通用值覆盖已定义植物。
 	var damage_scale: float = [1.0, 1.5, 2.5][star - 1] if type == 5 else 1.0 + _run.star_attack_bonus(type, star)
+	# 坚果默认血量使用独有70%/120%提升，开发者面板与实际生成保持一致。
+	var health_scale: float = [1.0, 1.7, 2.2][clampi(star, 1, 3) - 1] if type == 4 else ([1.0, 2.0, 6.0][clampi(star, 1, 3) - 1] if type == 24 else 1.0)
 	# 默认属性不混入现存植物的装备或羁绊，以免重复计算。
-	var values: Dictionary = {"health": sample.get_node("HpComponent").max_hp, "damage": float(profile.damage) * damage_scale, "interval": float(profile.interval) / (1.0 + _run.star_speed_bonus(type, star)) if profile.interval > 0.0 else 1.5, "defense": 0.0, "reduction": 0.0}
+	var values: Dictionary = {"health": roundi(sample.get_node("HpComponent").max_hp * health_scale), "damage": float(profile.damage) * damage_scale, "interval": float(profile.interval) / (1.0 + _run.star_speed_bonus(type, star)) if profile.interval > 0.0 else 1.5, "defense": 0.0, "reduction": 0.0}
 	sample.free()
 	return values
 

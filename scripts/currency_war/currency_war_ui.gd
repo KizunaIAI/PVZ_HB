@@ -26,8 +26,8 @@ const ACCENT: Color = Color("b9ed96")
 const GOLD_COLOR: Color = Color("f0cf7b")
 ## 大纲规定白绿蓝紫金分别对应一至五费，未定义的高费植物不填入商店。
 const TIER_COLORS: Array[Color] = [Color("e8efdf"), Color("9fdfaf"), Color("96cafa"), Color("d7adf8"), Color("f0cf7b")]
-## 左侧阵营展示顺序与不同植物种类门槛；灰烬、毒和孢子未定义羁绊效果。
-const TRAIT_DISPLAY_TIERS: Dictionary = {"豌豆": [3, 5, 7, 10], "阳光": [2, 3, 4], "灰烬": [], "毒": [], "孢子": [], "召唤": []}
+## 左侧阵营展示顺序与不同植物种类门槛；空数组表示大纲尚未定义羁绊效果。
+const TRAIT_DISPLAY_TIERS: Dictionary = {"豌豆": [3, 5, 7, 10], "阳光": [2, 3, 4], "灰烬": [], "毒": [], "孢子": [], "召唤": [], "毁灭者": [], "双子": [], "增益": [], "水生": [], "守护": [], "大卫戴": [], "尖刺": [], "防护": [], "轻装上阵": []}
 ## 羁绊门槛未达成时的暗色，与高亮金色形成明确区分。
 const TRAIT_INACTIVE_COLOR: Color = Color("6b7770")
 ## 羁绊名称始终使用的亮白色，配合深色描边在浅色地图上保持可读。
@@ -40,6 +40,15 @@ const TRAIT_DISPLAY_TIPS: Dictionary = {
 	"毒": "毒：当前仅标记植物阵营，羁绊效果尚未定义。",
 	"孢子": "孢子：当前仅标记植物阵营，羁绊效果尚未定义。",
 	"召唤": "召唤：当前仅标记植物阵营，羁绊效果尚未定义。",
+	"毁灭者": "毁灭者：当前仅标记植物阵营，羁绊效果尚未定义。",
+	"双子": "双子：当前仅标记植物阵营，羁绊效果尚未定义。",
+	"增益": "增益：当前仅标记植物阵营，羁绊效果尚未定义；路灯花自身的范围强化照常生效。",
+	"水生": "水生：当前仅标记植物阵营，羁绊效果尚未定义；水生植物可在所有地图D到，种植仍需符合水面或水盆条件。",
+	"大卫戴": "大卫戴：只记录场上不同种类，额外羁绊尚未定义。",
+	"尖刺": "尖刺：只记录场上不同种类；地刺和仙人掌自身施加反伤效果。",
+	"防护": "防护：高坚果自身提供3×3承伤保护，额外羁绊尚未定义。",
+	"轻装上阵": "轻装上阵：三叶草不占用上场种类名额。",
+	"守护": "守护：当前仅标记植物阵营，羁绊效果尚未定义；坚果墙自身的生命与回复效果照常生效。",
 }
 
 ## 请求购买从零开始的[param slot]商品。
@@ -187,8 +196,22 @@ var _equipment_detail_text: Label
 var _node_preview: Label
 ## 显示当前等级并点击购买一次经验的左侧按钮。
 var _level_button: Button
-## 泳池或屋顶关卡才显示的第六张固定地形商品卡。
-var _support_card: PlantCard
+## 左上角三张直接种植的地形商品，不与普通商店或备战席混用。
+var _support_cards: Dictionary = {}
+## 可下拉地形栏的裁剪容器。
+var _support_clip: Control
+## 地形商品抽屉，向上移出裁剪区即可收起。
+var _support_drawer: Panel
+## 地形栏三角入口。
+var _support_toggle: Button
+## 左上角地形栏当前是否收起。
+var _support_collapsed: bool = true
+## 地形栏当前展开动画，重新点击时终止旧动画。
+var _support_tween: Tween
+## 当前手持地形的纯视觉植物，跟随鼠标但不拦截落点。
+var _support_cursor: Control
+## 已绘制的手持地形类型，避免每次HUD刷新重复拷贝拼图。
+var _support_cursor_type: int = -1
 ## 右侧常驻装备栏，通过图标拖放到植物佩戴。
 var _equipment_panel: EquipmentPanel
 ## 左侧只显示当前场上已有种类的羁绊面板。
@@ -219,6 +242,7 @@ func _ready() -> void:
 	_build_reserve()
 	_build_market()
 	_build_header()
+	_build_supports()
 	_build_result()
 	_build_trait_panel()
 	_equipment_panel = EquipmentPanel.new()
@@ -265,7 +289,7 @@ func render(run: RunRules, selected_id: int) -> void:
 	# 被购买合成或阵亡消耗的标识可能已不存在。
 	var selected: Dictionary = run.find_unit(selected_id)
 	if not selected.is_empty():
-		_message.text = "选中%s %s｜%s" % [RunRules.CATALOG[selected.type].name, "★".repeat(selected.star), "拖到主草坪种植" if selected.cell == RunRules.BENCH_CELL else "场上植物也参与三合一；可铲除返还部分阳光"]
+		_message.text = "选中%s %s｜%s" % [RunRules.CATALOG[selected.type].name, "★".repeat(selected.star), "拖到主草坪种植" if selected.cell == RunRules.BENCH_CELL else "场上星级固定；可铲除返还阳光"]
 		if run.phase == RunRules.Phase.PREPARATION:
 			_message.text += "｜已锁定，右键解除" if bool(selected.get("merge_locked", false)) else "｜右键植物锁定升星"
 		else:
@@ -286,13 +310,14 @@ func render(run: RunRules, selected_id: int) -> void:
 	_battle_button.text = "铺草中" if run.lawn_expanding else "开始"
 	_speed_button.visible = run.phase == RunRules.Phase.BATTLE
 	_menu_speed.editable = run.phase == RunRules.Phase.BATTLE
-	_support_card.visible = run.support_type != -1
-	_layout_market(run.support_type != -1)
-	if run.support_type != -1:
-		# 地形商品占商店末尾的独立卡槽，直接购买一株，不参与D牌或合成。
-		var support_available: bool = run.can_manage() and run.sun >= 1 and run.count_units(false) < RunRules.BENCH_LIMIT
-		_support_card.show_plant(run.support_type, RunRules.CATALOG[run.support_type].name, "☀ 1", "固定地形卡", false, support_available, TIER_COLORS[0])
-		_support_card.tooltip_text = "固定地形商品，花费1阳光购买%s；不参与D牌和升星。" % RunRules.CATALOG[run.support_type].name
+	_support_clip.visible = not _previewing
+	_support_toggle.visible = not _previewing
+	# 地形商品全部常驻，点击或拖动后仅在成功种下时付费。
+	for type: int in _support_cards:
+		# 水盆借用花盆卡面，名称明确区分，不伪造额外素材。
+		var card: PlantCard = _support_cards[type]
+		card.show_plant(type, RunRules.CATALOG[type].name, "☀ 1", "直接种植", false, run.can_manage() and run.sun >= 1, TIER_COLORS[0])
+		card.tooltip_text = RunRules.CATALOG[type].tip
 	# 阵容通过原版镜头展示，不再把整段名单覆盖在草坪上。
 	_node_preview.hide()
 	_ensure_reserve_slots(run.reserve_display_count())
@@ -421,6 +446,90 @@ func _build_header() -> void:
 	header.add_child(menu)
 
 
+## 在左上角创建独立地形抽屉，三种商品均不进入备战席。
+func _build_supports() -> void:
+	_support_clip = Control.new()
+	_support_clip.position = Vector2(4, 28)
+	_support_clip.size = Vector2(142, 103)
+	_support_clip.clip_contents = true
+	_support_clip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_root.add_child(_support_clip)
+	_support_drawer = _panel(_support_clip, Rect2(0, -103, 142, 103))
+	# 三张种子包等宽排列，空备战格不影响购买地形。
+	for index: int in range(3):
+		# 花盆、水盆、睡莲按文档顺序展示。
+		var type: int = [34, 50, 17][index]
+		# 卡面只用于直接种植选择，消费由落点统一处理。
+		var card: PlantCard = _plant_card(_support_drawer, Rect2(3 + index * 46, 3, 44, 96), true, _on_support_pressed.bind(type))
+		card.set_drag_forwarding(_drag_support.bind(type, card), Callable(), Callable())
+		_support_cards[type] = card
+	_support_toggle = _button(_root, Rect2(8, 3, 132, 23), "地形 ▼", _toggle_supports)
+	_support_toggle.tooltip_text = "展开花盆、水盆、睡莲；1阳光直接种植"
+
+
+## 切换地形抽屉，动画不移动地图、备战席或普通商店。
+func _toggle_supports() -> void:
+	_support_collapsed = not _support_collapsed
+	_support_toggle.text = "地形 ▼" if _support_collapsed else "地形 ▲"
+	if is_instance_valid(_support_tween):
+		_support_tween.kill()
+	_support_tween = create_tween()
+	_support_tween.tween_property(_support_drawer, "position:y", -103.0 if _support_collapsed else 0.0, 0.2)
+
+
+## 从[param card]拖出[param type]直购地形；[param _position]不影响落点，成功种植前不扣阳光。
+func _drag_support(_position: Vector2, type: int, card: PlantCard) -> Variant:
+	if _current_run == null or not _current_run.can_manage() or _current_run.sun < 1:
+		return null
+	# 拷贝原生静态种子包，不复制商品脚本或运行第二套界面初始化。
+	var source: Card = preload("res://scripts/currency_war/da_fei_yu_reward.gd").card(type)
+	# 预览使用原生种子包，不生成任何持有或战斗记录。
+	var preview: Control = Control.new()
+	# 可见副本居中跟随鼠标，右键取消时由引擎释放。
+	var face: Control = source.card_bg.duplicate(0) as Control
+	face.position = Vector2(-25, -35)
+	face.process_mode = Node.PROCESS_MODE_DISABLED
+	(face.get_node("Cost") as Label).text = "1"
+	preview.add_child(face)
+	card.set_drag_preview(preview)
+	return {"kind": "currency_war_support", "type": type}
+
+
+## 展示手持[param type]的原版植物形象；-1清空，不创建备战或战斗单位。
+func show_support_cursor(type: int) -> void:
+	if type == _support_cursor_type:
+		return
+	_support_cursor_type = type
+	if is_instance_valid(_support_cursor):
+		_support_cursor.queue_free()
+		_support_cursor = null
+	if type == -1:
+		return
+	_support_cursor = Control.new()
+	_support_cursor.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_support_cursor.z_index = 100
+	_root.add_child(_support_cursor)
+	# 水盆卡面复用花盆形象，实际落地使用带水面的独立水盆场景。
+	var source: Card = preload("res://scripts/currency_war/da_fei_yu_reward.gd").card(type)
+	# 纯绘制植物不带攻击或生产组件，半透明表示尚未付款种植。
+	var portrait: Node2D = source.character_static.duplicate(0) as Node2D
+	portrait.transform = Transform2D.IDENTITY
+	portrait.process_mode = Node.PROCESS_MODE_DISABLED
+	portrait.modulate.a = 0.75
+	_support_cursor.add_child(portrait)
+	# 鼠标位于完整植物的中部，避免沿用种子卡槽的局部偏移。
+	var bounds: Rect2 = _support_cards[type]._portrait_bounds(portrait, Transform2D.IDENTITY)
+	portrait.position = -bounds.get_center()
+	_support_cursor.position = _root.get_local_mouse_position()
+
+
+## 按[param _delta]帧时长更新手持地形的显示位置；设置或预览时隐藏图像，暂停不会阻断取消操作。
+func _process(_delta: float) -> void:
+	if is_instance_valid(_support_cursor):
+		_support_cursor.position = _root.get_local_mouse_position()
+		_support_cursor.visible = not _previewing and not _settings_overlay.visible
+
+
 ## 在画面底部居中排列等级、商品、D牌与开始按钮；整组随商店抽屉收放。
 func _build_market() -> void:
 	# 裁剪区跨越整组按钮，收起时只保留商店三角入口。
@@ -439,28 +548,26 @@ func _build_market() -> void:
 	_label(_shop_drawer, Rect2(10, 2, 125, 20), "商店 · 阳光买牌", 13, ACCENT)
 	_traits = _label(_shop_drawer, Rect2(142, 2, 416, 20), "", 12, Color("d0ddc5"))
 	_traits.mouse_filter = Control.MOUSE_FILTER_PASS
-	# 五张随机商品保持原位置，泳池或屋顶把地形卡添加在最末尾。
+	# 五张随机商品保持固定位置，所有地图共用候选植物池；地形卡位于左上角独立抽屉。
 	for slot: int in range(RunRules.SHOP_SIZE):
 		# 商品按钮只绑定稳定栏位序号，刷新时替换内容。
 		var button: PlantCard = _plant_card(_shop_drawer, Rect2(8 + slot * 101, 24, 96, 96), true, buy_requested.emit.bind(slot))
 		_shop_buttons.append(button)
-	_support_card = _plant_card(_shop_drawer, Rect2(513, 24, 96, 96), true, _on_support_pressed)
-	_support_card.hide()
 	_refresh_button = _button(_shop_drawer, Rect2(518, 24, 44, 44), "D牌", refresh_requested.emit)
 	_refresh_button.add_theme_font_size_override("font_size", 12)
 	_lock_button = _button(_shop_drawer, Rect2(518, 76, 44, 44), "锁定", lock_requested.emit)
 	_lock_button.add_theme_font_size_override("font_size", 13)
 	_lock_button.toggle_mode = true
-	_lock_button.tooltip_text = "开启后，下一节点保留商品及售空位置一次，随后自动解除；跨地图无法上架的商品按原稀有度替换。关闭时新节点免费刷新。"
+	_lock_button.tooltip_text = "开启后，下一节点保留商品及售空位置一次，随后自动解除；跨地图保留商品，仅停用或改为直购的商品按原稀有度替换。关闭时新节点免费刷新。"
 	_level_button = _button(_market_drawer, Rect2(0, 51, 76, 76), "等级1\n0/4", experience_requested.emit)
 	_level_button.add_theme_font_size_override("font_size", 17)
-	_level_button.tooltip_text = "点击花费4阳光购买4经验，增加上场植物种类上限；睡莲和花盆不计入。"
+	_level_button.tooltip_text = "点击花费4阳光购买4经验，增加上场植物种类上限；地形植物与三叶草不计入。"
 	_battle_button = _button(_root, Rect2(917, 545, 149, 55), "开始", battle_requested.emit)
 	_battle_button.add_theme_font_size_override("font_size", 22)
 	_shop_toggle = _button(_shop_drawer, Rect2(517, -24, 37, 22), "▲" if _shop_collapsed else "▼", _toggle_shop)
 	_shop_toggle.add_theme_font_size_override("font_size", 13)
 	_shop_toggle.tooltip_text = "展开D牌商店（空格）" if _shop_collapsed else "收起D牌商店（空格）"
-	_layout_market(false)
+	_layout_market()
 	_node_preview = _label(_root, Rect2(205, 242, 720, 70), "", 15, Color("f1ebcd"))
 	_node_preview.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_node_preview.add_theme_color_override("font_outline_color", Color("183024"))
@@ -475,10 +582,10 @@ func _build_market() -> void:
 	_root.add_child(_encounter_choice)
 
 
-## 根据[param support_visible]是否有第六张地形卡调整商店宽度，等级按钮保持在商店左侧。
-func _layout_market(support_visible: bool) -> void:
+## 保持底部五张商品的固定宽度；地形商品另设左上角抽屉。
+func _layout_market() -> void:
 	# 五张商品用窄面板，新增地形卡时再向两侧扩展整组宽度。
-	var panel_width: float = 667.0 if support_visible else 566.0
+	var panel_width: float = 566.0
 	# 保留原商店组的水平位置；开始按钮固定在画面右下角。
 	var group_width: float = panel_width + 200.0
 	# 裁剪区自身以1066像素视口中心定位，组内按当前宽度左右留白。
@@ -787,22 +894,25 @@ func _build_result() -> void:
 	_next_node_button = _button(_result, Rect2(220, 238, 206, 38), "继续本局 · 下一节点", next_node_requested.emit)
 
 
-## 将当前节点已解锁的[param types]随机池写入准备阶段预览，不保证池中每种僵尸实际出现。
-func set_node_preview(types: Array[CharacterRegistry.ZombieType]) -> void:
+## 将[param types]阵容写入准备阶段预览；[param boss_stage]为1至3时额外显示对应Boss光环与技能配置，0为普通节点。
+func set_node_preview(types: Array[CharacterRegistry.ZombieType], boss_stage: int = 0) -> void:
 	# 名称仅用于显示，数组下标对应原版稳定僵尸枚举，不改变任何出怪权重。
 	var names: Array[String] = ["", "普通", "旗帜", "路障", "撑杆", "铁桶", "读报", "铁门", "橄榄球", "舞王", "伴舞", "鸭子圈", "潜水", "冰车", "雪橇", "海豚", "小丑", "气球", "矿工", "跳跳", "雪人", "蹦极", "扶梯", "投篮", "巨人", "小鬼"]
 	# 只展示此节点规则实际开放的僵尸类型。
 	var roster: PackedStringArray = []
 	# 未知扩展僵尸显示原版资源名，避免给未定义类型编造中文名称。
 	for type: int in types:
-		roster.append(names[type] if type < names.size() else str(CharacterRegistry.ZombieInfo[type][CharacterRegistry.ZombieInfoAttribute.ZombieName]))
+		roster.append("大肥鱼（Boss）" if type == CharacterRegistry.ZombieType.Z1002DaFeiYu else (names[type] if type < names.size() else str(CharacterRegistry.ZombieInfo[type][CharacterRegistry.ZombieInfoAttribute.ZombieName])))
 	_node_preview.text = "本节点僵尸阵容：\n" + " · ".join(roster)
+	if boss_stage > 0:
+		# 准备阶段展示实际集中配置，便于玩家识别各Boss关的在场强化。
+		var settings: Dictionary = preload("res://scripts/currency_war/da_fei_yu_boss_stage.gd").profile(boss_stage)
+		_node_preview.text += "\n大肥鱼在场：敌军免伤%d%%，伤害+%d%%\n偷取%d–%d阳光，召唤%d–%d只，技能间隔%.1f秒" % [roundi(settings.reduction * 100.0), roundi((settings.damage - 1.0) * 100.0), settings.sun.x, settings.sun.y, settings.summons.x, settings.summons.y, settings.delay]
 
 
-## 请求购买当前场景的固定地形卡，不把它作为普通商店卡抽取。
-func _on_support_pressed() -> void:
-	if _current_run != null and _current_run.support_type != -1:
-		support_requested.emit(_current_run.support_type)
+## 请求手持[param plant_type]固定地形卡，不把它作为普通商店卡抽取，付款由成功落地完成。
+func _on_support_pressed(plant_type: int) -> void:
+	support_requested.emit(plant_type)
 
 
 ## 复用原版墓碑菜单的完整美术与布局，操作接入本模式的重开、退出和倍速流程。
@@ -901,7 +1011,7 @@ func _update_shop_button(button: PlantCard, plant_type: int, run: RunRules) -> v
 	# 不满足余额或手牌容量时，卡图变暗且价格保持可见。
 	var available: bool = run.can_manage() and capacity_available and run.sun >= run.purchase_price(plant_type)
 	button.show_plant(plant_type, RunRules.CATALOG[plant_type].name, "☀ %d" % run.purchase_price(plant_type), "买入即可升星 ↑" if count >= 2 else "同名1星 %d/3" % count, count >= 2, available, TIER_COLORS[int(RunRules.CATALOG[plant_type].tier) - 1])
-	button.tooltip_text = "%s｜%s\n场上与备战席同名1星：%d/3；三个相同1/2星植物合成为2/3星。%s" % ["/".join(RunRules.CATALOG[plant_type].get("traits", [RunRules.CATALOG[plant_type].trait])), RunRules.CATALOG[plant_type].tip, count, "\n十格备战席已满，请先种植或出售。" if not capacity_available else ""]
+	button.tooltip_text = "%s｜%s\n未锁定备战同名1星：%d/3；备战席三个相同1/2星植物合成为2/3星，场上星级固定。%s" % ["/".join(RunRules.CATALOG[plant_type].get("traits", [RunRules.CATALOG[plant_type].trait])), RunRules.CATALOG[plant_type].tip, count, "\n十格备战席已满，请先种植或出售。" if not capacity_available else ""]
 
 
 ## 发送[param slot]当前存储的海克斯候选标识，选择有效性由规则层复核。

@@ -5,6 +5,8 @@ extends RefCounted
 const STAR_BONUS: Array[float] = [0.0, 0.5, 1.0]
 ## 通用费用的阳光上界，边界归较低档：50为一费、100二费、175三费、250四费，以上五费。
 const SUN_LIMITS: Array[int] = [50, 100, 175, 250]
+## 用户确认吸金菇基础每三游戏秒一轮，星级仅改变钱币概率，攻速装备可继续调整。
+const GOLD_MAGNET_ATTACK_INTERVAL: float = 3.0
 
 
 ## 返回原版[param sun_cost]阳光价格对应的一至五费；负值视为0，不读取本局折扣。
@@ -39,7 +41,7 @@ static func build_catalog(overrides: Dictionary) -> Dictionary:
 	return catalog
 
 
-## 读取[param plant]尚未入树的原版攻击资料；返回伤害和动作间隔，不给无攻击功能的植物新增攻击。
+## 读取[param plant]尚未入树的基础攻击资料；返回伤害和动作间隔，磁力菇与吸金菇按独有初始值，其余沿用原版。
 static func native_attack_profile(plant: Plant000Base) -> Dictionary:
 	# 子弹组件的导出值可在入树前读取，不依赖onready字段。
 	var attack: AttackComponentBulletBase = plant.get_node_or_null("AttackComponent") as AttackComponentBulletBase
@@ -56,6 +58,12 @@ static func native_attack_profile(plant: Plant000Base) -> Dictionary:
 	var bomb: BombComponentBase = plant.get_node_or_null("BombComponent") as BombComponentBase
 	if bomb != null:
 		return {"damage": 20 if bomb is BombComponentIce else bomb.bomb_value, "interval": 0.0}
+	if plant is Plant032MagnetShroom:
+		# 独有设定一星投铁100点，消化时间仍读取原版导出值，星级与装备在上层统一计算。
+		return {"damage": 100, "interval": plant.get_node("MagnetComponent").attack_cd}
+	if plant is Plant046GoldMagnet:
+		# 面板攻击以银币为基准，发射时为金币/钻石分别补足基础差值，固定装备加成只加一次。
+		return {"damage": 20, "interval": GOLD_MAGNET_ATTACK_INTERVAL}
 	if plant is Plant007Chomper:
 		return {"damage": plant.eat_attack, "interval": plant.eat_CD}
 	if plant is Plant022Caltrop or plant is Plant047SpikeRock:

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" format=3]
+
+[resource]
+metadata/entrance_music_frame = 138
+metadata/basin_release_frame = 87
+metadata/basin_release_position = Vector2(-133.5, -174.10000000000002)
+metadata/dream_ready_frame = 100
+metadata/token_frame = 48
+metadata/summon_frame = 78

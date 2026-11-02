@@ -57,6 +57,8 @@ var _equipment_slots: EquipmentSlots
 var _equipment_validator: Callable
 ## 固定位置编号，让十格草坪的位置关系清晰且保持稳定。
 var _number: Label
+## 技能回备战卡的剩余冷却秒数标记，不妨碍锁定、装备、售卖或备战换位。
+var _cooldown_mark: Label
 
 
 ## 创建纯显示植物与格位标记；鼠标输入由本格处理，所有显示节点穿透输入。
@@ -75,6 +77,13 @@ func _ready() -> void:
 	_lock_mark.text = "锁"
 	_lock_mark.add_theme_color_override("font_color", Color("ffe096"))
 	_lock_mark.hide()
+	_cooldown_mark = _label(Rect2(2, 23, 46, 24), 18)
+	_cooldown_mark.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_cooldown_mark.add_theme_color_override("font_color", Color("ffe096"))
+	_cooldown_mark.add_theme_color_override("font_outline_color", Color("14241a"))
+	_cooldown_mark.add_theme_constant_override("outline_size", 4)
+	_cooldown_mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cooldown_mark.hide()
 	_equipment_slots = EquipmentSlots.new()
 	_equipment_slots.position = Vector2(10, 42)
 	_equipment_slots.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -99,24 +108,41 @@ func show_unit(unit: Dictionary, selected_id: int, enabled: bool, equipment_vali
 	_set_plant_type(int(unit.get("type", -1)))
 	_card_name.text = str(unit.get("display_name", "空位"))
 	_number.visible = unit.is_empty()
+	# 显示向上取整的游戏秒，后端仍按浮点剩余时间严格禁止提前种植。
+	var cooldown: float = maxf(0.0, float(unit.get("return_cooldown_remaining", 0.0)))
+	_cooldown_mark.visible = cooldown > 0.0
+	_cooldown_mark.text = str(ceili(cooldown))
 	if is_instance_valid(_card_face):
-		_card_face.modulate = Color.WHITE
+		_card_face.modulate = Color(0.48, 0.48, 0.48) if cooldown > 0.0 else Color.WHITE
 	_rank.text = "★".repeat(int(unit.get("star", 0)))
-	_rank.visible = not unit.is_empty() and _plant_type != 17 and _plant_type != 34
+	_rank.visible = not unit.is_empty() and _plant_type not in [17, 34, 50]
 	_lock_mark.visible = not unit.is_empty() and bool(unit.get("merge_locked", false))
-	_equipment_slots.visible = not unit.is_empty() and _plant_type != 17 and _plant_type != 34 and (not unit.get("equipment", []).is_empty() or bool(unit.get("helmet", false)))
+	_equipment_slots.visible = not unit.is_empty() and _plant_type not in [17, 34, 50] and (not unit.get("equipment", []).is_empty() or bool(unit.get("helmet", false)))
 	if _equipment_slots.visible:
 		_equipment_slots.render_items(unit.get("equipment", []), bool(unit.get("helmet", false)), 10.0)
 		_equipment_slots.position.x = (size.x - _equipment_slots.size.x) * 0.5
 	tooltip_text = "空备战格 %d，可拖入其他备战植物换位。" % (slot_index + 1)
 	if not unit.is_empty():
 		tooltip_text = "%s · %d星\n拖动卡牌到草坪种植，或拖到其他卡位换位。\n装备图标可拖到卡面佩戴；备战期间不攻击、不产阳光。" % [unit.get("display_name", "植物"), unit.star]
-		if _plant_type == 17 or _plant_type == 34:
+		if _plant_type in [17, 34, 50]:
 			tooltip_text = "%s · 地形植物，不参与升星\n拖到对应地形放置，其他植物可种在其上方。" % unit.get("display_name", "植物")
 		if _merge_lock_enabled:
 			tooltip_text += "\n已锁定，右键解除合成锁定。" if bool(unit.get("merge_locked", false)) else "\n右键锁定，锁定后不参与升星。"
 		else:
 			tooltip_text += "\n已锁定；仅准备阶段可解除。" if bool(unit.get("merge_locked", false)) else "\n仅准备阶段可右键锁定。"
+		if cooldown > 0.0:
+			tooltip_text += "\n技能冷却还需%d秒，期间无法种植，仍可售卖或在备战换位。" % ceili(cooldown)
+		if bool(unit.get("returned_trait_active", false)):
+			tooltip_text += "\n已实际出战，技能回备战仍保留本局阵营计数。"
+	if _plant_type == 28:
+		# 次数在当前节点内保留，只有进入下一节点才恢复。
+		var remaining_uses: int = maxi(0, [1, 2, 1000][clampi(int(unit.star), 1, 3) - 1] - int(unit.get("blover_uses", 0)))
+		tooltip_text += "\n本节点剩余%d次。" % remaining_uses
+		if remaining_uses == 0:
+			_cooldown_mark.show()
+			_cooldown_mark.text = "用尽"
+			if is_instance_valid(_card_face):
+				_card_face.modulate = Color(0.48, 0.48, 0.48)
 	_portrait_holder.modulate.a = 0.25 if _dragging_from_me else 1.0
 	queue_redraw()
 
@@ -201,7 +227,7 @@ func _set_plant_type(plant_type: int) -> void:
 	_portrait = null
 	if plant_type != -1:
 		# 原卡面包含边框、完整植物和正确裁剪，复制时不挂载无限种植、冷却和原价消费逻辑。
-		var source: Card = AllCards.all_plant_card_prefabs.get(plant_type)
+		var source: Card = preload("res://scripts/currency_war/da_fei_yu_reward.gd").card(plant_type)
 		if not is_instance_valid(source):
 			return
 		_card_face = source.card_bg.duplicate(0) as TextureRect
@@ -216,7 +242,7 @@ func _set_plant_type(plant_type: int) -> void:
 ## 在[param parent]的卡面[param rect]范围添加[param plant_type]完整拼图；返回纯绘制节点，资源缺失时返回null。
 func _add_portrait(parent: Control, plant_type: int, rect: Rect2) -> Node2D:
 	# 原版已经提供完整植物静态姿态，复制时不带卡牌按钮或角色脚本。
-	var source: Card = AllCards.all_plant_card_prefabs.get(plant_type)
+	var source: Card = preload("res://scripts/currency_war/da_fei_yu_reward.gd").card(plant_type)
 	if not is_instance_valid(source):
 		return null
 	# 禁止复制脚本和信号，确保储备外观不会攻击、产资源或参与碰撞。

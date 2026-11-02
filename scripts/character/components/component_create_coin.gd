@@ -18,6 +18,8 @@ class_name CreateCoinComponent
 var create_speed := 1.0
 ## 阳光生产间隔
 var create_interval :float
+## 货币战争按星级创建专属拾取钱币的回调；未绑定时保持原版金币生产与事件。
+var currency_war_drop_callback: Callable
 
 func _ready() -> void:
 	#if get_tree().current_scene != MainGameManager:
@@ -38,6 +40,9 @@ func change_production_interval():
 
 ## 掉落金银钻
 func drop_coin():
+	if currency_war_drop_callback.is_valid():
+		currency_war_drop_callback.call()
+		return
 	Global.create_coin()
 	EventBus.push_event("create_coin", [
 			drop_coin_silver_glod_diamond_rate, marker_2d_create_coin.global_position

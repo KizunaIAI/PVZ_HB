@@ -1,30 +1,152 @@
-[gd_scene format=3 uid="uid://cdyjc082p66u0"]
+[gd_scene load_steps=6 format=3 uid="uid://cdyjc082p66u0"]
 
 [ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_left_v2_visual.tscn" id="base"]
 [ext_resource type="Texture2D" uid="uid://rr377v5q6jya" path="res://assets/image/character/boss/da_fei_yu/steel_basin_v1/basin.png" id="basin"]
+[ext_resource type="Animation" path="res://animation/character/zombie_boss/da_fei_yu/da_fei_yu_ordinary_idle_basin.tres" id="idle_basin"]
 
-[node name="DaFeiYuSteelBasinVisual" unique_id=889029449 instance=ExtResource("base")]
+[sub_resource type="Animation" id="Animation_reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/Skeleton2D/Body:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(104.4, 335)]
+}
 
-[node name="Feet" parent="Rig/Skeleton2D" index="0"]
-bone_angle = 0.0
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Rig/Skeleton2D/Head:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(97.44, 245)]
+}
 
-[node name="Body" parent="Rig/Skeleton2D" index="1"]
-bone_angle = 0.0
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Rig/Skeleton2D/Head:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Rig/Skeleton2D/Hair:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(201.84, 185)]
+}
+
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Rig/Skeleton2D/Hair:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Rig/Skeleton2D/Tail:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(177.48, 400)]
+}
+
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Rig/Skeleton2D/Tail:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+
+
+
+
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Rig/Skeleton2D/Head/SteelBasin:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(30.920002, -196.49997)]
+}
+
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Rig/Skeleton2D/Head/SteelBasin:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_basin"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"idle": ExtResource("idle_basin")
+}
+
+[node name="DaFeiYuSteelBasinVisual" instance=ExtResource("base")]
 
 [node name="Head" parent="Rig/Skeleton2D" index="2"]
 bone_angle = 0.0
 
-[node name="SteelBasin" type="Sprite2D" parent="Rig/Skeleton2D/Head" index="0" unique_id=1198718634]
+[node name="SteelBasin" type="Sprite2D" parent="Rig/Skeleton2D/Head" index="2"]
 z_index = 10
 position = Vector2(30.920002, -196.49997)
 scale = Vector2(1.0938776, 1.2524267)
 texture = ExtResource("basin")
 
-[node name="Hair" parent="Rig/Skeleton2D" index="3"]
-bone_angle = 0.0
-
-[node name="Tail" parent="Rig/Skeleton2D" index="4"]
-bone_angle = 0.0
-
 [node name="AnimationPlayer" parent="." index="1"]
+libraries = {
+&"": SubResource("AnimationLibrary_basin")
+}
 autoplay = &"idle"

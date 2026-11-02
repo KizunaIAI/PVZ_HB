@@ -551,16 +551,26 @@ func update_lane_on_eat_garlic():
 	update_lane()
 
 
-## 换行
+## 大蒜换行，仅选择相邻同地形行；货币战争还须处于已铺草的开放行，无可用目标时留在原行。
 func update_lane():
-	## 可以换的行索引
+	# 可以换入的行索引，单行地图可能为空。
 	var can_update_zombie_row_i:Array[int] = []
-	if lane != 0 and Global.main_game.zombie_manager.all_zombie_rows[lane-1].zombie_row_type == curr_zombie_row_type:
-		can_update_zombie_row_i.append(lane-1)
-	if lane != Global.main_game.zombie_manager.all_zombie_rows.size()-1 and Global.main_game.zombie_manager.all_zombie_rows[lane+1].zombie_row_type == curr_zombie_row_type:
-		can_update_zombie_row_i.append(lane+1)
-
-	var new_lane_i = can_update_zombie_row_i.pick_random()
+	# 模式已将真实开放行写入场景元数据，其他模式没有该标记时保持原版选择。
+	var active_lanes: Array = Global.main_game.get_meta("currency_war_active_lanes", [])
+	# 仍只允许上、下相邻一行，不跨过未铺草行寻找更远目标。
+	for offset: int in [-1, 1]:
+		# 候选真实行号须先通过边界检查，再读取地形。
+		var candidate_lane: int = lane + offset
+		if candidate_lane < 0 or candidate_lane >= Global.main_game.zombie_manager.all_zombie_rows.size():
+			continue
+		if Global.main_game.has_meta("currency_war_active_lanes") and not active_lanes.has(candidate_lane):
+			continue
+		if Global.main_game.zombie_manager.all_zombie_rows[candidate_lane].zombie_row_type == curr_zombie_row_type:
+			can_update_zombie_row_i.append(candidate_lane)
+	if can_update_zombie_row_i.is_empty():
+		return
+	# 只有存在可用草坪时才更新管理器、父行和移动动画。
+	var new_lane_i: int = can_update_zombie_row_i.pick_random()
 	lane = new_lane_i
 	signal_lane_update.emit()
 

@@ -74,6 +74,7 @@ enum E_MoveFactor{
 	IsAnimGap,				## 动画过度间隙
 	IsBlover,				## 被三叶草吹走
 	IsDeath,				## 停止移动的死亡时
+	CurrencyWarKelp,	## 货币战争水草缠绕，仅暂停移动，不改变其余移动因素
 }
 
 signal signal_move_body_y(move_y_value:float)

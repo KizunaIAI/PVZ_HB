@@ -91,6 +91,8 @@ var is_attack_ladder_plant:=true
 var enemy_can_be_attacked :Character000Base = null
 ## 是否需要判断检测敌人
 var need_judge := false
+## 模式无正常敌人时的友方喂食目标查询；原版与非发射类保持空回调。
+var currency_war_fallback_target: Callable
 
 ## 检测区域列表
 var all_ray_area:Array[Area2D]
@@ -201,6 +203,13 @@ func judge_is_have_enemy():
 				if _on_detect_main_game_item(enemy_area.owner):
 					signal_can_attack.emit()
 					return true
+	# 正常敌人始终优先，无目标时才允许本模式的后方向大嘴花喂食。
+	if currency_war_fallback_target.is_valid():
+		var fallback: Character000Base = currency_war_fallback_target.call() # 当前可喂食的大嘴花。
+		if is_instance_valid(fallback):
+			enemy_can_be_attacked = fallback
+			signal_can_attack.emit()
+			return true
 	## 如果循环结束还未return,未找到敌人
 	enemy_can_be_attacked = null
 	signal_not_can_attack.emit()
@@ -266,6 +275,16 @@ func _judge_enemy_is_can_be_attack(enemy:Character000Base)->bool:
 		return false
 	## 如果敌人为植物
 	if enemy is Plant000Base:
+		if owner is Zombie000Base:
+			# 水草不再是敌军攻击目标，保持受击框用于其他效果而不赋予额外无敌。
+			if bool(enemy.get_meta("currency_war_ignore_zombie_target", false)):
+				return false
+			# 水盆上有本模式水草时一并忽略底座，卖掉或移走水草后恢复正常索敌。
+			if bool(enemy.get_meta("currency_war_water_pot", false)):
+				# 动态读取上层，不能把水草移走后的旧免咬状态永久缓存。
+				var upper: Plant000Base = enemy.plant_cell.plant_in_cell[CharacterRegistry.PlacePlantInCell.Norm]
+				if is_instance_valid(upper) and not upper.is_death and bool(upper.get_meta("currency_war_ignore_zombie_target", false)):
+					return false
 		## 如果当前植物可以被攻击到
 		if enemy.curr_be_attack_status & can_attack_plant_status:
 			## 梯子
@@ -306,7 +325,9 @@ func update_first_enemy()->Character000Base:
 						enemy_can_be_attacked = enemy
 				else:
 					enemy_can_be_attacked = enemy
-	#print(enemy_can_be_attacked.global_position.x, enemy_can_be_attacked.name)
+	# 投手发射时重新选择落点，也需要保留无敌军时的喂食目标。
+	if not is_instance_valid(enemy_can_be_attacked) and currency_war_fallback_target.is_valid():
+		enemy_can_be_attacked = currency_war_fallback_target.call()
 	return enemy_can_be_attacked
 
 

@@ -1,10 +1,15 @@
-[gd_scene format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_basin_actions.gd" id="controller"]
+
+[ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_blink.gd" id="blink_script"]
+
+
+
 [ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_thought_bubble.gd" id="bubble"]
 [ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_steel_basin_visual.tscn" id="standing"]
 [ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/reach.png" id="reach"]
-[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/hold.png" id="hold"]
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_hold_idle_visual.tscn" id="hold"]
 [ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/angry.png" id="angry"]
 [ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/throw.png" id="throw"]
 [ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/basin_actions_v1/rice_basin.png" id="rice_basin"]
@@ -23,11 +28,8 @@ position = Vector2(-146, -500)
 centered = false
 texture = ExtResource("reach")
 
-[node name="hold" type="Sprite2D" parent="Poses"]
+[node name="hold" parent="Poses" instance=ExtResource("hold")]
 visible = false
-position = Vector2(-168, -500)
-centered = false
-texture = ExtResource("hold")
 
 [node name="angry" type="Sprite2D" parent="Poses"]
 visible = false
@@ -55,3 +57,33 @@ script = ExtResource("bubble")
 position = Vector2(0, -4)
 scale = Vector2(0.65, 0.65)
 texture = ExtResource("rice_basin")
+
+
+
+
+
+
+
+
+
+
+[node name="Blink" type="Node2D" parent="Poses/reach"]
+script = ExtResource("blink_script")
+mesh_path = NodePath("..")
+eye_shape = Vector4(58, 103, 169, 174)
+upper_line = PackedFloat32Array(169, 158, 153, 151, 153, 157, 163, 169, 174)
+lower_line = PackedFloat32Array(169, 182, 192, 195, 195, 192, 186, 180, 174)
+
+[node name="Blink" type="Node2D" parent="Poses/angry"]
+script = ExtResource("blink_script")
+mesh_path = NodePath("..")
+eye_shape = Vector4(77, 129, 190, 193)
+upper_line = PackedFloat32Array(190, 180, 175, 172, 173, 177, 183, 188, 193)
+lower_line = PackedFloat32Array(190, 203, 213, 217, 216, 212, 205, 200, 193)
+
+[node name="Blink" type="Node2D" parent="Poses/throw"]
+script = ExtResource("blink_script")
+mesh_path = NodePath("..")
+eye_shape = Vector4(112, 165, 197, 201)
+upper_line = PackedFloat32Array(197, 190, 185, 182, 182, 185, 190, 197, 201)
+lower_line = PackedFloat32Array(197, 212, 221, 225, 224, 220, 215, 208, 201)

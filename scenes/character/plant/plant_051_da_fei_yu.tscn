@@ -1,0 +1,33 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/character/plant/plant_000_base.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/character/plant/plant_051_da_fei_yu.gd" id="script"]
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_video_visual.tscn" id="visual"]
+[ext_resource type="Script" path="res://scripts/character/components/anim_component/component_anim_empty.gd" id="anim"]
+
+[sub_resource type="CapsuleShape2D" id="shape"]
+radius = 36.0
+height = 160.0
+
+[node name="DaFeiYuAlly" instance=ExtResource("base")]
+script = ExtResource("script")
+plant_type = 51
+random_speed_range = Vector2(1, 1)
+is_death_free = false
+
+[node name="DaFeiYuVisual" parent="Body" instance=ExtResource("visual")]
+scale = Vector2(-0.62, 0.62)
+
+[node name="HpComponent" parent="."]
+max_hp = 1000
+
+[node name="AnimComponent" parent="."]
+script = ExtResource("anim")
+
+[node name="CollisionShape2D" parent="HurtBoxComponent/HurtBoxDetection"]
+position = Vector2(0, -80)
+shape = SubResource("shape")
+
+[node name="CollisionShape2D" parent="HurtBoxComponent/HurtBoxReal"]
+position = Vector2(0, -80)
+shape = SubResource("shape")

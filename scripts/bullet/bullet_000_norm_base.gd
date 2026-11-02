@@ -76,6 +76,10 @@ enum E_InitParasAttr{
 ## 初始化子弹属性
 func init_bullet(bullet_paras:Dictionary):
 	source_character = bullet_paras.get(E_InitParasAttr.SourceCharacter)
+	if bullet_camp == CharacterRegistry.CharacterType.Plant and is_instance_valid(Global.main_game) and Global.main_game.has_meta("currency_war_chomper_feeding"):
+		# 仅模式弹丸额外检测植物受击层；普通友军仍由阵营检查排除，只有大嘴花接收。
+		var hit_area: Area2D = get_node("Area2DAttack") as Area2D
+		hit_area.collision_mask |= 256
 	## 子弹行
 	self.is_activate_lane = bullet_paras.get(E_InitParasAttr.IsActivateLane, default_is_activate_lane)
 	self.lane = bullet_paras.get(E_InitParasAttr.BulletLane, -1)
@@ -104,6 +108,8 @@ func get_bullet_paras()->Dictionary[E_InitParasAttr,Variant]:
 ## 子弹与敌人碰撞
 func _on_area_2d_attack_area_entered(area: Area2D) -> void:
 	var enemy:Character000Base = area.owner
+	if try_currency_war_feed(enemy):
+		return
 	## TODO:攻击植物子弹
 	if enemy is Plant000Base:
 		## 子弹阵营为植物
@@ -171,8 +177,28 @@ func _attack_plant(plant:Plant000Base):
 func get_first_be_hit_plant_in_cell(plant:Plant000Base)->Plant000Base:
 	return plant
 
+## 尝试将本颗植物弹喂给[param enemy]大嘴花；成功后吞掉整颗弹，不触发溅射或植物伤害。
+func try_currency_war_feed(enemy: Character000Base) -> bool:
+	if is_queued_for_deletion() or not is_instance_valid(enemy) or not enemy is Plant007Chomper or bullet_camp != CharacterRegistry.CharacterType.Plant:
+		return false
+	# 模式接收器会再次校验同排、后方来源和本行无敌军，原版大嘴花没有回调。
+	var callback: Callable = enemy.get_meta("currency_war_accept_bullet", Callable())
+	if callback.is_valid() and callback.call(self):
+		queue_free()
+		return true
+	return false
+
+
 ## 攻击一次
 func attack_once(enemy:Character000Base):
+	if try_currency_war_feed(enemy):
+		return
+	if has_meta("currency_war_unique_hits") and is_instance_valid(enemy):
+		# 穿透仙人掌同一僵尸只消耗一次穿透数，不被两个受击框重复触发。
+		var hits: Array = get_meta("currency_war_unique_hits")
+		if hits.has(enemy.get_instance_id()):
+			return
+		hits.append(enemy.get_instance_id())
 	curr_attack_num += 1
 	if max_attack_num != -1 and curr_attack_num > max_attack_num:
 		return
@@ -181,6 +207,9 @@ func attack_once(enemy:Character000Base):
 	if is_instance_valid(enemy) and enemy.has_method("set_damage_source"):
 		enemy.set_damage_source(source_character if is_instance_valid(source_character) else null)
 	_attack_enemy(enemy)
+	# 模式仙人掌施加反伤和即时额外尖刺伤害，普通子弹不注册此回调。
+	if is_instance_valid(enemy) and enemy is Zombie000Base and has_meta("currency_war_spike_callback"):
+		get_meta("currency_war_spike_callback").call(enemy)
 	if is_instance_valid(enemy) and enemy.has_method("set_damage_source"):
 		enemy.set_damage_source(null)
 	## 是否有音效

@@ -1,6 +1,9 @@
-## 大肥鱼独立美术动作：取盆幻想，以及受击后向攻击者丢盆。
+## 大肥鱼普通待机及攻击动作1：取盆幻想，以及受击后向攻击者丢盆。
 ## 保留用户调整的基础场景；新动作使用关键姿势与独立道具 Tween。
 extends Node2D
+
+## 已确认的攻击动作名称，供预览、图鉴与动作目录统一使用。
+const ATTACK_1_NAME: String = "攻击动作1"
 
 ## 动作阶段改变时通知预览或战斗宿主；[param phase] 是当前阶段标识。
 signal phase_changed(phase: StringName)
@@ -35,12 +38,26 @@ var elapsed: float = 0.0
 @onready var standing_player: AnimationPlayer = $Standing/AnimationPlayer
 ## 四张动作关键姿势的公共容器。
 @onready var poses: Node2D = $Poses
+## 端盆姿势自己的呼吸播放器，脚底不跟随根节点起伏。
+@onready var hold_idle_player: AnimationPlayer = $Poses/hold/AnimationPlayer
+## 双手控制骨骼，独立钢盆直接跟随同一关节的细微位移。
+@onready var hold_hands: Bone2D = $Poses/hold/Rig/Skeleton2D/Hands
+## 双手的绑定位置，用来计算端盆过程中相对于静态姿势的呼吸偏移，单位为贴图像素。
+const HOLD_HANDS_REST: Vector2 = Vector2(65, 305)
 ## 空盆与倒扣盆共用的可移动道具。
 @onready var basin: Sprite2D = $Basin
 ## 气泡节点，含可扩散的云朵及米饭贴图。
 @onready var thought: Node2D = $Thought
 ## 气泡中的米饭盆；破碎时比外轮廓更早消失。
 @onready var rice: Sprite2D = $Thought/Rice
+## 五种姿势的真实眼睑播放器，切换动作时清理上一姿势的闭眼状态。
+@onready var blink_nodes: Array[Node] = [
+	$Standing/Rig/Skeleton2D/Head/Blink,
+	$Poses/reach/Blink,
+	$Poses/hold/Rig/Skeleton2D/Head/Blink,
+	$Poses/angry/Blink,
+	$Poses/throw/Blink,
+]
 ## 端正摆放的钢盆贴图。
 const EMPTY_BASIN: Texture2D = preload("res://assets/image/character/boss/da_fei_yu/basin_actions_v1/empty_basin.png")
 
@@ -50,13 +67,13 @@ func _ready() -> void:
 	reset_idle()
 
 
-## [param delta] 为本帧秒数；仅在幻想中加入小幅呼吸与气泡漂浮。
+## [param delta] 为本帧秒数；幻想时仅让道具跟随手部骨骼，气泡独立缓慢漂浮。
 func _process(delta: float) -> void:
 	elapsed += delta
 	if phase == &"dream":
-		poses.position.y = sin(elapsed * 2.0) * 1.8
-		basin.position.y = HOLD_POSITION.y + poses.position.y
-		thought.position.y = -650.0 + sin(elapsed * 1.6) * 4.0
+		basin.position = HOLD_POSITION + hold_hands.position - HOLD_HANDS_REST
+		basin.rotation = hold_hands.rotation
+		thought.position = Vector2(10 + sin(elapsed * TAU / 8.0) * 1.5, -650.0 + sin(elapsed * TAU / 8.0 - 0.4) * 2.0)
 
 
 ## 恢复用户原始待机外观，并取消未完成的取盆、丢盆动作。
@@ -67,6 +84,11 @@ func reset_idle() -> void:
 	standing.visible = true
 	helmet.visible = true
 	standing_player.play(&"idle")
+	standing_player.seek(0.0, true)
+	hold_idle_player.pause()
+	# 每种姿势重新开始时先睁眼，再按自己的拍点真正闭合眼睑。
+	for blink: Node in blink_nodes:
+		blink.reset_blink()
 	poses.visible = false
 	poses.position = Vector2.ZERO
 	poses.rotation = 0.0
@@ -75,8 +97,8 @@ func reset_idle() -> void:
 	_set_phase(&"idle")
 
 
-## 播放待机动作1；拿下用户当前头盆，翻正后端在身前，持续幻想米饭。
-func play_dream_idle() -> void:
+## 播放攻击动作1的准备段：双手取盆并幻想米饭，受击后进入丢盆反击。
+func play_attack_1() -> void:
 	reset_idle()
 	standing_player.pause()
 	original_basin_transform = global_transform.affine_inverse() * helmet.global_transform
@@ -93,6 +115,18 @@ func play_dream_idle() -> void:
 	action_tween.tween_property(basin, "position", HOLD_POSITION, 0.65).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	action_tween.parallel().tween_property(basin, "rotation", 0.0, 0.65)
 	action_tween.tween_callback(_begin_dream)
+
+
+## 兼容旧预览入口；正式动作名称已改为攻击动作1。
+func play_dream_idle() -> void:
+	play_attack_1()
+
+
+## [param speed]为当前动作倍率；静态关键姿势的眼睑同样跟随冻结及慢速播放。
+func set_blink_speed(speed: float) -> void:
+	# 骨骼姿势另外读取所属 AnimationPlayer，静态姿势使用此倍率。
+	for blink: Node in blink_nodes:
+		blink.playback_speed = speed
 
 
 ## [param attacker] 是打破幻想的植物；只在幻想阶段接受一次有效受击。
@@ -184,6 +218,15 @@ func _show_pose(index: int) -> void:
 	# 每次仅显示一个完整关键姿势，防止切换时叠出多余手脚。
 	for child_index: int in range(poses.get_child_count()):
 		poses.get_child(child_index).visible = child_index == index
+	if index == 1:
+		hold_idle_player.play(&"idle")
+		hold_idle_player.seek(0.0, true)
+	else:
+		hold_idle_player.pause()
+	# 取盆轻眨、被打断时闭眼一瞬、抛盆后短眨；每个关键姿势都具有独立眼型。
+	var blink: Node = blink_nodes[index + 1]
+	blink.reset_blink()
+	blink.play_blink(0.15 if index != 2 else 0.0)
 
 
 ## [param value] 为新阶段；同步通知外部的文字提示和预览按钮。

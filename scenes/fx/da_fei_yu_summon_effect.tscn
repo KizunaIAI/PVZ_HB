@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/fx/other_effect/da_fei_yu_summon_effect.gd" id="script"]
+[ext_resource type="Texture2D" path="res://assets/image/fx/da_fei_yu_summon/circle6.svg" id="circle"]
+[ext_resource type="Shader" path="res://shaders/my_shader/da_fei_yu_summon.gdshader" id="shader"]
+
+[sub_resource type="ShaderMaterial" id="material"]
+shader = ExtResource("shader")
+
+[node name="SummonCircle" type="Node2D"]
+script = ExtResource("script")
+
+[node name="Circle" type="Sprite2D" parent="."]
+texture_filter = 2
+material = SubResource("material")
+texture = ExtResource("circle")
+scale = Vector2(0.12, 0.048)

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/ui/all_cards/card.tscn" id="card"]
+[ext_resource type="Texture2D" path="res://assets/image/character/boss/da_fei_yu/video_v1/idle_poster.png" id="portrait"]
+
+[node name="DaFeiYuPlantCard" instance=ExtResource("card")]
+card_plant_type = 51
+sun_cost = 300
+cool_time = 30.0
+
+[node name="Cost" parent="CardBg"]
+text = "300"
+
+[node name="Portrait" type="Sprite2D" parent="CardBg/CharacterStatic"]
+position = Vector2(27, -10)
+scale = Vector2(-0.14, 0.14)
+texture = ExtResource("portrait")
+centered = false

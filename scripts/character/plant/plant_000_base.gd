@@ -160,11 +160,34 @@ func be_bungi()->Node2D:
 	character_death_disappear()
 	return body_copy
 
-## 被僵尸啃食
-## attack_value:伤害
-## attack_zombie:攻击的僵尸
+## 仅在一次同步命中期间记录[param source]伤害来源；空值立即清除，供尖刺反伤识别投篮等远程攻击。
+func set_damage_source(source: Character000Base) -> void:
+	set_meta("currency_war_current_damage_source", source)
+
+
+## [param character]发动碾压时保留原版行为与高坚果防护，并向带尖刺的攻击者反伤一次。
+func be_flattened_from_enemy(character: Character000Base) -> void:
+	# 原版巨人明确的单击伤害为1800，直接碾压则以本次可失去的当前生命计价。
+	var crush_damage: int = 1800 if character is Zombie000Base and character.attack_component is AttackComponentZombieGargantuar else hp_component.curr_hp
+	super(character)
+	if is_instance_valid(character) and character is Zombie000Base and not character.is_death and character.has_meta("currency_war_spike_ratio"):
+		character.hp_component.Hp_loss(roundi(crush_damage * float(character.get_meta("currency_war_spike_ratio"))), BulletRegistry.AttackMode.Norm, true, false)
+
+
+## 碾压攻击先交给本模式防护光环；无保护时保持原版压扁死亡。
+func be_flattened() -> void:
+	# 普通关卡没有回调，不改变原版巨人、冰车和罐子行为。
+	var callback: Callable = get_meta("currency_war_guard_flatten", Callable())
+	if callback.is_valid() and callback.call():
+		return
+	super()
+
+
+## 被[param _attack_zombie]啃食承受[param attack_value]伤害；仅当前同步命中保留来源，支持防护转伤和尖刺反伤。
 func be_zombie_eat(attack_value:int, _attack_zombie:Zombie000Base):
+	set_damage_source(_attack_zombie)
 	hp_component.Hp_loss(attack_value,BulletRegistry.AttackMode.Penetration, true, false)
+	set_damage_source(null)
 
 ## 被僵尸啃食一次发光
 func be_zombie_eat_once(attack_zombie:Zombie000Base):

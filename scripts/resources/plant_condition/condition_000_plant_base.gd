@@ -64,7 +64,9 @@ func judge_currency_war_direct(plant_cell: PlantCell, curr_plant_type: int, allo
 		if not cell.can_common_plant:
 			return false
 		if curr_plant_type == CharacterRegistry.PlantType.P044Cattail:
-			if not cell.ori_condition & 8:
+			# 水盆同样提供真实水地形，猫尾草可直接种在水盆上；普通睡莲仍沿用原水路。
+			var down: Plant000Base = cell.plant_in_cell[CharacterRegistry.PlacePlantInCell.Down]
+			if not cell.ori_condition & 8 and not (is_instance_valid(down) and int(down.plant_type) == 50 and cell.curr_condition & 8):
 				return false
 		elif curr_plant_type == CharacterRegistry.PlantType.P047SpikeRock and not cell.curr_condition & 2:
 			# 地刺王保留地刺仅草地的地形限制，不能因紫卡共用资源而放到花盆或睡莲上。

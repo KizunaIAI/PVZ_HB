@@ -1,4 +1,4 @@
-## 两个新待机动作的独立预览；植物只作演示，不实例化战斗系统。
+## 普通待机与攻击动作1的独立预览；植物只作演示，不实例化战斗系统。
 extends Node2D
 
 ## 角色美术场景，提供取盆与受击接口。
@@ -34,14 +34,14 @@ func _ready() -> void:
 	demo_timer.start(0.8)
 
 
-## 手动播放待机1，取消自动循环及飞行中的演示豌豆。
+## 手动播放攻击动作1，取消自动循环及飞行中的演示豌豆。
 func _manual_dream() -> void:
 	auto_demo.button_pressed = false
 	_clear_preview()
-	character.play_dream_idle()
+	character.play_attack_1()
 
 
-## 手动触发待机2；先用可见豌豆打破幻想，再把植物作为攻击者传入。
+## 手动触发攻击动作1的反击段；先用可见豌豆打破幻想，再传入攻击植物。
 func _manual_hit() -> void:
 	auto_demo.button_pressed = false
 	_fire_pea()
@@ -89,7 +89,7 @@ func _pea_hit() -> void:
 func _phase_changed(phase: StringName) -> void:
 	# 每个阶段的简短中文说明，避免预览露出实现信息。
 	var descriptions: Dictionary = {
-		&"idle": "戴盆待机",
+		&"idle": "普通待机",
 		&"take": "双手取盆 · 翻正端好",
 		&"dream": "想吃一大盆米饭……",
 		&"angry": "谁打破了我的米饭梦！",
@@ -115,13 +115,13 @@ func _basin_arrived(attacker: Node2D) -> void:
 	preview_tween.tween_property(plant, "rotation", 0.0, 0.16)
 
 
-## 自动循环依次展示原始待机、取盆幻想、受击丢盆；手动关闭后不再执行。
+## 自动循环依次展示普通待机、攻击动作1准备与丢盆反击；手动关闭后不再执行。
 func _on_demo_timeout() -> void:
 	if not auto_demo.button_pressed:
 		return
 	match character.phase:
 		&"idle":
-			character.play_dream_idle()
+			character.play_attack_1()
 		&"dream":
 			_fire_pea()
 		&"recover":

@@ -20,6 +20,10 @@ func ready_norm() -> void:
 ## 子弹进入升级区域
 func _on_area_2d_up_bullet_area_entered(area: Area2D) -> void:
 	var bullet:Bullet000Base = area.owner
+	# 模式逐级变弹由独立规则处理，原版关卡继续使用下方升级表。
+	if has_meta("currency_war_torch_callback"):
+		get_meta("currency_war_torch_callback").call(bullet)
+		return
 	if bullet.is_can_up and bullet.bullet_type in bullet_upgrade_data.keys():
 		_up_bullet(bullet)
 

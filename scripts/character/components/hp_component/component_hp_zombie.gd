@@ -1,5 +1,7 @@
 extends HpComponent
 class_name HpComponentZombie
+## 强制死亡用于清场、割草机等逻辑移除，不受Boss关免伤和晒伤修正。
+var _forcing_death: bool = false
 ## 僵尸血量组件
 @onready var progress_bar_hp_armor_2: ProgressBar = %ProgressBarHpArmor2
 @onready var label_hp_armor_2: Label = %LabelHpArmor2
@@ -92,11 +94,14 @@ func get_all_hp():
 ## return bool: 返回是否死亡
 func Hp_loss(attack_value:int, bullet_mode :BulletRegistry.AttackMode =BulletRegistry.AttackMode.Norm, is_drop_on_death=true, trigger_be_attack_SFX:=true, is_drop_2:=true):
 	# 本模式晒伤对敌方全部伤害生效，友军不承受增幅；其他模式未注册读取器。
-	if attack_value > 0 and not owner_character.is_hypno and is_instance_valid(Global.main_game):
+	if not _forcing_death and attack_value > 0 and not owner_character.is_hypno and is_instance_valid(Global.main_game):
 		# 实时查询可以即时反映成长、死亡和出售，不给僵尸留下永久增伤缓存。
 		var reader: Callable = Global.main_game.get_meta("currency_war_sunburn_reader", Callable())
 		if reader.is_valid():
 			attack_value = roundi(attack_value * (1.0 + float(reader.call())))
+	# 实时在场光环覆盖所有数值伤害与护甲，Boss死亡或目标魅惑后立即恢复原伤害。
+	var incoming_multiplier: float = 1.0 if _forcing_death else preload("res://scripts/currency_war/da_fei_yu_boss_stage.gd").taken_multiplier(owner_character)
+	attack_value = roundi(attack_value * incoming_multiplier)
 	var ori_hp = get_all_hp()
 	## 掉血标志, 1:本体 2:一类防具 4:二类防具
 	var flag_loss:int = 0
@@ -179,21 +184,21 @@ func Hp_loss(attack_value:int, bullet_mode :BulletRegistry.AttackMode =BulletReg
 			if curr_hp_armor2 > 0:
 
 				# 如果为正面,无溢出伤害对二类防具造成400血量
-				curr_hp_armor2 -= 400
+				curr_hp_armor2 -= roundi(400 * incoming_multiplier)
 				attack_value = 0
 				flag_loss |= 4
 
 			# 如果有一类防具
 			if curr_hp_armor1 > 0 and attack_value > 0:
 				## 对一类防具造成无溢出伤害800
-				curr_hp_armor1 -= 800
+				curr_hp_armor1 -= roundi(800 * incoming_multiplier)
 				attack_value = 0
 				flag_loss |= 2
 
 			# 血量>0
 			if curr_hp > 0 and attack_value > 0:
 				#若有溢出伤害或没有防具 对僵尸本体造成1800伤害
-				curr_hp -= 1800
+				curr_hp -= roundi(1800 * incoming_multiplier)
 				flag_loss |= 1
 
 		## 保龄球侧面子弹
@@ -203,20 +208,20 @@ func Hp_loss(attack_value:int, bullet_mode :BulletRegistry.AttackMode =BulletReg
 			# 如果有二类防具，先对二类防具掉血，若二类防具血量<0, 修改
 			if curr_hp_armor2 > 0:
 				#如果为侧面,二类防具造成1800血量， 溢出伤害1800
-				curr_hp_armor2 -= 1800
+				curr_hp_armor2 -= roundi(1800 * incoming_multiplier)
 				attack_value = 1800
 				flag_loss |= 4
 			# 如果有一类防具
 			if curr_hp_armor1 > 0 and attack_value > 0:
 				## 对一类防具造成无溢出伤害800
-				curr_hp_armor1 -= 800
+				curr_hp_armor1 -= roundi(800 * incoming_multiplier)
 				attack_value = 0
 				flag_loss |= 2
 
 			# 血量>0
 			if curr_hp > 0 and attack_value > 0:
 				#若有溢出伤害或没有防具 对僵尸本体造成1800伤害
-				curr_hp -= 1800
+				curr_hp -= roundi(1800 * incoming_multiplier)
 				flag_loss |= 1
 
 		## 锤子
@@ -227,14 +232,14 @@ func Hp_loss(attack_value:int, bullet_mode :BulletRegistry.AttackMode =BulletReg
 			# 如果有一类防具
 			if curr_hp_armor1 > 0 and attack_value > 0:
 				## 对一类防具造成无溢出伤害800
-				curr_hp_armor1 -= 900
+				curr_hp_armor1 -= roundi(900 * incoming_multiplier)
 				attack_value = 0
 				flag_loss |= 2
 
 			# 血量>0 本体代码杀
 			if curr_hp > 0 and attack_value > 0:
 				#若有溢出伤害或没有防具 对僵尸本体造成伤害
-				curr_hp -= curr_hp
+				curr_hp -= roundi(curr_hp * incoming_multiplier)
 				flag_loss |= 1
 
 
@@ -272,4 +277,11 @@ func update_mini_zombie_hp():
 	curr_hp = max_hp
 	curr_hp_armor1 = max_hp_armor1
 	curr_hp_armor2 = max_hp_armor2
+
+
+## [param is_drop]沿用原掉落规则；强制移除必须绕过光环，防止清场后留下仍存活的僵尸。
+func Hp_loss_death(is_drop := true):
+	_forcing_death = true
+	Hp_loss(get_all_hp(), BulletRegistry.AttackMode.Norm, is_drop, false)
+	_forcing_death = false
 

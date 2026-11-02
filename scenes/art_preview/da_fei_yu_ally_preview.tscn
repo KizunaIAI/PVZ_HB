@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_ally_preview.gd" id="script"]
+
+[node name="DaFeiYuAllyPreview" type="Node2D"]
+script = ExtResource("script")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 1066.0
+offset_bottom = 600.0
+color = Color(0.13, 0.20, 0.23, 1)
+
+[node name="Title" type="Label" parent="."]
+offset_left = 35.0
+offset_top = 25.0
+theme_override_font_sizes/font_size = 28
+text = "大肥鱼 · 植物伙伴"
+
+[node name="Subtitle" type="Label" parent="."]
+offset_left = 35.0
+offset_top = 70.0
+theme_override_font_sizes/font_size = 18
+text = "Token回 · 友军召唤 · 主动幻想砸盆 · 击败Boss获得"
+
+[node name="Labels" type="Label" parent="."]
+offset_left = 210.0
+offset_top = 560.0
+text = "放大展示                                      植物卡面 / 原始游戏体型"

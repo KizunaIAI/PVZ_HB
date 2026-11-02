@@ -27,8 +27,20 @@ func ready_norm_signal_connect():
 	signal_update_speed.connect(owner_update_speed)
 	detect_component.signal_can_attack.connect(change_is_attack.bind(true))
 
-## 速度改变
+## 根据[param speed_product]更新咀嚼计时；模式按新旧倍率比保留进度，零倍率只暂停，其他关卡沿用原版。
 func owner_update_speed(speed_product:float):
+	if has_meta("currency_war_chomper_callback"):
+		# 模式同步可能反复设置总倍率；剩余时间只按新旧倍率之比调整，避免重复除速。
+		var previous: float = float(get_meta("currency_war_chomper_speed", 1.0))
+		if speed_product <= 0.0:
+			chew_timer.paused = true
+			return
+		chew_timer.paused = false
+		if not chew_timer.is_stopped():
+			chew_timer.start(maxf(0.001, chew_timer.time_left * previous / speed_product))
+		set_meta("currency_war_chomper_speed", speed_product)
+		chew_timer.wait_time = maxf(0.001, eat_CD / speed_product)
+		return
 	if not chew_timer.is_stopped():
 		if speed_product == 0:
 			chew_timer.paused = true
@@ -71,6 +83,11 @@ func _eat_zombie():
 	SoundManager.play_character_SFX(&"BigChomp")
 	## 如果有僵尸
 	if is_instance_valid(detect_component.enemy_can_be_attacked):
+		# 模式在本次吞噬前先占用咀嚼状态，防止同一尸体又被死亡吸收回调重复统计。
+		var callback: Callable = get_meta("currency_war_chomper_callback", Callable())
+		if callback.is_valid():
+			callback.call(detect_component.enemy_can_be_attacked)
+			return
 		currency_war_attack_action()
 		# 当前实际啃咬目标，星级伤害由模式控制器写入eat_attack。
 		var zombie :Zombie000Base = detect_component.enemy_can_be_attacked

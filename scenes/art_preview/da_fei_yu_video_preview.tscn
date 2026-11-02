@@ -1,0 +1,135 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/art_preview/da_fei_yu_video_preview.gd" id="controller"]
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_video_visual.tscn" id="visual"]
+
+[node name="DaFeiYuVideoPreview" type="Node2D"]
+script = ExtResource("controller")
+
+[node name="Backdrop" type="ColorRect" parent="."]
+offset_right = 1066.0
+offset_bottom = 600.0
+color = Color(0.19, 0.25, 0.32, 1)
+mouse_filter = 2
+
+[node name="Ground" type="ColorRect" parent="."]
+offset_top = 540.0
+offset_right = 1066.0
+offset_bottom = 600.0
+color = Color(0.16, 0.21, 0.27, 1)
+mouse_filter = 2
+
+[node name="Full" parent="." instance=ExtResource("visual")]
+position = Vector2(390, 540)
+scale = Vector2(1.5, 1.5)
+
+[node name="GameScale" parent="." instance=ExtResource("visual")]
+position = Vector2(875, 540)
+scale = Vector2(0.806, 0.806)
+
+[node name="FullTarget" type="Marker2D" parent="."]
+position = Vector2(65, 540)
+
+[node name="Point" type="Polygon2D" parent="FullTarget"]
+polygon = PackedVector2Array(0, -12, 12, 0, 0, 12, -12, 0)
+color = Color(0.5, 0.85, 0.35, 1)
+
+[node name="GameTarget" type="Marker2D" parent="."]
+position = Vector2(680, 540)
+
+[node name="Point" type="Polygon2D" parent="GameTarget"]
+polygon = PackedVector2Array(0, -8, 8, 0, 0, 8, -8, 0)
+color = Color(0.5, 0.85, 0.35, 1)
+
+[node name="Interface" type="CanvasLayer" parent="."]
+
+[node name="Title" type="Label" parent="Interface"]
+offset_left = 30.0
+offset_top = 16.0
+theme_override_font_sizes/font_size = 26
+text = "大肥鱼 · 视频动作"
+
+[node name="Status" type="Label" parent="Interface"]
+offset_left = 30.0
+offset_top = 51.0
+text = "入场播放一次 → 待机循环"
+
+[node name="Entrance" type="Button" parent="Interface"]
+offset_left = 650.0
+offset_top = 20.0
+offset_right = 748.0
+offset_bottom = 57.0
+text = "重播入场"
+
+[node name="Idle" type="Button" parent="Interface"]
+offset_left = 756.0
+offset_top = 20.0
+offset_right = 840.0
+offset_bottom = 57.0
+text = "待机"
+
+[node name="Pause" type="Button" parent="Interface"]
+offset_left = 848.0
+offset_top = 20.0
+offset_right = 932.0
+offset_bottom = 57.0
+text = "暂停/继续"
+
+[node name="Half" type="Button" parent="Interface"]
+offset_left = 940.0
+offset_top = 20.0
+offset_right = 1034.0
+offset_bottom = 57.0
+text = "半速/原速"
+
+[node name="Dream" type="Button" parent="Interface"]
+offset_left = 650.0
+offset_top = 65.0
+offset_right = 830.0
+offset_bottom = 101.0
+text = "攻击动作1：幻想"
+
+[node name="BreakDream" type="Button" parent="Interface"]
+offset_left = 840.0
+offset_top = 65.0
+offset_right = 1034.0
+offset_bottom = 101.0
+text = "植物攻击：打破幻想"
+
+[node name="FullLabel" type="Label" parent="Interface"]
+offset_left = 220.0
+offset_top = 560.0
+text = "放大预览 · 原视频动作"
+
+[node name="GameLabel" type="Label" parent="Interface"]
+offset_left = 787.0
+offset_top = 560.0
+text = "正式游戏大小"
+
+[node name="Token" type="Button" parent="Interface"]
+offset_left = 650.0
+offset_top = 110.0
+offset_right = 770.0
+offset_bottom = 147.0
+text = "Token来"
+
+[node name="Lane" type="Button" parent="Interface"]
+offset_left = 780.0
+offset_top = 110.0
+offset_right = 900.0
+offset_bottom = 147.0
+text = "换行"
+
+[node name="Summon" type="Button" parent="Interface"]
+offset_left = 910.0
+offset_top = 110.0
+offset_right = 1030.0
+offset_bottom = 147.0
+text = "召唤"
+
+[node name="Exit" type="Button" parent="Interface"]
+offset_left = 650.0
+offset_top = 155.0
+offset_right = 770.0
+offset_bottom = 192.0
+text = "退场"

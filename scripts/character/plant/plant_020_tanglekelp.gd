@@ -11,6 +11,10 @@ func ready_norm_signal_connect():
 
 ## 开始攻击
 func start_grap_zombie():
+	# 本模式改为经过时缠绕和中毒，不再调用原版拖水与自毁流程。
+	if has_meta("currency_war_kelp_callback"):
+		get_meta("currency_war_kelp_callback").call()
+		return
 	grap_in_pool(detect_component.enemy_can_be_attacked)
 	blink_component.disable_component(ComponentNormBase.E_IsEnableFactor.Attack)
 

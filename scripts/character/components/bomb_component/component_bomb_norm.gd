@@ -10,6 +10,10 @@ func _start_bomb_fx():
 
 ## 炸死所有敌人[僵尸有两个受击组件检测框,会被检测两次]
 func _bomb_all_enemy():
+	# 货币战争毁灭菇使用全屏目标，其他植物与原版模式继续按碰撞范围结算。
+	if owner.has_meta("currency_war_fullscreen_bomb"):
+		owner.get_meta("currency_war_fullscreen_bomb").call()
+		return
 	## 被爆炸炸到的敌人
 	var character_be_bomb :Array[Character000Base] = []
 	# 原版爆炸范围内的受击区域，同一敌人的多个受击框在下方去重。

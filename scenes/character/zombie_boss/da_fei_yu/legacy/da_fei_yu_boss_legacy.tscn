@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/character/zombie/zombie_000_base.tscn" id="base"]
+[ext_resource type="Script" path="res://scripts/character/zombie_boss/legacy/da_fei_yu_boss_legacy.gd" id="controller"]
+[ext_resource type="PackedScene" path="res://scenes/character/zombie_boss/da_fei_yu/da_fei_yu_basin_actions_visual.tscn" id="visual"]
+[ext_resource type="Script" path="res://scripts/character/components/anim_component/component_anim_empty.gd" id="anim"]
+[ext_resource type="Script" path="res://scripts/character/components/charred_component/component_charred.gd" id="charred"]
+
+[sub_resource type="CapsuleShape2D" id="shape"]
+radius = 36.0
+height = 160.0
+
+[node name="DaFeiYuBoss" instance=ExtResource("base")]
+script = ExtResource("controller")
+zombie_type = 1002
+random_speed_range = Vector2(1, 1)
+
+[node name="DaFeiYuVisual" parent="Body" instance=ExtResource("visual")]
+scale = Vector2(0.32, 0.32)
+
+[node name="HpComponent" parent="." index="4"]
+max_hp = 6000
+
+[node name="AnimComponent" parent="." index="5"]
+script = ExtResource("anim")
+
+[node name="MoveComponent" parent="." index="6"]
+is_enable_default = false
+move_mode = 1
+
+[node name="AttackComponent" parent="." index="7"]
+is_enable_default = false
+
+[node name="CharredComponent" parent="." index="8"]
+script = ExtResource("charred")
+
+[node name="DropItemComponent" parent="." index="9"]
+is_enable_default = false
+can_drop_x_range = Vector2(0, 900)
+drop_coin_rate = 0.0
+drop_coin_silver_glod_diamond_rate = [0.5, 0.4, 0.1]
+drop_garden_plant_rate = 0.0
+
+[node name="CollisionShape2D" parent="HurtBoxComponent/HurtBoxDetection" index="0"]
+position = Vector2(0, -80)
+shape = SubResource("shape")
+
+[node name="CollisionShape2D" parent="HurtBoxComponent/HurtBoxReal" index="0"]
+position = Vector2(0, -80)
+shape = SubResource("shape")
+
+[node name="CollisionShape2D" parent="HurtBoxComponent/HurtBoxDetectionOnAttack" index="0"]
+position = Vector2(0, -80)
+shape = SubResource("shape")
+
+[node name="ActionTimer" type="Timer" parent="."]
+one_shot = true

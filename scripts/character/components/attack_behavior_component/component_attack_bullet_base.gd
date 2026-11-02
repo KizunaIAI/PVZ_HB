@@ -34,6 +34,8 @@ signal signal_shoot_bullet
 signal signal_attack_action
 ## 货币战争专用子弹工厂；接收原版子弹类型，返回未入树的独立实例，其他模式为空。
 var currency_war_bullet_factory: Callable
+## 模式喷射帧直接结算的回调；仅大喷菇绑定，其他植物仍生成正常飞行子弹。
+var currency_war_instant_shot: Callable
 ## 当前攻击轮的发射倍数；原版机枪动画四次发射，模式触发八发时每次发射两颗。
 var currency_war_volley_multiplier: int = 1
 ## 同一动画回调中额外子弹的游戏秒间隔，机枪取原发射间隔的一半；0表示沿用同帧发射。
@@ -100,6 +102,10 @@ func set_cancel_attack():
 ## 动画调用发射子弹；货币战争植物的专用倍率只应用于其新发射子弹，其他模式保持原版伤害。
 func _shoot_bullet():
 	signal_shoot_bullet.emit()
+	if currency_war_instant_shot.is_valid():
+		currency_war_instant_shot.call()
+		play_throw_sfx()
+		return
 	# 原版默认为一倍，模式八发只扩展本轮，不增加攻击动作或装备叠层次数。
 	for shot: int in range(currency_war_volley_multiplier):
 		if shot > 0 and currency_war_extra_shot_delay > 0.0:

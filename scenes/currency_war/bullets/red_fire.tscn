@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/bullet/bullet_006_pea_fire.tscn" id="fire"]
+
+[node name="red_fire" instance=ExtResource("fire")]
+fire_visual_stage = 3
+metadata/currency_war_fire_stage = 3
