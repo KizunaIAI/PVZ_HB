@@ -2,32 +2,6 @@
 
 PVZ 货币战争
 
-# 🌱 使用godot重置PVZ
-从95版、植物娘、胆小菇之梦，到杂交版、融合版等众多精彩的改版与同人作品，相信许多玩家都曾萌生过属于自己的创意与幻想。
-
-本项目基于 [Godot4.5.1](https://godotengine.org/zh-cn/) 引擎，致力于对原版《植物大战僵尸》进行高质量复刻（完美还原），目前除僵王和部分小游戏外已经基本实现所有原版内容。
-
-欢迎各位大佬在本开源项目基础上，完成属于自己的 PVZ 同人改版之梦！
-
-
-**考虑到版权问题，将原版相关资源文件删除。**
-
-
-有对本项目感兴趣的大佬，欢迎大家进qq群 (1046565016) 交流
-
-## 项目展示
-### 项目视频介绍
-[开源！使用Godot实现对原版PVZ的完美复刻 (https://www.bilibili.com/video/BV1FKNJzUEpp/)](https://www.bilibili.com/video/BV1FKNJzUEpp/)
-请观看该合集最新的展示视频
-### 主游戏界面
-![主游戏界面](readme_show/main_game.png)
-### 开始菜单界面
-![开始菜单界面](readme_show/run_start_menu.png)
-### 自定义关卡
-- 自定义关卡使用在游戏根目录下"level_game_para"文件夹中的游戏参数文件。
-- 游戏参数文件为"ResourceLevelData"类型的资源文件
-- 具体查看脚本文件"res://scripts/resources/level/level_data.gd"
-
 ## 游戏开发相关
 
 ### 货币战争模式
